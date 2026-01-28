@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>central-memory</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --panel:#111b2e;
+      --card: rgba(255,255,255,0.06);
+      --line: rgba(255,255,255,0.12);
+      --text:#e5e7eb;
+      --muted:rgba(229,231,235,0.75);
+      --blue:#60a5fa;
+      --danger:#fb7185;
+    }
+    body{margin:0; background:var(--bg); color:var(--text); font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;}
+    a{color:var(--blue); text-decoration:none;}
+    .wrap{max-width:980px; margin:18px auto; padding:0 14px;}
+    .top{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:14px;}
+    .title{font-size:22px; font-weight:900;}
+    .sub{color:var(--muted); font-size:13px;}
+    .panel{background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02)); border:1px solid var(--line); border-radius:16px; padding:16px;}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+    .btn{
+      appearance:none; border:1px solid var(--line);
+      background:var(--card); color:var(--text);
+      padding:10px 12px; border-radius:999px;
+      font-weight:800; cursor:pointer;
+    }
+    .btn:hover{border-color:rgba(255,255,255,0.22);}
+    .btn.danger{background:rgba(251,113,133,0.12); border-color:rgba(251,113,133,0.35);}
+    .grid{display:grid; grid-template-columns: 1fr; gap:12px; margin-top:14px;}
+    @media (min-width: 980px){
+      .grid{grid-template-columns: 0.9fr 1.1fr;}
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      cursor:pointer;
+    }
+    .card:hover{border-color:rgba(255,255,255,0.22);}
+    .tag{font-size:12px; color:var(--muted); margin-bottom:6px;}
+    .h{font-weight:900; letter-spacing:-0.2px;}
+    .pre{white-space:pre-wrap; word-break:break-word; line-height:1.7; font-size:15px;}
+    .muted{color:var(--muted);}
+    .box{
+      background:rgba(0,0,0,0.18);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+    }
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <div class="title">하르루아 중앙기억 리스트</div>
+        <div class="sub">✅ 오프라인 로컬 저장소: <span class="mono">harulua.central.definitions.local</span></div>
+      </div>
+      <div class="row">
+        <a class="btn" href="/console.html">← 메인</a>
+        <a class="btn" href="/meeting.html">회의로</a>
+        <button class="btn danger" id="btnClear">중앙기억 전체 비우기</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="grid">
+        <div class="box">
+          <div class="h">목록</div>
+          <div class="muted" style="margin-top:6px;">카드를 누르면 오른쪽에 상세가 보여.</div>
+          <div id="list" style="margin-top:10px;"></div>
+        </div>
+
+        <div class="box">
+          <div class="h">상세</div>
+          <div class="muted" style="margin-top:6px;">id가 없으면 마지막 승격 카드를 자동으로 보여줘.</div>
+          <div style="height:10px;"></div>
+          <div id="detail" class="pre muted">아직 선택된 카드가 없어.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  // ===============================
+  // keys
+  // ===============================
+  const CENTRAL_LOCAL_KEY = "harulua.central.definitions.local";
+  const LAST_DEF_KEY = "harulua.central.lastId.local";
+
+  const JOHNSON_LOCAL_KEY = "harulua.johnson.pool.local";
+  const TURN_LOCAL_KEY = "harulua.turn.local";
+  const JOHNSON_COOLDOWN_TURNS = 3;
+
+  // ===============================
+  // utils
+  // ===============================
+  function safeJsonParse(v, fallback){
+    try { return JSON.parse(v); } catch { return fallback; }
+  }
+  function writeJson(key, value){
+    localStorage.setItem(key, JSON.stringify(value));
+  }
+  function escapeHtml(s){
+    return (s ?? "").toString()
+      .replaceAll("&","&amp;")
+      .replaceAll("<","&lt;")
+      .replaceAll(">","&gt;")
+      .replaceAll('"',"&quot;")
+      .replaceAll("'","&#39;");
+  }
+  function getParam(name){
+    const u = new URL(location.href);
+    return u.searchParams.get(name);
+  }
+
+  // ===============================
+  // turn
+  // ===============================
+  function getTurn(){
+    const n = Number(localStorage.getItem(TURN_LOCAL_KEY) || "0");
+    return Number.isFinite(n) ? n : 0;
+  }
+  function bumpTurn(){
+    const next = getTurn() + 1;
+    localStorage.setItem(TURN_LOCAL_KEY, String(next));
+    return next;
+  }
+
+  // ===============================
+  // central store normalize
+  // ===============================
+  function normalizeCentralStore(raw){
+    const s = (raw && typeof raw === "object") ? raw : {};
+    const items =
+      Array.isArray(s.items) ? s.items :
+      Array.isArray(s.central) ? s.central :
+      [];
+    return {
+      ok: true,
+      items,
+      migratedFromCentral: Array.isArray(s.central) && !Array.isArray(s.items),
+    };
+  }
+
+  function loadStore(){
+    const raw = safeJsonParse(localStorage.getItem(CENTRAL_LOCAL_KEY), {});
+    const norm = normalizeCentralStore(raw);
+    const store = { ok: true, items: norm.items };
+
+    if (norm.migratedFromCentral) {
+      localStorage.setItem(CENTRAL_LOCAL_KEY, JSON.stringify(store));
+    }
+    return store;
+  }
+
+  // ===============================
+  // johnson store
+  // ===============================
+  function loadJohnson(){
+    const raw = localStorage.getItem(JOHNSON_LOCAL_KEY);
+    if(!raw){
+      const fresh = { version: "johnson-v0.2", items: [] };
+      writeJson(JOHNSON_LOCAL_KEY, fresh);
+      return fresh;
+    }
+    const j = safeJsonParse(raw, { version: "johnson-v0.2", items: [] });
+    if(!j || typeof j !== "object"){
+      const fresh = { version: "johnson-v0.2", items: [] };
+      writeJson(JOHNSON_LOCAL_KEY, fresh);
+      return fresh;
+    }
+    if(!Array.isArray(j.items)) j.items = [];
+    return j;
+  }
+  function saveJohnson(j){ writeJson(JOHNSON_LOCAL_KEY, j); }
+
+  // ===============================
+  // johnson helpers
+  // ===============================
+  function roughTokens(text){
+    const t = String(text || "")
+      .replace(/[^\p{L}\p{N}\s]/gu, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+    if(!t) return [];
+    const stop = new Set(["은","는","이","가","을","를","에","에서","에게","로","으로","와","과","도","만","까지","부터","보다","처럼","같이","하고","하며","해서","하다","하는"]);
+    const words = t.split(" ").map(w => w.trim()).filter(Boolean);
+    const filtered = words
+      .map(w => w.replace(/(은|는|이|가|을|를|에|에서|에게|로|으로|과|와|도|만|까지|부터)$/g, ""))
+      .filter(w => w.length >= 2 && !stop.has(w));
+    return Array.from(new Set(filtered)).slice(0, 12);
+  }
+
+  function pickSentences(text){
+    if (!text) return [];
+    const parts = String(text)
+      .split(/[\n\.]/)
+      .map(s => s.trim())
+      .filter(Boolean);
+    return parts.slice(0, 2);
+  }
+
+  function getTitle(it){
+    return it.title || it.topic || (String(it.text || "").split("\n")[0] || "무제");
+  }
+  function getBody(it){
+    return it.body || it.text || "";
+  }
+
+  function ensureJohnsonFromCentralItem(centralItem){
+    if(!centralItem || !centralItem.id) return;
+
+    const currentTurn = bumpTurn();
+    const body = getBody(centralItem);
+    const picked = pickSentences(body);
+    if(picked.length === 0) return;
+
+    const triggers = roughTokens([centralItem.topic, centralItem.title, ...picked].join(" "));
+    const j = loadJohnson();
+
+    const existingTexts = new Set(
+      j.items
+        .filter(x => x && x.sourceCentralId === centralItem.id)
+        .map(x => String(x.text || "").trim())
+    );
+
+    for(const s of picked){
+      const t = String(s || "").trim();
+      if(!t) continue;
+      if(existingTexts.has(t)) continue;
+
+      j.items.push({
+        id: `j-${Date.now()}-${Math.random().toString(36).slice(2,7)}`,
+        text: t,
+        triggers,
+        sourceCentralId: centralItem.id,
+        createdTurn: currentTurn,
+        cooldownTurns: JOHNSON_COOLDOWN_TURNS,
+        lastUsedTurn: -1,
+        usedCount: 0,
+      });
+    }
+
+    saveJohnson(j);
+  }
+
+  // ===============================
+  // auto scan
+  // ===============================
+  function scanCentralAndAutoGenerateJohnson(){
+    const store = loadStore();
+    const items = store.items || [];
+    if (!items.length) return;
+
+    const latest = items[0];
+    if (!latest || !latest.id) return;
+
+    const lastId = localStorage.getItem(LAST_DEF_KEY) || "";
+    if (latest.id !== lastId) {
+      localStorage.setItem(LAST_DEF_KEY, latest.id);
+      ensureJohnsonFromCentralItem(latest);
+    }
+  }
+
+  // ===============================
+  // render
+  // ===============================
+  function renderList(selectedId){
+    const store = loadStore();
+    const host = document.getElementById("list");
+
+    if(store.items.length === 0){
+      host.innerHTML = `
+        <div class="card">
+          <div class="tag">아직 승격된 정의가 없어.</div>
+          <div class="pre">회의에서 “중앙기억으로 승격”을 누르면 여기에 카드가 쌓여.</div>
+        </div>
+      `;
+      return;
+    }
+
+    host.innerHTML = store.items.map(it => {
+      const isSel = (it.id === selectedId);
+      const title = getTitle(it);
+      return `
+        <div class="card" data-id="${escapeHtml(it.id)}" style="${isSel ? 'border-color: rgba(96,165,250,0.55);' : ''}">
+          <div class="tag">${escapeHtml(it.topic || '무제')} · ${escapeHtml(it.promotedAt || '')}</div>
+          <div class="h">${escapeHtml(title)}</div>
+          <div class="muted" style="margin-top:6px; font-size:12px;">id: <span class="mono">${escapeHtml(it.id)}</span></div>
+        </div>
+      `;
+    }).join("");
+
+    host.querySelectorAll(".card[data-id]").forEach(el => {
+      el.addEventListener("click", () => {
+        const id = el.getAttribute("data-id");
+        if(!id) return;
+        localStorage.setItem(LAST_DEF_KEY, id);
+        showDetail(id);
+      });
+    });
+  }
+
+  function showDetail(id){
+    const store = loadStore();
+    const it = store.items.find(x => x.id === id);
+    const detail = document.getElementById("detail");
+
+    if(!it){
+      detail.innerHTML = `<span class="muted">해당 카드가 없어. (id: ${escapeHtml(id)})</span>`;
+      renderList(null);
+      return;
+    }
+
+    const title = getTitle(it);
+    const body = getBody(it);
+    const question = (it.question || "").toString().trim();
+    const questionBlock = question
+      ? `<div class="box" style="margin-top:12px;"><div class="tag">질문(미래의 여백)</div><div class="pre">${escapeHtml(question)}</div></div>`
+      : "";
+
+    detail.innerHTML = `
+      <div class="tag">${escapeHtml(it.topic || '무제')} · ${escapeHtml(it.promotedAt || '')}</div>
+      <div class="h" style="margin-bottom:10px;">${escapeHtml(title)}</div>
+      <div class="pre">${escapeHtml(body)}</div>
+      ${questionBlock}
+      <div style="height:12px;"></div>
+      <div class="muted mono">id: ${escapeHtml(it.id)} · meetingId: ${escapeHtml(it?.meta?.meetingId || '')}</div>
+    `;
+
+    renderList(it.id);
+
+    const u = new URL(location.href);
+    u.searchParams.set("id", it.id);
+    history.replaceState(null, "", u.toString());
+  }
+
+  function init(){
+    const idFromUrl = getParam("id");
+    const lastId = localStorage.getItem(LAST_DEF_KEY);
+    const targetId = idFromUrl || lastId || null;
+
+    renderList(targetId);
+    if(targetId) showDetail(targetId);
+  }
+
+  // ===============================
+  // boot
+  // ===============================
+  setInterval(scanCentralAndAutoGenerateJohnson, 1500);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("btnClear").addEventListener("click", () => {
+      if(!confirm("중앙기억을 전부 지울까? (localStorage)")) return;
+      writeJson(CENTRAL_LOCAL_KEY, { items: [] });
+      localStorage.removeItem(LAST_DEF_KEY);
+      init();
+    });
+    init();
+  });
+</script>
+</body>
+</html>

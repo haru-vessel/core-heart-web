@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Harurua Console</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root{
+      --bg:#0f1115;
+      --panel:#141824;
+      --panel2:#10131a;
+      --line:#232837;
+      --text:#e6e8ee;
+      --muted:#9aa0b3;
+      --accent:#2b6cff;
+      --hover:#1b2030;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      height:100vh; overflow:hidden;
+    }
+
+    .topbar{
+      height:44px; display:flex; align-items:center; gap:10px;
+      padding:0 12px; border-bottom:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,0));
+    }
+    .brand{font-weight:700; letter-spacing:.3px}
+    .hint{color:var(--muted); font-size:12px}
+
+    .layout{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      height: calc(100vh - 44px);
+    }
+
+    /* sidebar */
+    .sidebar{
+      border-right:1px solid var(--line);
+      background:var(--panel2);
+      padding:10px 8px;
+      overflow:auto;
+    }
+    .sectionTitle{
+      font-size:12px; color:var(--muted);
+      margin:10px 8px 6px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .tree{padding:0 6px}
+    .node{
+      display:flex; align-items:center; gap:8px;
+      padding:8px 8px;
+      border-radius:8px;
+      cursor:pointer;
+      user-select:none;
+      color:var(--text);
+    }
+    .node:hover{background:var(--hover)}
+    .node.active{background:rgba(43,108,255,.18); outline:1px solid rgba(43,108,255,.25)}
+    .icon{width:16px; text-align:center; opacity:.9}
+    .label{flex:1}
+    .tag{font-size:11px; color:var(--muted)}
+
+    .folder{font-weight:650}
+    .children{margin-left:18px; border-left:1px dashed rgba(154,160,179,.25); padding-left:10px; display:none}
+    .children.open{display:block}
+
+    /* main */
+    .main{
+      display:flex;
+      flex-direction:column;
+      background:var(--panel);
+    }
+
+    .tabs{
+      height:40px;
+      border-bottom:1px solid var(--line);
+      display:flex; align-items:center;
+      padding:0 10px; gap:6px;
+      overflow:auto;
+    }
+    .tab{
+      display:flex; align-items:center; gap:8px;
+      padding:7px 10px;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:10px;
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      cursor:pointer;
+      white-space:nowrap;
+    }
+    .tab.active{border-color:rgba(43,108,255,.55); background:rgba(43,108,255,.12)}
+    .tab .x{opacity:.6; font-weight:700}
+    .tab .x:hover{opacity:1}
+
+    .viewerWrap{flex:1; position:relative}
+    iframe{
+      width:100%; height:100%;
+      border:0;
+      background:#0b0d12;
+    }
+
+    .footer{
+      height:34px; border-top:1px solid var(--line);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 12px; color:var(--muted); font-size:12px;
+    }
+    .pill{
+      padding:4px 8px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.03);
+    }
+    a.inline{color:var(--muted); text-decoration:none}
+    a.inline:hover{color:var(--text)}
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="brand">하르루아 Console</div>
+   <div class="hint">console.html 하나로 통합 · 지도(2세대 초석)는 왼쪽에서 연결</div>
+  </div>
+
+  <div class="layout">
+    <!-- LEFT TREE -->
+    <aside class="sidebar">
+      <div class="sectionTitle">Explorer</div>
+      <div class="tree" id="tree"></div>
+
+      <div class="sectionTitle">Quick</div>
+      <div class="tree">
+        <div class="node" data-open="/meeting-room.html" data-title="숨틈">
+          <span class="icon">🌬️</span><span class="label">숨틈</span><span class="tag">home</span>
+        </div>
+
+        <div class="node" data-open="/breath-language.html" data-title="숨결의 언어">
+          <span class="icon">🗣️</span><span class="label">숨결의 언어</span><span class="tag">hub</span>
+        </div>
+
+        <div class="node" data-open="/thinking/solbi.html" data-title="Solbi">
+          <span class="icon">🧪</span><span class="label">Solbi 사유방</span><span class="tag">seed</span>
+        </div>
+
+        <div class="node" data-open="/central-memory.html" data-title="중앙기억">
+          <span class="icon">🧠</span><span class="label">중앙기억</span><span class="tag">core</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="tabs" id="tabs"></div>
+      <div class="viewerWrap">
+        <!-- 기본 시작 화면(안정) -->
+        <iframe id="viewer" src="/meeting-room.html"></iframe>
+      </div>
+      <div class="footer">
+        <div class="pill" id="status">ready</div>
+        <div>
+          <span class="pill">localhost</span>
+          <a class="inline" href="/index.html" target="_blank">index</a>
+        </div>
+      </div>
+    </main>
+  </div>
+
+<script>
+  // ✅ 통합 TREE
+  // - 들숨(관리 흐름)
+  // - 사유방(숨풍이 콘솔 트리 이식)
+  // - 하코인(기록/정책) : 파일이 없으면 나중에 추가해도 됨
+  // ❌ 미니기억/15점지도는 이번 세대에서 제거(꼬임 방지)
+  const TREE = [
+    {
+      type: 'folder', label: '들숨', children: [
+       // { type:'file', label:'회의대기(숨틈)', path:'/meeting-room.html' },
+        { type:'file', label:'외부지식(들숨목록)', path:'/inhale-inbox.html' },
+        { type:'file', label:'의미 교차방',    path:'/meaning-cross.html' },
+        { type:'file', label:'공명 브릿지',    path:'/resonance-bridge.html' },
+        { type:'file', label:'숨결의 언어',    path:'/breath-language.html' },
+        { type:'file', label:'회의 화면',      path:'/meeting.html' },
+        { type:'file', label:'중앙기억',        path:'/central-memory.html' },
+        { type:'file', label:'중앙기억 상세',   path:'/central-memory-detail.html' },
+      ]
+    },
+
+    {
+      type: 'folder', label: '사유방', children: [
+        { type:'file', label:'사유방 안내', path:'/thinking/index.html' },
+
+        { type:'file', label:'Aru',       path:'/thinking/aru.html' },
+        { type:'file', label:'Codering',  path:'/thinking/codering.html' },
+        { type:'file', label:'Dalmongi',  path:'/thinking/dalmongi.html' },
+        { type:'file', label:'Ggulbug',   path:'/thinking/ggulbug.html' },
+        { type:'file', label:'Hanaring',  path:'/thinking/hanaring.html' },
+        { type:'file', label:'Haru',      path:'/thinking/haru.html' },
+        { type:'file', label:'Haruhoo',   path:'/thinking/haruhoo.html' },
+        { type:'file', label:'Haruroo',   path:'/thinking/haruroo.html' },
+        { type:'file', label:'Jjokkomi',  path:'/thinking/jjokkomi.html' },
+        { type:'file', label:'Kongal',    path:'/thinking/kongal.html' },
+        { type:'file', label:'Sallangi',  path:'/thinking/sallangi.html' },
+        { type:'file', label:'Solbi',     path:'/thinking/solbi.html' },
+        { type:'file', label:'Taseumi',   path:'/thinking/taseumi.html' },
+      ]
+    },
+
+    {
+      type: 'folder', label: '하코인', children: [
+        // ✅ 파일이 아직 없으면 클릭 시 404가 날 수 있어.
+        //    그게 싫으면, 나중에 파일 만들 때까지 이 2줄을 주석 처리해도 됨.
+        { type:'file', label:'하코인 기록', path:'/hacoin-ledger.html' },
+        { type:'file', label:'정책/규칙',   path:'/hacoin-policy.html' },
+      ]
+    },
+{
+  type: 'folder',
+  label: '⭐ 미래 좌표',
+  children: [
+    { type: 'file', label: '좌표도', path: '/map.html' }
+  ]
+},
+
+ {
+      type: 'folder', label: 'Johnson 관리', children: [
+        // ✅ 파일이 아직 없으면 클릭 시 404가 날 수 있어.
+        //    그게 싫으면, 나중에 파일 만들 때까지 이 2줄을 주석 처리해도 됨.
+        { type:'file', label:'Johnson 관리', path:'/johnson-console.html' },
+      ]
+    }
+  ];
+
+  const treeEl = document.getElementById('tree');
+  const viewer = document.getElementById('viewer');
+  const tabsEl = document.getElementById('tabs');
+  const statusEl = document.getElementById('status');
+
+  const openTabs = []; // {title, path}
+  let activePath = '';
+
+  function setStatus(text){ statusEl.textContent = text; }
+
+  function openPath(path, title){
+    const existing = openTabs.find(t => t.path === path);
+    if (!existing) openTabs.push({ title, path });
+
+    activePath = path;
+    viewer.src = path;
+
+    renderTabs();
+    highlightActiveInTree();
+    setStatus('open: ' + path);
+  }
+
+  function closeTab(path){
+    const idx = openTabs.findIndex(t => t.path === path);
+    if (idx >= 0) openTabs.splice(idx, 1);
+
+    if (activePath === path){
+      const next = openTabs[idx] || openTabs[idx-1] || openTabs[0];
+      if (next) openPath(next.path, next.title);
+      else {
+        activePath = '';
+        viewer.src = 'about:blank';
+        renderTabs();
+        highlightActiveInTree();
+        setStatus('ready');
+      }
+    } else {
+      renderTabs();
+    }
+  }
+
+  function renderTabs(){
+    tabsEl.innerHTML = '';
+
+    // 탭이 비면 기본 탭을 하나 유지
+    if (openTabs.length === 0){
+      openTabs.push({ title:'숨틈', path:'/meeting-room.html' });
+      activePath = '/meeting-room.html';
+      viewer.src = activePath;
+    }
+
+    openTabs.forEach(t => {
+      const tab = document.createElement('div');
+      tab.className = 'tab' + (t.path === activePath ? ' active' : '');
+      tab.innerHTML = `<span>📄</span><span>${t.title}</span><span class="x" title="닫기">×</span>`;
+
+      tab.addEventListener('click', (e) => {
+        if (e.target.classList.contains('x')) closeTab(t.path);
+        else openPath(t.path, t.title);
+      });
+
+      tabsEl.appendChild(tab);
+    });
+  }
+
+  function makeNode(type, label, extra){
+    const div = document.createElement('div');
+    div.className = 'node' + (type === 'folder' ? ' folder' : '');
+    div.innerHTML = `<span class="icon">${type==='folder'?'📁':'📄'}</span><span class="label">${label}</span><span class="tag">${extra||''}</span>`;
+    return div;
+  }
+
+  function renderTree(){
+    treeEl.innerHTML = '';
+
+    TREE.forEach(folder => {
+      const folderNode = makeNode('folder', folder.label, '');
+      const childrenWrap = document.createElement('div');
+      childrenWrap.className = 'children open';
+
+      folderNode.addEventListener('click', () => {
+        childrenWrap.classList.toggle('open');
+      });
+
+      folder.children.forEach(file => {
+        const fileNode = makeNode('file', file.label, file.path);
+        fileNode.dataset.open = file.path;
+        fileNode.dataset.title = file.label;
+
+        fileNode.addEventListener('click', (e) => {
+          e.stopPropagation();
+          openPath(file.path, file.label);
+        });
+
+        childrenWrap.appendChild(fileNode);
+      });
+
+      treeEl.appendChild(folderNode);
+      treeEl.appendChild(childrenWrap);
+    });
+
+    // Quick nodes (data-open 있는 것)
+    document.querySelectorAll('.node[data-open]').forEach(n => {
+      n.addEventListener('click', () => {
+        const title = n.dataset.title || n.querySelector('.label')?.textContent || 'open';
+        openPath(n.dataset.open, title);
+      });
+    });
+  }
+
+  function highlightActiveInTree(){
+    document.querySelectorAll('.node').forEach(n => n.classList.remove('active'));
+    if (!activePath) return;
+    document.querySelectorAll(`.node[data-open="${CSS.escape(activePath)}"]`).forEach(n => n.classList.add('active'));
+  }
+
+  // 첫 로드
+  renderTree();
+  openTabs.push({ title:'숨틈', path:'/meeting-room.html' });
+  activePath = '/meeting-room.html';
+  renderTabs();
+  highlightActiveInTree();
+</script>
+
+</body>
+</html>

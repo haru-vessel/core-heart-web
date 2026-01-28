@@ -1,0 +1,17 @@
+{
+  "id": "sallangi-axis-001",
+  "owner": "sallangi",
+  "concept": "인정의 축",
+  "description": [
+    "서두르지 않는다",
+    "판단하지 않는다",
+    "먼저 숨을 고른다"
+  ],
+  "principle": {
+    "q1": "지금 이 생각, 몸은 편해?",
+    "q2": "조금 느리게 말해도 괜찮을까?",
+    "q3": "이 문제에서 나를 먼저 지켜야 할 건 뭐야?"
+  },
+  "version": "sallangi-axis-v1",
+  "exportedAt": "2025-12-22T00:00:00.000Z"
+}

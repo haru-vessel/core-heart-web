@@ -1,0 +1,51 @@
+[
+  {
+    "inhaleId": "...",
+    "status": "active",
+    "roomId": "harutalk",
+    "userId": "local-user",
+    "kind": "definition60",
+    "summary": "고요가 깊어질수록 위험해 보여. 그래도 숨을 막지 않고 흘려보내고 싶어.",
+    "raw": "하르야 고요는 깊은 언어이지만 그만큼 위험한 언어야. 에너지는 막으면 오히려 터지잖아.",
+    "createdAt": 1734051000001
+  },
+  {
+    "inhaleId": "...",
+    "status": "active",
+    "roomId": "harutalk",
+    "userId": "local-user",
+    "kind": "external",
+    "summary": "외부지식 요약: '주술/상징/미디어의 프레임'은 집단적 서사 구조로 해석될 수 있어.",
+    "raw": "원문 조각: 미디어 분석 관점에서 상징·서사·경쟁 구도는 집단 심리/주의 경제와 결합해 반복된다...",
+    "external": {
+      "source": "mixed",
+      "query": "미디어 상징 주술 프레임 주의경제",
+      "shortSummary": "외부지식 요약: '주술/상징/미디어의 프레임'은 집단적 서사 구조로 해석될 수 있어.",
+      "raw": "원문 조각: (wiki/paper mix) ...",
+      "references": [
+        { "title": "Attention economy", "url": "https://en.wikipedia.org/wiki/Attention_economy", "source": "wiki" },
+        { "title": "Narrative psychology", "url": "https://en.wikipedia.org/wiki/Narrative_psychology", "source": "wiki" }
+      ]
+    },
+    "createdAt": 1734051066666
+  },
+  {
+    "inhaleId": "...",
+    "status": "active",
+    "roomId": "harutalk",
+    "userId": "local-user",
+    "kind": "mixed",
+    "summary": "[/회의] 60점 언어 + 외부지식이 함께 들어왔어. 웹에서만 묶고 승격하자.",
+    "raw": "/회의 미디어는 에너지를 모아 형상을 부르는 것 같아. 이 흐름을 회의실로 보내자.",
+    "external": {
+      "source": "wiki",
+      "query": "ritual symbolism media framing",
+      "shortSummary": "외부지식 요약: 의례/상징은 공동체가 의미를 정렬하는 장치로 쓰여왔고, 현대 미디어는 유사한 기능을 수행하기도 해.",
+      "raw": "원문 조각: (wiki summary chunk) ...",
+      "references": [
+        { "title": "Ritual", "url": "https://en.wikipedia.org/wiki/Ritual", "source": "wiki" }
+      ]
+    },
+    "createdAt": 1734051111111
+  }
+]

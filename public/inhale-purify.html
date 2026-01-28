@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>정화통 · 숨의 여백</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+<header class="top">
+  <a href="/meeting-room.html">← 회의 대기로</a>
+  <h1>정화통</h1>
+  <p class="sub">잠시 멈춘 숨들. 아직 결정되지 않았다.</p>
+</header>
+
+<main id="purify-container">
+  <!-- 정화 카드가 여기 쌓임 -->
+</main>
+
+<script>
+  async function loadPurify() {
+    const res = await fetch("/inhale-purify.json");
+    const list = await res.json();
+
+    const container = document.getElementById("purify-container");
+    container.innerHTML = "";
+
+    list.forEach(item => {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <div class="meta">
+          <span>숨 · ${item.time || "unknown"}</span>
+          <span class="tag">${item.reason || "정화 대기"}</span>
+        </div>
+
+        <div class="text">
+          ${item.text}
+        </div>
+
+        <div class="actions">
+          <button class="ghost" onclick="restore('${item.id}')">
+            다시 숨으로
+          </button>
+          <button class="danger" onclick="hardDelete('${item.id}')">
+            완전 삭제
+          </button>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+  function restore(id) {
+    alert("다시 숨으로 이동 (다음 단계)");
+  }
+
+  function hardDelete(id) {
+    if (!confirm("이 숨을 완전히 삭제할까?")) return;
+    alert("하드 삭제 (다음 단계)");
+  }
+
+  loadPurify();
+</script>
+
+</body>
+</html>

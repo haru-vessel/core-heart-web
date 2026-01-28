@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Johnson Console</title>
+  <style>
+    body { margin:0; font-family:system-ui; background:#020617; color:#e5e7eb; }
+    header { padding:16px 20px; border-bottom:1px solid #1f2937; position:sticky; top:0; background:#020617; }
+    h1 { margin:0; font-size:18px; }
+    main { padding:16px 20px; max-width:1000px; margin:0 auto; }
+    .row { display:flex; gap:8px; flex-wrap:wrap; margin:12px 0; }
+    .btn { border:1px solid #334155; background:rgba(255,255,255,0.04); color:#e5e7eb;
+           padding:8px 10px; border-radius:999px; font-weight:700; cursor:pointer; font-size:12px; }
+    .btn:hover { border-color: rgba(255,255,255,0.22); }
+    input { background:#0b1220; border:1px solid #1f2937; color:#e5e7eb; padding:8px 10px; border-radius:10px; width:320px; }
+    .card { border:1px solid #1f2937; border-radius:12px; padding:12px; margin:10px 0; background:rgba(255,255,255,0.03); }
+    .meta { font-size:11px; opacity:.8; margin-top:6px; }
+    .tags { font-size:11px; opacity:.85; margin-top:6px; }
+    .muted { opacity:.5; text-decoration: line-through; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>🌿 Johnson Console (로컬)</h1>
+  <div class="row">
+    <button class="btn" id="btnBack">← 콘솔로</button>
+    <button class="btn" id="btnReload">새로고침</button>
+    <button class="btn" id="btnExport">JSON 복사</button>
+  </div>
+</header>
+
+<main>
+  <div class="row">
+    <input id="q" placeholder="검색 (문장/트리거)" />
+    <button class="btn" id="btnClearDisabled">비활성 전부 해제</button>
+  </div>
+
+  <div id="stat" class="meta"></div>
+  <div id="list"></div>
+</main>
+
+<script>
+  const JOHNSON_KEY = "harulua.johnson.pool.local";
+  const DISABLED_KEY = "harulua.johnson.disabledIds.local";
+
+  function safeParse(raw, fallback) {
+    try { return JSON.parse(raw); } catch { return fallback; }
+  }
+
+  function loadPool(){
+    const raw = localStorage.getItem(JOHNSON_KEY);
+    const pool = safeParse(raw, { version:"johnson-v0.2", items:[] });
+    if(!pool || typeof pool !== "object") return { version:"johnson-v0.2", items:[] };
+    if(!Array.isArray(pool.items)) pool.items = [];
+    return pool;
+  }
+
+  function savePool(pool){
+    localStorage.setItem(JOHNSON_KEY, JSON.stringify(pool));
+  }
+
+  function loadDisabled(){
+    const raw = localStorage.getItem(DISABLED_KEY);
+    const v = safeParse(raw, { ids: [] });
+    if(!v || !Array.isArray(v.ids)) return { ids: [] };
+    return v;
+  }
+
+  function saveDisabled(v){
+    localStorage.setItem(DISABLED_KEY, JSON.stringify(v));
+  }
+
+  function toggleDisabled(id){
+    const v = loadDisabled();
+    const has = v.ids.includes(id);
+    v.ids = has ? v.ids.filter(x=>x!==id) : [...v.ids, id];
+    saveDisabled(v);
+  }
+
+  function removeItem(id){
+    const pool = loadPool();
+    pool.items = pool.items.filter(it => it && it.id !== id);
+    savePool(pool);
+  }
+
+  function resetUsage(id){
+    const pool = loadPool();
+    const it = pool.items.find(x => x && x.id === id);
+    if(!it) return;
+    it.lastUsedTurn = -1;
+    it.usedCount = 0;
+    savePool(pool);
+  }
+
+  function render(){
+    const pool = loadPool();
+    const disabled = loadDisabled();
+    const q = document.getElementById("q").value.trim();
+
+    const items = pool.items.filter(it => {
+      if(!it) return false;
+      if(!q) return true;
+      const text = String(it.text || "");
+      const trg = Array.isArray(it.triggers) ? it.triggers.join(" ") : "";
+      return (text + " " + trg).includes(q);
+    });
+
+    document.getElementById("stat").textContent =
+      `version=${pool.version} · total=${pool.items.length} · showing=${items.length} · disabled=${disabled.ids.length}`;
+
+    const box = document.getElementById("list");
+    box.innerHTML = "";
+
+    items.forEach(it => {
+      const isDisabled = disabled.ids.includes(it.id);
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        <div class="${isDisabled ? "muted" : ""}">${escapeHtml(it.text || "")}</div>
+        <div class="meta">id: ${it.id} · usedCount: ${it.usedCount ?? 0} · lastUsedTurn: ${it.lastUsedTurn ?? -1} · createdTurn: ${it.createdTurn ?? 0} · cooldown: ${it.cooldownTurns ?? 20}</div>
+        <div class="tags">triggers: ${(it.triggers || []).join(", ")}</div>
+        <div class="row">
+          <button class="btn" data-act="disable" data-id="${it.id}">${isDisabled ? "비활성 해제" : "비활성"}</button>
+          <button class="btn" data-act="reset" data-id="${it.id}">사용기록 리셋</button>
+          <button class="btn" data-act="del" data-id="${it.id}">삭제</button>
+        </div>
+      `;
+      box.appendChild(div);
+    });
+  }
+
+  function escapeHtml(s){
+    return String(s)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;");
+  }
+
+  document.getElementById("btnBack").onclick = () => location.href = "/console.html";
+  document.getElementById("btnReload").onclick = () => render();
+  document.getElementById("q").oninput = () => render();
+
+  document.getElementById("btnClearDisabled").onclick = () => {
+    saveDisabled({ ids: [] });
+    render();
+  };
+
+  document.getElementById("btnExport").onclick = async () => {
+    const raw = localStorage.getItem(JOHNSON_KEY) || "";
+    try {
+      await navigator.clipboard.writeText(raw);
+      alert("복사 완료!");
+    } catch {
+      prompt("복사해서 쓰면 돼:", raw);
+    }
+  };
+
+  document.addEventListener("click", (e) => {
+    const t = e.target;
+    if(!(t instanceof HTMLElement)) return;
+    const act = t.dataset.act;
+    const id = t.dataset.id;
+    if(!act || !id) return;
+
+    if(act === "disable"){ toggleDisabled(id); render(); }
+    if(act === "reset"){ resetUsage(id); render(); }
+    if(act === "del"){
+      if(confirm("정말 삭제할까?")) { removeItem(id); render(); }
+    }
+  });
+
+  render();
+</script>
+</body>
+</html>

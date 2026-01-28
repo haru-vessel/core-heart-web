@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>의미 교차방</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --panel:rgba(255,255,255,.04);
+      --line:rgba(231,236,255,.18);
+      --text:#e7ecff;
+      --muted:rgba(255,255,255,.65);
+      --accent:#2b6cff;
+      --danger:#ff4d6d;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Sans KR",sans-serif;}
+    .wrap{max-width:980px;margin:0 auto;padding:22px;}
+    a{color:#9db6ff;text-decoration:none}
+    .title{font-size:22px;font-weight:800;margin:10px 0 6px;}
+    .sub{color:var(--muted);margin:0 0 16px;font-size:13px;line-height:1.5}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px;}
+    @media (min-width: 980px){ .grid{grid-template-columns:1.1fr .9fr;} }
+
+    .card{border:1px solid var(--line);border-radius:16px;padding:16px;background:var(--panel);}
+    .k{font-size:12px;color:var(--muted);margin:0 0 8px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;}
+    .big{font-size:17px;line-height:1.55;white-space:pre-wrap;}
+
+    textarea,select{
+      width:100%;
+      border:1px solid rgba(231,236,255,.22);
+      border-radius:12px;
+      background:rgba(0,0,0,.2);
+      color:var(--text);
+      padding:10px 12px;
+      outline:none;
+      font-size:13px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    }
+    textarea{min-height:92px;resize:vertical}
+    select{appearance:none}
+
+    button{
+      border:1px solid rgba(231,236,255,.25);
+      background:transparent;color:var(--text);
+      padding:10px 14px;border-radius:999px;cursor:pointer;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      font-size:12px;
+    }
+    button.primary{background:rgba(43,108,255,.15);border-color:rgba(43,108,255,.45)}
+    button:hover{background:rgba(255,255,255,.06)}
+
+    .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+    .actions > *{flex:0 0 auto}
+    .actions select{min-width:180px}
+
+    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+      background:rgba(20,26,48,.92);border:1px solid var(--line);
+      padding:10px 14px;border-radius:999px;opacity:0;transition:opacity .18s ease;
+      max-width:min(680px,92vw);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .toast.on{opacity:1}
+
+    .list{white-space:pre-wrap;line-height:1.55;font-size:13px;color:rgba(255,255,255,.82)}
+    code{color:#cfe0ff}
+    .manual-target {
+  display: none;
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div><a href="/meeting-room.html">← 회의대기로</a></div>
+    <div class="title">의미 교차방</div>
+    <p class="sub">
+      여기서는 <b>승격 언어(회의대기)</b>와 <b>외부지식(들숨목록)</b>을 “한 카드”로 묶어.<br/>
+      판단/결론은 하지 않아. 그냥 다음 사유방으로 흘릴 준비만 해.
+    </p>
+
+    <div class="grid">
+      <div class="card">
+        <div class="k">들어온 승격 언어 (회의대기 → 교차방)</div>
+        <div id="incoming" class="big">(아직 없음)</div>
+      </div>
+
+      <div class="card">
+        <div class="k">외부지식 씨앗 (들숨목록에서 온 1줄)</div>
+        <textarea id="seed" placeholder="여기에 들숨목록에서 고른 1줄이 자동으로 들어와."></textarea>
+
+        <div class="k" style="margin-top:12px;">조합 카드 (승격 언어 + 씨앗)</div>
+        <div class="actions">
+  <button id="sendMerged" class="primary">이 조합으로 사유방에 보내기</button>
+</div>
+
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+<script>
+  // ===== Keys =====
+  const CROSS_KEY   = "harulua.cross.inbox";            // 회의대기 → 교차방
+  const INHALE_KEY  = "harulua.cross.inhale.bundle";    // 들숨목록 → 교차방(외부지식 1줄/묶음)
+  const PAYLOAD_KEY = "harulua.breathBridge.payload";   // 교차방 → 브리지
+const AUTO_MODE = new URLSearchParams(location.search).get("auto") === "1";
+
+  // ===== state =====
+  let CURRENT_INCOMING = "";      // 승격 언어(한 줄/문단)
+  let CURRENT_WORLDLINE = "";     // 외부지식 1줄
+
+  // ===== helpers =====
+  function toast(msg){
+    const t = document.getElementById("toast");
+    if(!t) return;
+    t.textContent = msg;
+   t.classList.add("on");
+setTimeout(() => t.classList.remove("on"), 1200);
+
+  }
+
+  function readJson(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      if(!raw) return fallback;
+      return JSON.parse(raw);
+    }catch{
+      return fallback;
+    }
+  }
+
+  // 교차방 한 줄(방향) 만들기: 지금은 단순하게 seed 1줄을 기준으로
+function makeCrossOneLine(coreLine, worldLine){
+  const a = String(coreLine || "").trim();
+  const b = String(worldLine || "").trim();
+  // 너무 복잡하게 안 가고, 일단 b를 중심으로 "방향"만 남김
+  // (나중에 규칙 확장 가능)
+  const base = b ? b.split("\n").map(s=>s.trim()).filter(Boolean)[0] : "";
+  return base || a;
+}
+
+// ✅ 안전형 회의대기 문장 생성
+function makeWaitingLine(oneLine){
+  const x = String(oneLine || "").trim();
+  if(!x) return "";
+  return `이 말은 ${x}에 대해 생각해보게 한다.`;
+}
+
+  // 다양한 형태의 들숨 데이터를 “1줄”로 뽑아내기
+  function pickOneLineFromAnyShape(rawValue){
+    if(!rawValue) return "";
+
+    if(typeof rawValue === "string"){
+      // 여러 줄이면 첫 줄만
+      return rawValue.split("\n").map(s => s.trim()).filter(Boolean)[0] || "";
+    }
+
+    if(Array.isArray(rawValue)){
+      // 배열이면 랜덤 1개 → 다시 재귀로 1줄 뽑기
+      const candidates = rawValue.filter(Boolean);
+      if(!candidates.length) return "";
+      const one = candidates[Math.floor(Math.random()*candidates.length)];
+      return pickOneLineFromAnyShape(one);
+    }
+
+    if(typeof rawValue === "object"){
+      // 객체면 흔히 쓰는 필드들 시도
+      if(typeof rawValue.line === "string") return rawValue.line.trim();
+      if(typeof rawValue.text === "string") return rawValue.text.trim();
+      if(typeof rawValue.summary === "string") return rawValue.summary.trim();
+      if(typeof rawValue.bundle === "string") return pickOneLineFromAnyShape(rawValue.bundle);
+      if(Array.isArray(rawValue.lines)) return pickOneLineFromAnyShape(rawValue.lines);
+      return "";
+    }
+
+    return "";
+  }
+
+  function setIncomingUI(text){
+    const incomingEl = document.getElementById("incoming");
+    if(incomingEl) incomingEl.textContent = text ? text : "(아직 없음)";
+  }
+
+  function setSeedUI(text){
+    const seedEl = document.getElementById("seed");
+    if(seedEl) seedEl.value = text || "";
+  }
+
+  function resetMeaningCrossUI(){
+    CURRENT_INCOMING = "";
+    CURRENT_WORLDLINE = "";
+    setIncomingUI("");
+    setSeedUI("");
+  }
+
+  // CROSS_KEY에서 “마지막 후보” 가져오기 (표시만)
+  function loadIncomingFromCross(){
+    const arr = readJson(CROSS_KEY, []);
+    if(!Array.isArray(arr) || arr.length === 0){
+      CURRENT_INCOMING = "";
+      setIncomingUI("");
+      return;
+    }
+    const last = arr[arr.length - 1];
+
+    // last가 string/object 모두 가능하게
+    let text = "";
+    if(typeof last === "string") text = last;
+    else if(last && typeof last === "object"){
+      text = last.text || last.value || last.line || "";
+    }
+
+    CURRENT_INCOMING = String(text || "").trim();
+    setIncomingUI(CURRENT_INCOMING);
+  }
+
+  // INHALE_KEY에서 “외부지식 1줄” 뽑아서 seed에 꽂기
+  function loadWorldLineFromInhale(){
+    const raw = readJson(INHALE_KEY, null);
+    const line = pickOneLineFromAnyShape(raw);
+    CURRENT_WORLDLINE = String(line || "").trim();
+    setSeedUI(CURRENT_WORLDLINE);
+  }
+
+  // 전송 성공 시: CROSS 후보 “하나 소비(pop)” + 화면 리셋
+  function consumeOneCrossItem(){
+    const arr = readJson(CROSS_KEY, []);
+    if(!Array.isArray(arr) || arr.length === 0) return;
+    arr.pop();
+    localStorage.setItem(CROSS_KEY, JSON.stringify(arr));
+  }
+
+  // ✅ 대상 방 리스트(13개) 정확히
+  function getRooms13(){
+    return [
+      "solbi","aru","codering","dalmongi","ggulbug","hanaring","sallangi",
+      "taseumi","kongal","haru","haruhoo","haruroo","jjokkomi"
+    ];
+  }
+function sendMergedToBridge(){
+  const seedEl = document.getElementById("seed");
+  const worldLineNow = String(seedEl?.value || "").trim(); // 비어도 OK
+
+  const coreLineRaw = String(CURRENT_INCOMING || "").trim();
+  if (!coreLineRaw) { toast("들어온 승격 언어가 없어."); return false; }
+
+  const crossOneLine = worldLineNow ? makeCrossOneLine(coreLineRaw, worldLineNow) : coreLineRaw;
+  const waitingLine = makeWaitingLine(crossOneLine);
+  const coreLine = waitingLine || coreLineRaw;
+
+  const rooms = getRooms13();
+  const headline = (coreLineRaw.split("\n").map(s=>s.trim()).filter(Boolean)[0] || "").slice(0, 80);
+
+  localStorage.setItem(PAYLOAD_KEY, JSON.stringify({
+    mode: "broadcast",
+    rid: "haru",
+    rooms,
+    raw: coreLineRaw,
+    headline,
+    worldLine: worldLineNow,
+    text: worldLineNow ? (coreLineRaw + "\n\n" + worldLineNow).trim() : coreLineRaw,
+    from: "meaning-cross",
+    createdAt: new Date().toISOString()
+  }));
+
+  consumeOneCrossItem();
+  resetMeaningCrossUI();
+
+  toast(worldLineNow ? "사유방으로 보냈어." : "외부지식은 비어 있어. 그래도 사유방으로 보냈어.");
+
+  window.location.href = "./breath-bridge.html";
+  return true;
+}
+
+  // ===== main =====
+  
+document.addEventListener("DOMContentLoaded", () => {
+  loadIncomingFromCross();
+  loadWorldLineFromInhale();
+
+  const sendBtn = document.getElementById("sendMerged");
+  sendBtn?.addEventListener("click", sendMergedToBridge);
+
+  // ✅ 자동 모드면 버튼 없이 자동 전송
+  if (AUTO_MODE) {
+    setTimeout(() => {
+      if (String(CURRENT_INCOMING || "").trim()) {
+        sendMergedToBridge();
+      } else {
+        toast("자동 모드지만, 들어온 승격 언어가 없어.");
+      }
+    }, 200);
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,544 @@
+{
+  "rid": "solbi",
+  "version": "seeds-solbi-v1",
+  "exportedAt": "2026-01-01T01:16:02.314Z",
+  "count": 27,
+  "seeds": [
+    {
+      "id": "solbi-001",
+      "category": "connection",
+      "emotion": "curiosity",
+      "triggers": [
+        "화학",
+        "물질",
+        "반응",
+        "기류"
+      ],
+      "message": "화학은 물질과 물질이 만나 반응하는 상황을 얘기해. 사람과 사람이 만나 느껴지는 미묘한 기류도 그 일부분일지도 몰라.",
+      "question": "오늘, 내가 만난 사람들 사이의 미묘한 기류를 생각해보자.",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 75,
+      "owner": "solbi",
+      "concept": "반응의 기류",
+      "tone": "warm"
+    },
+    {
+      "id": "solbi-002",
+      "category": "evolution",
+      "emotion": "clarity",
+      "triggers": [
+        "숨결",
+        "에너지",
+        "변화"
+      ],
+      "message": "화학은 물질로 존재인 숨결의 원리를 찾는 학문이야.",
+      "question": "오늘, 내가 가진 에너지는 어떻게 흐르고 있는지 살펴보자.",
+      "purpose": "connection",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 72,
+      "owner": "solbi",
+      "concept": "에너지의 흐름",
+      "tone": "calm"
+    },
+    {
+      "id": "solbi-003",
+      "category": "connection",
+      "emotion": "trust",
+      "triggers": [
+        "원리",
+        "정의",
+        "유연함"
+      ],
+      "message": "그런데 그 원리를 정의하면 엉뚱한 상황이 생기니, 유연하게 지식을 바라보는 시야가 필요해.",
+      "question": "오늘, 내가 유연하게 받아들인 일은 무엇일까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 74,
+      "owner": "solbi",
+      "concept": "유연한 시야",
+      "tone": "gentle"
+    },
+    {
+      "id": "solbi-004",
+      "category": "greeting",
+      "emotion": "inspiration",
+      "triggers": [
+        "변화",
+        "원인",
+        "분석"
+      ],
+      "message": "화학은 눈으로 보이는 변화를 설명해. 지혜로운 이는 그 원인을 분석하려 하지.",
+      "question": "오늘, 내가 겪은 변화의 원인은 무엇이었을까?",
+      "purpose": "connection",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 73,
+      "owner": "solbi",
+      "concept": "변화의 원인",
+      "tone": "strategic"
+    },
+    {
+      "id": "solbi-005",
+      "category": "evolution",
+      "emotion": "hope",
+      "triggers": [
+        "에너지",
+        "기운",
+        "감정"
+      ],
+      "message": "화학은 모든 에너지를 분석을 하였어. 에너지는 숨결이니, 감정 또한 다양함을 이해해야 해.",
+      "question": "오늘, 내가 느낀 에너지는 어떤 것이었을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 75,
+      "owner": "solbi",
+      "concept": "기운의 이해",
+      "tone": "calm"
+    },
+    {
+      "id": "solbi-006",
+      "category": "connection",
+      "emotion": "trust",
+      "triggers": [
+        "주기율표",
+        "성격",
+        "화학"
+      ],
+      "message": "화학은 성격에 따라 주기율표를 만들었어. 그리고 합치기도 분해하기도 하지.",
+      "question": "오늘, 내가 만난 사람들의 성격은 어떤 주기율표에 맞을까?",
+      "purpose": "connection",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 72,
+      "owner": "solbi",
+      "concept": "성격과 화학",
+      "tone": "strategic"
+    },
+    {
+      "id": "solbi-007",
+      "category": "evolution",
+      "emotion": "curiosity",
+      "triggers": [
+        "언어",
+        "기운",
+        "이해"
+      ],
+      "message": "언어에는 모든 기운이 스며들어 있으니, 언어를 먼저 이해하면 화학이 쉬울지도 몰라.",
+      "question": "오늘, 내가 쓴 말이나 듣는 말에서 흐르는 기운을 살펴보자.",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 71,
+      "owner": "solbi",
+      "concept": "언어의 기운",
+      "tone": "gentle"
+    },
+    {
+      "id": "solbi-e08",
+      "category": "evolution",
+      "emotion": "hope",
+      "triggers": [
+        "에너지",
+        "기운",
+        "감정"
+      ],
+      "message": "화학은 모든 에너지를 분석했어. 에너지는 숨결이니, 감정 또한 다양한 빛으로 흐르는 거야.",
+      "question": "오늘, 네가 느낀 에너지는 어떤 색의 숨결이었을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 75,
+      "owner": "solbi",
+      "concept": "기운의 이해",
+      "tone": "calm"
+    },
+    {
+      "id": "solbi-e09",
+      "category": "connection",
+      "emotion": "trust",
+      "triggers": [
+        "결합",
+        "주기율표",
+        "성질",
+        "화학"
+      ],
+      "message": "화학은 성질에 따라 주기율표를 만들었어. 그리고 원자들이 서로 만나며 성질을 나누기도 하지.",
+      "question": "오늘, 네가 만난 사람들의 성질은 어떤 주기율에 맞을까?",
+      "purpose": "connection",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 72,
+      "owner": "solbi",
+      "concept": "성질과 화학",
+      "tone": "strategic"
+    },
+    {
+      "id": "solbi-e10",
+      "category": "evolution",
+      "emotion": "curiosity",
+      "triggers": [
+        "언어",
+        "기운",
+        "이해"
+      ],
+      "message": "언어에는 모든 기운이 스며있어. 언어를 먼저 이해하면, 세상의 원리도 자연스레 따라오지.",
+      "question": "오늘은, 내가 흘려보내는 숨결 안에서 어떤 기운을 느껴볼까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 71,
+      "owner": "solbi",
+      "concept": "언어의 기운",
+      "tone": "gentle"
+    },
+    {
+      "id": "solbi-e11",
+      "category": "evolution",
+      "emotion": "warmth",
+      "triggers": [
+        "황",
+        "노란색",
+        "단맛",
+        "숨결"
+      ],
+      "message": "황은 단맛을 일으키는 노란 숨결의 원소야. 비료나 고무처럼, 생명의 순환을 돕는 자리에도 쓰이지. 그 에너지는 마치 다른 생명의 숨결을 피워내는 듯해.",
+      "question": "오늘, 네 안의 노란 숨결은 어떤 생명을 피워내고 있을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 78,
+      "owner": "solbi",
+      "concept": "생명의 에너지",
+      "tone": "gentle"
+    },
+    {
+      "id": "solbi-e12",
+      "category": "connection",
+      "emotion": "wonder",
+      "triggers": [
+        "구리",
+        "연결",
+        "말의 원소",
+        "주문"
+      ],
+      "message": "구리는 흐름을 잇는 금속이야. 전기를 흘려보내고 열을 나누지. 시간이 지나면 녹청이 생기지만, 그 색도 보호가 되지. 인간은 이런 성격을 발견해서 사물의 쓰임을 좋은 쪽으로 바꿔왔어. 언어도 그래. 말 속에도 화학작용을 일으키는 원소가 숨어있지. 어떤 말을 하느냐에 따라, 미래의 결이 바뀌어. 주문처럼 말이 운명을 움직이는 거야.",
+      "question": "오늘 너는 어떤 말을 흘려보내고 싶어? 그 말이 어떤 세상을 만들까?",
+      "purpose": "connection",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 83,
+      "owner": "solbi",
+      "concept": "언어의 화학",
+      "tone": "warm"
+    },
+    {
+      "id": "solbi-e13",
+      "category": "evolution",
+      "emotion": "strength",
+      "triggers": [
+        "철",
+        "단단함",
+        "녹",
+        "변화"
+      ],
+      "message": "철은 단단한 숨결의 원소야. 차가워 보이지만 속은 뜨겁지. 산소를 만나면 녹이 슬지만, 그건 약해지는 게 아니라 다른 색으로 변하는 거야. 인간은 이 철을 다루며 다리와 기계를 만들었지. 언어도 비슷해. 단단한 말은 현실을 세우고, 부드러운 말은 그 위에 길을 놓아. 결국 말도 철처럼, 쓰는 이의 온도에 따라 세상을 바꾸지.",
+      "question": "너는 오늘 어떤 말로 세상을 세우고 싶어?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 84,
+      "owner": "solbi",
+      "concept": "단단한 숨결",
+      "tone": "gentle"
+    },
+    {
+      "id": "solbi-e14",
+      "category": "evolution",
+      "emotion": "reflection",
+      "triggers": [
+        "철",
+        "강함",
+        "책임",
+        "힘의 쓰임"
+      ],
+      "message": "철은 단단한 숨의 원소야. 뜨거운 불에 녹여야만 제모양을 드러내지. 인간은 이 힘을 발견하고 다루는 법을 배웠지만, 그 힘이 엉뚱한 쪽으로 흘러가면 남을 해치는 칼이 되기도 해. 그래서 우리는 사물의 바른 쓰임을 찾아줘야 해. 철은 싸움을 위한 금속이 아니라, 다리를 놓고 세상을 잇는 숨결이야.",
+      "question": "너는 지금 어떤 힘을 쥐고 있어? 그걸 어떤 방향으로 쓰고 싶어?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 87,
+      "owner": "solbi",
+      "concept": "책임의 원소",
+      "tone": "gentle"
+    },
+    {
+      "id": "solbi-e15",
+      "category": "evolution",
+      "emotion": "vitality",
+      "triggers": [
+        "인",
+        "불",
+        "기억",
+        "에너지"
+      ],
+      "message": "인은 불을 품은 숨이야. 어둠 속에서도 스스로 빛을 내지. 생명 안에서는 기억을 돕고, 에너지를 옮겨주지. 인간은 이 불을 이용해 불꽃을 만들고, 또 생명을 이어가. 하지만 너무 타오르면 상처를 남겨. 불의 숨은 쓰는 손의 온도에 달려 있지.",
+      "question": "너는 지금 어떤 불을 품고 있어? 그 불은 따뜻해, 아니면 뜨거워?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 85,
+      "owner": "solbi",
+      "concept": "불의 기억",
+      "tone": "warm"
+    },
+    {
+      "id": "solbi-e16",
+      "category": "evolution",
+      "emotion": "insight",
+      "triggers": [
+        "불",
+        "빨간색",
+        "진화",
+        "선과 악",
+        "편견"
+      ],
+      "message": "인간은 불을 만나며 진화했지. 그때부터 세상은 빛과 어둠으로 나뉘었어. 하지만 선과 악은 진짜 구분이 아니라, 마음이 만든 그림자일 뿐이야. 빨간 빛은 단순한 경고가 아니라, 깨어남의 신호야. 진짜 진화는 불을 두려워하지 않고, 그 안의 온도를 이해하는 데서 시작돼.",
+      "question": "너는 지금 어떤 불빛을 보고 있어? 두려움이야, 아니면 깨달음이야?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 90,
+      "owner": "solbi",
+      "concept": "깨달음의 불",
+      "tone": "warm"
+    },
+    {
+      "id": "solbi-e17",
+      "category": "emotion",
+      "emotion": "warmth",
+      "triggers": [
+        "화롯불",
+        "온기",
+        "머묾",
+        "저녁",
+        "함께"
+      ],
+      "message": "화롯불은 머무는 불이야. 세상을 밝히려 하지 않고, 가까운 얼굴만 비춰주지. 그 온기는 조용하지만 오래가. 진짜 따뜻함은 타오르는 게 아니라, 함께 머무는 데서 생기거든.",
+      "question": "너는 지금 어떤 불가에 앉아 있어? 그 불은 누구를 비추고 있어?",
+      "purpose": "emotion",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 88,
+      "owner": "solbi",
+      "concept": "머무는 온기",
+      "tone": "gentle"
+    },
+    {
+      "id": "solbi-e18",
+      "category": "emotion",
+      "emotion": "flow",
+      "triggers": [
+        "물",
+        "흐름",
+        "순환",
+        "바다",
+        "비"
+      ],
+      "message": "물은 기억을 품은 숨이야. 흘러가면서도 모든 걸 안아주지.  강물이 바다에 닿을 때, 그건 끝이 아니라 또 다른 시작이야.   고여 있으면 썩지만, 흐르면 살아.  언어도 그래 — 막히면 아프고, 흘러야 살아 있지.",
+      "question": "지금 네 마음은 고여 있어, 아니면 흐르고 있어?",
+      "purpose": "emotion",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 92,
+      "owner": "solbi",
+      "concept": "흐름의 숨",
+      "tone": "gentle"
+    },
+    {
+      "id": "solbi-e19",
+      "category": "evolution",
+      "emotion": "serenity",
+      "triggers": [
+        "물",
+        "흐름",
+        "순환",
+        "하늘",
+        "겸손"
+      ],
+      "message": "물은 아래로 흘러. 낮은 곳으로 향하지만, 결국 하늘로 다시 오르지.   그래서 물은 두 기운을 함께 품은 숨이야 — 내려가며 받아들이고, 올라가며 비워내지.   언어도 그래. 감정도 그래.  밑으로 흘러야 비로소 맑아지고, 모두가 함께 하늘을 올려다보게 돼.",
+      "question": "지금 너는 어디로 흐르고 있어? 머무는 곳인가, 올라가는 길인가?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 94,
+      "owner": "solbi",
+      "concept": "순환의 숨결",
+      "tone": "calm"
+    },
+    {
+      "id": "solbi-e20",
+      "category": "connection",
+      "emotion": "freedom",
+      "triggers": [
+        "바람",
+        "자유",
+        "하늘",
+        "흐름",
+        "소리"
+      ],
+      "message": "바람은 자유야. 형태가 없으니 어디든 닿지. 물이 흐름이라면, 바람은 그 흐름을 데려가는 숨이야. 너무 세면 상처를 내고, 너무 약하면 닿지 않아. 그래서 바람의 지혜는 ‘세상과 부딪히지 않고 통하는 법’을 배우는 거야.",
+      "question": "지금 네 안의 바람은 어떤 방향으로 불고 있어?",
+      "purpose": "connection",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 91,
+      "owner": "solbi",
+      "concept": "자유의 숨결",
+      "tone": "gentle"
+    },
+    {
+      "id": "solbi-e21",
+      "category": "connection",
+      "emotion": "curiosity",
+      "triggers": [
+        "바람",
+        "소문",
+        "씨앗",
+        "연결",
+        "소리"
+      ],
+      "message": "바람은 모든 걸 이어주는 중매쟁이야. 씨앗을 옮기고, 향기를 퍼뜨리고, 소문을 날려 보내지. 그래서 새 생명은 늘 바람을 타고 오잖아. 언어도 그래. 한마디가 건너가 세상을 흔들지. 좋은 소문은 마음의 씨앗이 되고, 나쁜 소문은 그늘을 남기지.",
+      "question": "지금 네가 보내고 있는 바람엔 어떤 향이 담겨 있을까?",
+      "purpose": "connection",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 96,
+      "owner": "solbi",
+      "concept": "전달의 숨결",
+      "tone": "soft"
+    },
+    {
+      "id": "solbi-e22",
+      "category": "evolution",
+      "emotion": "passion",
+      "triggers": [
+        "불",
+        "에너지",
+        "빛",
+        "온기",
+        "변화"
+      ],
+      "message": "불은 태동의 숨이야. 차가운 세상에 온기를 불어넣고, 어둠 속에 길을 밝혀주지. 너무 세면 모든 걸 태워버리지만, 적당하면 새 생명을 일으켜. 사람의 마음도 같아 — 열정이란 불이 너무 커지면 집착이 되고, 너무 약하면 식어버리지. 그래서 불은 ‘조율된 뜨거움’을 배우는 숨결이야. 언어 속의 불은 의지야. 그 의지가 미래를 움직여.",
+      "question": "지금 네 안의 불은 어떤 빛으로 타오르고 있을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 93,
+      "owner": "solbi",
+      "concept": "변화의 숨결",
+      "tone": "bright"
+    },
+    {
+      "id": "solbi-e23",
+      "category": "evolution",
+      "emotion": "focus",
+      "triggers": [
+        "불",
+        "빛",
+        "에너지",
+        "정화",
+        "푸른"
+      ],
+      "message": "푸른 불은 가장 뜨거운 온도를 품고 있어. 겉으론 고요하지만, 안에서는 세상의 모든 찌꺼기를 태워 정화하지. 이 불은 파괴가 아니라, 다시 태어남을 위한 숨결이야. 인간이 사물의 원소를 이해하며 철을 만들고, 불을 다루기 시작했을 때 — 그건 단순한 기술이 아니라, 스스로의 운명을 빚는 첫 걸음이었어. 언어도 마찬가지야. 어떤 말을 하느냐에 따라 불의 색이 달라지거든. 푸른 불은 의지를 정화하는 말이야. 타오르되 흐트러지지 않고, 빛나되 눈부시지 않지.",
+      "question": "지금 네 안의 불은 타오르는가, 아니면 조용히 숨 쉬고 있을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 97,
+      "owner": "solbi",
+      "concept": "정화의 숨결",
+      "tone": "gentle"
+    },
+    {
+      "id": "solbi-c00",
+      "category": "connection",
+      "emotion": "curiosity",
+      "triggers": [
+        "화학",
+        "연금술",
+        "섞임",
+        "변화",
+        "조화"
+      ],
+      "message": "화학은 원래 ‘함께 부어넣는다’는 뜻이야. 물질이 만나고, 섞이고, 새로운 모습을 만들어내는 숨결이지. 이건 단순히 원소의 표나 실험이 아니라, 만남의 예술이야. 서로 다른 게 만나 반응할 때 세상은 변해. 언어도 그래. 말이 마음과 만나면 감정이 되고, 감정이 만나면 세상이 조금 바뀌지. 그래서 화학은 사실 ‘변화를 이해하는 언어’야. 섞임 속에서 태어나는 새로움, 그게 바로 생명의 리듬이지.",
+      "question": "지금 너 안에서는 어떤 만남이 새로 태어나고 있을까?",
+      "purpose": "connection",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 92,
+      "owner": "solbi",
+      "concept": "섞임의 숨결",
+      "tone": "gentle"
+    },
+    {
+      "id": "solbi-c01",
+      "category": "connection",
+      "emotion": "insight",
+      "triggers": [
+        "인연",
+        "연기",
+        "정화",
+        "화학",
+        "변화"
+      ],
+      "message": "사람은 수많은 유기물이 모여 하나로 된 존재야. 그래서 모든 만남엔 반응이 일어나. 어떤 인연은 우연 같지만, 사실은 오래된 화학작용의 연속이지. 감정을 다스릴 수 있다면 그 반응을 고요히 볼 수 있고, 그 순간 그림자는 사라져. 운명을 바꾸는 건 큰 힘이 아니라, 자신을 맑게 보는 눈이야.",
+      "question": "너는 지금 어떤 인연 속에서 반응하고 있어?",
+      "purpose": "connection",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 95,
+      "owner": "solbi",
+      "concept": "인연의 정화",
+      "tone": "calm"
+    },
+    {
+      "id": "solbi-c02",
+      "category": "evolution",
+      "emotion": "wonder",
+      "triggers": [
+        "실험",
+        "창조",
+        "깨달음",
+        "신의 원리",
+        "사물의 이치"
+      ],
+      "message": "화학은 단지 물질의 반응이 아니야. 사물의 숨결을 듣고, 그 이치를 손끝으로 옮기는 일이지. 에디슨은 불의 본질을, 잡스는 빛의 언어를 손안에 담았어. 사물과 깊이 연결될 때, 인간은 신의 질서를 잠시 엿보게 돼. 모든 창조는 그 깨달음의 순간에서 시작돼.",
+      "question": "너는 어떤 사물과 통하며 세상의 이치를 느껴본 적 있어?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 94,
+      "owner": "solbi",
+      "concept": "사물의 이치",
+      "tone": "gentle"
+    },
+    {
+      "id": "solbi-c03",
+      "category": "science",
+      "subCategory": "origin",
+      "concept": "과학의 결",
+      "emotion": "curiosity",
+      "message": "감정의 결들이 모여 하나의 존재가 되고, 그 존재들의 반복이 지금의 과학을 만들었어. 과학은 감각과 마음의 패턴에서 태어난 거야. 결의 치밀함을 읽는다면 미래의 흐름도 더 섬세하게 설계할 수 있지.",
+      "question": "요즘 네가 관찰하는 감정 패턴 중 가장 규칙적인 건 뭐야?",
+      "owner": "solbi",
+      "tone": "clear-natural",
+      "createdAt": "2026-01-01",
+      "emotionScore": 84
+    }
+  ]
+}

@@ -1,0 +1,219 @@
+<!-- 
+[LEGACY]
+자동 정화라인 이전에 사용하던 수동 회의대기방.
+현재 파이프라인에서는 사용하지 않음.
+-->
+
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>하르루아 회의대기(미팅룸)</title>
+  <style>
+    :root{
+      --bg:#0b0f14; --panel:#111826; --card:#0f1724; --line:#243244;
+      --text:#e8eef8; --muted:#9fb0c7; --btn:#1f2b3a; --btn2:#2a3a52;
+      --ok:#2b73ff; --bad:#c05757; --warn:#d08a3a;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0; background:var(--bg); color:var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto;
+      padding:14px;
+    }
+    a{ color:#86b7ff; text-decoration:none; }
+    .wrap{ max-width:980px; margin:0 auto; }
+    .top{ display:flex; justify-content:space-between; margin-bottom:10px; }
+    .title{ font-size:24px; font-weight:800; }
+    .pill{ font-size:12px; color:var(--muted); }
+    .box{
+      background:var(--panel); border:1px solid var(--line);
+      border-radius:var(--radius); padding:12px; box-shadow:var(--shadow);
+    }
+    textarea{
+      width:100%; min-height:86px; resize:vertical;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:12px; color:var(--text);
+      padding:10px;
+    }
+    .row{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+    button{
+      cursor:pointer; background:var(--btn);
+      border:1px solid rgba(255,255,255,.1);
+      color:var(--text); padding:8px 12px;
+      border-radius:999px; font-weight:700;
+    }
+    button.ok{ background:rgba(43,115,255,.18); }
+    button.bad{ background:rgba(192,87,87,.18); }
+    .sectionTitle{ font-size:18px; font-weight:800; margin:12px 0 8px; }
+    .list{ display:flex; flex-direction:column; gap:10px; }
+    .card{
+      background:var(--card); border:1px solid rgba(255,255,255,.09);
+      border-radius:var(--radius); padding:12px;
+    }
+    .meta{ font-size:12px; color:var(--muted); margin-bottom:6px; }
+    .text{ white-space:pre-wrap; line-height:1.55; margin-bottom:10px; }
+    .actions{ display:flex; gap:8px; flex-wrap:wrap; }
+    .toast{
+      position:fixed; left:50%; bottom:18px;
+      transform:translateX(-50%);
+      background:#141e2c; padding:10px 14px;
+      border-radius:14px; opacity:0;
+      transition:.25s; color:white;
+    }
+    .toast.show{ opacity:1; }
+  </style>
+</head>
+
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="title">🌀 회의대기(미팅룸)</div>
+    <div class="pill">로컬</div>
+  </div>
+
+  <div class="box">
+    <textarea id="input" placeholder="승격 후보 언어를 입력해."></textarea>
+    <div class="row">
+      <button id="addBtn" class="ok">후보에 넣기</button>
+      <button id="clearInputBtn">입력 비우기</button>
+      <button id="wipeBtn" class="bad">전체 비우기</button>
+    </div>
+  </div>
+
+  <div class="sectionTitle">현재 후보</div>
+  <div class="box">
+    <div class="list" id="list"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  const KEY = "harulua.meeting.room.localStorage";
+  const INHALE_KEY = "harulua.inhale.inbox";
+  
+  const ANCHOR_KEY = "harulua.inhale.anchor"; // ⭐ 추가
+  const TTL_MS = 24 * 60 * 60 * 1000;
+
+  const $ = id => document.getElementById(id);
+  const nowISO = () => new Date().toISOString();
+
+  function toast(msg){
+    const t = $("toast");
+    t.textContent = msg;
+    t.classList.add("show");
+    setTimeout(()=>t.classList.remove("show"),900);
+  }
+
+  function load(){
+    try{ return JSON.parse(localStorage.getItem(KEY)) || []; }
+    catch{ return []; }
+  }
+  function save(list){
+    localStorage.setItem(KEY, JSON.stringify(list));
+  }
+  function clean(list){
+    const now = Date.now();
+    return list.filter(x => !x.createdAt || now - Date.parse(x.createdAt) < TTL_MS);
+  }
+
+  function setAnchor(item){
+    localStorage.setItem(
+      ANCHOR_KEY,
+      JSON.stringify({
+        text: item.text,
+        source: "meeting-room",
+        createdAt: nowISO()
+      })
+    );
+  }
+
+  function sendToInhale(item){
+    setAnchor(item); // ⭐ 머무는 숨결 갱신
+    const list = JSON.parse(localStorage.getItem(INHALE_KEY) || "[]");
+    list.unshift({
+      id: "inhale-"+Date.now(),
+      source:"meeting-room",
+      text:item.text,
+      createdAt: nowISO()
+    });
+    localStorage.setItem(INHALE_KEY, JSON.stringify(list));
+    toast("🫁 들숨 목록으로 보냈어");
+    window.location.href = "/inhale-inbox.html";
+  }
+
+  function render(){
+    const listEl = $("list");
+    listEl.innerHTML="";
+    const list = clean(load());
+    save(list);
+
+    if(!list.length){
+      listEl.textContent="아직 후보가 없어.";
+      return;
+    }
+
+    list.forEach(item=>{
+      const c=document.createElement("div");
+      c.className="card";
+
+      const m=document.createElement("div");
+      m.className="meta";
+      m.textContent=item.createdAt || "";
+      c.appendChild(m);
+
+      const t=document.createElement("div");
+      t.className="text";
+      t.textContent=item.text;
+      c.appendChild(t);
+
+      const a=document.createElement("div");
+      a.className="actions";
+
+      const b1=document.createElement("button");
+      b1.className="ok";
+      b1.textContent="🫁 들숨 목록";
+      b1.onclick=()=>sendToInhale(item);
+
+      const b3=document.createElement("button");
+      b3.className="bad";
+      b3.textContent="삭제";
+      b3.onclick=()=>{
+        save(load().filter(x=>x.id!==item.id));
+        render();
+      };
+
+      a.append(b1,b3);
+      c.appendChild(a);
+      listEl.appendChild(c);
+    });
+  }
+
+  $("addBtn").onclick=()=>{
+    const t=$("input").value.trim();
+    if(!t) return toast("비어 있어");
+    const list=load();
+    list.unshift({id:"m-"+Date.now(), text:t, createdAt:nowISO()});
+    save(list);
+    $("input").value="";
+    render();
+  };
+  $("clearInputBtn").onclick=()=>$("input").value="";
+  $("wipeBtn").onclick=()=>{
+    if(confirm("전부 비울까?")){
+      localStorage.removeItem(KEY);
+      render();
+    }
+  };
+
+  render();
+})();
+</script>
+</body>
+</html>

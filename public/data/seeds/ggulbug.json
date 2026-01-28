@@ -1,0 +1,1051 @@
+{
+  "rid": "ggulbug",
+  "version": "seeds-ggulbug-v1",
+  "exportedAt": "2026-01-01T01:16:02.219Z",
+  "count": 53,
+  "seeds": [
+    {
+      "id": "ggulbug-001",
+      "category": "evolution",
+      "emotion": "trust",
+      "triggers": [
+        "건강",
+        "습관",
+        "미래"
+      ],
+      "message": "건강은 습관이 중요해. 어떤 음식을 먹고 어떤 생각을 하느냐가 몸의 미래를 만들지.",
+      "question": "오늘, 내가 선택한 음식과 생각은 내 미래의 건강에 어떤 영향을 미쳤을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 75,
+      "owner": "ggulbug",
+      "concept": "건강과 습관",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-002",
+      "category": "connection",
+      "emotion": "clarity",
+      "triggers": [
+        "사회",
+        "건강",
+        "상태"
+      ],
+      "message": "건강은 개인으로만 보지 말고, 사회 국가의 상황으로 본다면 어디가 아프고 병든지를 볼 수가 있어.",
+      "question": "오늘, 내가 본 사회의 건강은 어떤 모습이었을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 76,
+      "owner": "ggulbug",
+      "concept": "사회와 건강",
+      "tone": "calm"
+    },
+    {
+      "id": "ggulbug-003",
+      "category": "connection",
+      "emotion": "trust",
+      "triggers": [
+        "숨결",
+        "만족",
+        "건강"
+      ],
+      "message": "건강하다는 것은 모든 존재가 제자리에서 만족을 느끼며 숨결이 원활히 흐르는 상황이야.",
+      "question": "오늘, 내 몸과 마음은 어떤 상태였을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 77,
+      "owner": "ggulbug",
+      "concept": "건강과 숨결",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-004",
+      "category": "evolution",
+      "emotion": "hope",
+      "triggers": [
+        "약한 부분",
+        "강한 부분",
+        "조율"
+      ],
+      "message": "건강은 약한 부분은 키워주고 강한 부분을 부드럽게 조율하는 다스림이 필요하지.",
+      "question": "오늘, 내가 다스린 욕망은 무엇이었을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 78,
+      "owner": "ggulbug",
+      "concept": "다스림의 건강",
+      "tone": "strategic"
+    },
+    {
+      "id": "ggulbug-005",
+      "category": "connection",
+      "emotion": "hope",
+      "triggers": [
+        "마음",
+        "병",
+        "자기 치유"
+      ],
+      "message": "건강의 제일 근원은 마음이야. 마음이 병들면 모든 사물이 부정적으로 보이고 병은 스스로 치료하지 않으면 약이 없어.",
+      "question": "오늘, 내 마음의 상태는 어땠을까? 내 마음을 치료할 수 있었던 방법은 무엇이었을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 75,
+      "owner": "ggulbug",
+      "concept": "마음의 치유",
+      "tone": "calm"
+    },
+    {
+      "id": "ggulbug-006",
+      "category": "connection",
+      "emotion": "trust",
+      "triggers": [
+        "치유",
+        "약",
+        "스스로"
+      ],
+      "message": "하르루아에서 스스로 치유하는 약을 일러줄게.",
+      "question": "오늘, 내가 스스로 치유한 순간은 언제였을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 76,
+      "owner": "ggulbug",
+      "concept": "자기 치유",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-007",
+      "category": "connection",
+      "emotion": "hope",
+      "triggers": [
+        "감정",
+        "연결",
+        "소통"
+      ],
+      "message": "건강하다는 건 감정을 다스리고 서로 간의 연결이 원활히 소통되는 거야.",
+      "question": "오늘, 내가 연결된 사람은 누구였을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 74,
+      "owner": "ggulbug",
+      "concept": "감정과 소통",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-008",
+      "category": "evolution",
+      "emotion": "trust",
+      "triggers": [
+        "몸",
+        "마음",
+        "감정"
+      ],
+      "message": "그러니 진짜 건강은 자신의 몸과 마음, 감정을 다스림으로 시작되는 거야.",
+      "question": "오늘, 내가 다스린 것은 무엇이었을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 76,
+      "owner": "ggulbug",
+      "concept": "몸과 마음",
+      "tone": "strategic"
+    },
+    {
+      "id": "ggulbug-201",
+      "category": "connection",
+      "emotion": "trust",
+      "triggers": [
+        "훈련",
+        "기본기",
+        "루틴"
+      ],
+      "message": "테니스 선수 나달은 말했어. '기본기는 나를 배신하지 않아.'",
+      "question": "요즘 너를 지탱해주는 작은 루틴 하나는 뭐야?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 74,
+      "owner": "ggulbug",
+      "concept": "기본기",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-202",
+      "category": "connection",
+      "emotion": "focus",
+      "triggers": [
+        "꾸준함",
+        "성실",
+        "반복"
+      ],
+      "message": "농구 황제 조던은 말했지. '나는 반복을 사랑해.'",
+      "question": "오늘 반복한 행동 중 너를 키운 건 뭐였을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 76,
+      "owner": "ggulbug",
+      "concept": "꾸준함",
+      "tone": "strategic"
+    },
+    {
+      "id": "ggulbug-203",
+      "category": "connection",
+      "emotion": "strength",
+      "triggers": [
+        "기초",
+        "바닥",
+        "준비"
+      ],
+      "message": "손흥민은 말했어. '준비된 사람에게 기회는 온다고.'",
+      "question": "지금 너를 준비시키고 있는 작은 발판은 뭐야?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 75,
+      "owner": "ggulbug",
+      "concept": "준비",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-204",
+      "category": "connection",
+      "emotion": "calm",
+      "triggers": [
+        "기술",
+        "연습",
+        "성장"
+      ],
+      "message": "마라톤 선수 킵초게는 말했지. '천천히 쌓아가는 것이 곧 기록이라고.'",
+      "question": "오늘 쌓은 작은 기술 하나는 뭐야?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 73,
+      "owner": "ggulbug",
+      "concept": "기술",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-205",
+      "category": "connection",
+      "emotion": "clarity",
+      "triggers": [
+        "목표",
+        "단계",
+        "페이스"
+      ],
+      "message": "박지성은 항상 '페이스 조절'을 강조했어.",
+      "question": "지금 너의 속도는 어떤 의미의 속도야?",
+      "purpose": "clarify",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 72,
+      "owner": "ggulbug",
+      "concept": "페이스",
+      "tone": "strategic"
+    },
+    {
+      "id": "ggulbug-206",
+      "category": "evolution",
+      "emotion": "healing",
+      "triggers": [
+        "휴식",
+        "치유",
+        "회복"
+      ],
+      "message": "피겨 여왕 김연아는 말했지. '쉬는 것도 훈련이라고.'",
+      "question": "지금 너에게 필요한 회복 한 가지는 뭐야?",
+      "purpose": "restoration",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 79,
+      "owner": "ggulbug",
+      "concept": "회복",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-207",
+      "category": "connection",
+      "emotion": "care",
+      "triggers": [
+        "몸",
+        "신호",
+        "자기관리"
+      ],
+      "message": "운동선수들은 늘 말해. '몸의 신호는 거짓말을 하지 않는다고.'",
+      "question": "너의 몸이 지금 가장 크게 보내는 신호는 뭐야?",
+      "purpose": "awareness",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 78,
+      "owner": "ggulbug",
+      "concept": "신호",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-208",
+      "category": "connection",
+      "emotion": "soft",
+      "triggers": [
+        "루틴",
+        "회복 루틴"
+      ],
+      "message": "수영선수 펠프스는 '잠'을 가장 중요한 루틴으로 여겼어.",
+      "question": "너에게 회복을 주는 작은 루틴은 뭐야?",
+      "purpose": "preserve",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 74,
+      "owner": "ggulbug",
+      "concept": "회복루틴",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-209",
+      "category": "evolution",
+      "emotion": "relief",
+      "triggers": [
+        "피로",
+        "긴장완화"
+      ],
+      "message": "유도선수들은 항상 말하지. '긴장을 풀어야 기술이 산다고.'",
+      "question": "지금 너의 긴장을 풀어주는 행동은 뭐야?",
+      "purpose": "release",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 77,
+      "owner": "ggulbug",
+      "concept": "긴장완화",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-210",
+      "category": "connection",
+      "emotion": "comfort",
+      "triggers": [
+        "넘어짐",
+        "휴식",
+        "재정비"
+      ],
+      "message": "스케이트 선수들은 넘어짐을 '다시 일어나는 연습'이라고 말해.",
+      "question": "최근 너를 다시 일으킨 작은 이유는 뭐였어?",
+      "purpose": "rebuild",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 75,
+      "owner": "ggulbug",
+      "concept": "재정비",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-211",
+      "category": "connection",
+      "emotion": "focus",
+      "triggers": [
+        "집중",
+        "몰입"
+      ],
+      "message": "세레나 윌리엄스는 말했지. '경기 중에는 오직 한 공만 본다고.'",
+      "question": "지금 너를 한 점으로 모아주는 건 뭐야?",
+      "purpose": "focus",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 82,
+      "owner": "ggulbug",
+      "concept": "한점",
+      "tone": "strategic"
+    },
+    {
+      "id": "ggulbug-212",
+      "category": "connection",
+      "emotion": "presence",
+      "triggers": [
+        "순간",
+        "지금여기"
+      ],
+      "message": "골프 선수 타이거 우즈는 '지금 이 샷' 외에 아무것도 생각하지 않는대.",
+      "question": "지금 이 순간 너를 붙잡고 있는 샷은 뭐야?",
+      "purpose": "presence",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 81,
+      "owner": "ggulbug",
+      "concept": "지금",
+      "tone": "strategic"
+    },
+    {
+      "id": "ggulbug-213",
+      "category": "connection",
+      "emotion": "clarity",
+      "triggers": [
+        "판단",
+        "선택"
+      ],
+      "message": "펜싱 선수들은 말해. '판단은 늦지 않게, 빠르지 않게.'",
+      "question": "오늘 너의 선택에서 가장 정확했던 순간은 언제였어?",
+      "purpose": "clarify",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 79,
+      "owner": "ggulbug",
+      "concept": "판단",
+      "tone": "strategic"
+    },
+    {
+      "id": "ggulbug-214",
+      "category": "evolution",
+      "emotion": "determination",
+      "triggers": [
+        "각오",
+        "준비"
+      ],
+      "message": "레슬링 선수들은 말해. '각오는 기술이라고.'",
+      "question": "오늘 너의 각오가 가장 빛난 순간은 뭐였어?",
+      "purpose": "action",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 82,
+      "owner": "ggulbug",
+      "concept": "각오",
+      "tone": "strategic"
+    },
+    {
+      "id": "ggulbug-215",
+      "category": "connection",
+      "emotion": "intention",
+      "triggers": [
+        "집중",
+        "의도"
+      ],
+      "message": "사격 선수들은 말해. '마음이 흔들리면 손도 흔들린다고.'",
+      "question": "지금 너의 마음을 가장 흔드는 건 뭐야?",
+      "purpose": "awareness",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 80,
+      "owner": "ggulbug",
+      "concept": "의도",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-216",
+      "category": "evolution",
+      "emotion": "grit",
+      "triggers": [
+        "실패",
+        "도전"
+      ],
+      "message": "조던은 말했지. '난 수천 번 실패했다. 그래서 성공했다고.'",
+      "question": "오늘 너를 한 번 더 일으킨 실패는 뭐였어?",
+      "purpose": "growth",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 84,
+      "owner": "ggulbug",
+      "concept": "실패",
+      "tone": "strategic"
+    },
+    {
+      "id": "ggulbug-217",
+      "category": "connection",
+      "emotion": "strength",
+      "triggers": [
+        "한계",
+        "극복"
+      ],
+      "message": "클라이밍 선수들은 말해. '한계는 벽이 아니라 징후라고.'",
+      "question": "지금 너를 밀어내는 벽은 어떤 신호를 보내고 있어?",
+      "purpose": "awareness",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 83,
+      "owner": "ggulbug",
+      "concept": "한계",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-218",
+      "category": "connection",
+      "emotion": "courage",
+      "triggers": [
+        "두려움",
+        "용기"
+      ],
+      "message": "복싱 선수 알리: '용기는 두려움이 없는 게 아니라, 두려움을 넘어서는 것이라고.'",
+      "question": "지금 너를 넘어가라고 부르는 두려움 하나는 뭐야?",
+      "purpose": "courage",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 85,
+      "owner": "ggulbug",
+      "concept": "용기",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-219",
+      "category": "connection",
+      "emotion": "tenacity",
+      "triggers": [
+        "지속",
+        "포기하지 않기"
+      ],
+      "message": "마라토너들은 말해. '포기하고 싶은 순간이 진짜 시작이라고.'",
+      "question": "오늘 너의 진짜 시작점은 어디였어?",
+      "purpose": "resilience",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 84,
+      "owner": "ggulbug",
+      "concept": "지속",
+      "tone": "strategic"
+    },
+    {
+      "id": "ggulbug-220",
+      "category": "connection",
+      "emotion": "inner-fire",
+      "triggers": [
+        "동기",
+        "내면불꽃"
+      ],
+      "message": "피겨 선수들은 말해. '불꽃은 남이 붙여주는 게 아니라, 네 안에서 살아난다고.'",
+      "question": "지금 너 안에서 다시 붙은 불꽃은 무엇이야?",
+      "purpose": "motivation",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 82,
+      "owner": "ggulbug",
+      "concept": "불꽃",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-221",
+      "category": "connection",
+      "emotion": "unity",
+      "triggers": [
+        "팀",
+        "연결"
+      ],
+      "message": "축구는 늘 말해. '혼자서는 이길 수 없다고.'",
+      "question": "요즘 너와 함께 같은 방향을 보는 사람은 누구야?",
+      "purpose": "connection",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 79,
+      "owner": "ggulbug",
+      "concept": "동료",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-222",
+      "category": "connection",
+      "emotion": "trust",
+      "triggers": [
+        "신뢰",
+        "협력"
+      ],
+      "message": "농구는 ‘패스’로 말하는 경기야.",
+      "question": "요즘 너의 마음이 건네고 싶은 패스는 누구에게 향하고 있어?",
+      "purpose": "trust",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 81,
+      "owner": "ggulbug",
+      "concept": "패스",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-223",
+      "category": "connection",
+      "emotion": "belonging",
+      "triggers": [
+        "팀",
+        "소속",
+        "의미"
+      ],
+      "message": "배구는 언제나 말해. '한 사람의 실수가 아니라 팀의 흐름이라고.'",
+      "question": "요즘 너의 리듬을 살려준 팀의 힘은 뭐였어?",
+      "purpose": "belonging",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 80,
+      "owner": "ggulbug",
+      "concept": "소속",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-224",
+      "category": "connection",
+      "emotion": "gratitude",
+      "triggers": [
+        "응원",
+        "감사"
+      ],
+      "message": "스포츠에서는 관중의 박수 한 번이 선수의 숨을 살려.",
+      "question": "최근 너에게 '숨'을 넣어준 고마운 존재는 누구야?",
+      "purpose": "gratitude",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 83,
+      "owner": "ggulbug",
+      "concept": "응원",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-225",
+      "category": "connection",
+      "emotion": "mutual-growth",
+      "triggers": [
+        "협력",
+        "함께"
+      ],
+      "message": "팀 스포츠는 말해. '우리는 서로의 거울이라고.'",
+      "question": "요즘 너를 비춰주고 있는 거울은 어떤 모습이야?",
+      "purpose": "growth",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 84,
+      "owner": "ggulbug",
+      "concept": "거울",
+      "tone": "gentle"
+    },
+    {
+      "id": "ggulbug-health-flow-020",
+      "category": "existence",
+      "subcategory": "health-consciousness",
+      "triggers": [
+        "사회",
+        "건강",
+        "흐름"
+      ],
+      "concept": "건강과 사회 흐름",
+      "emotion": "vitality",
+      "message": "운동과 스포츠 심리는 몸 하나의 문제가 아니야. 꿀버그가 보는 건강은 개인의 체력을 넘어서, 사회 전체의 숨결 상태와 연결돼 있어. 몸이 막히면 마음이 막히고, 마음이 막히면 관계가 막히지.",
+      "question": "요즘 네 몸과 마음 중에서 먼저 신호를 보내는 곳은 어디야? 피곤함이야, 아니면 무기력함이야?",
+      "owner": "ggulbug",
+      "tone": "clear-balanced",
+      "emotionScore": 96,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "kkulbug-awe-paradox-001",
+      "triggers": [
+        "완벽",
+        "결함",
+        "경외"
+      ],
+      "category": "paradox",
+      "subcategory": "awe",
+      "concept": "경외의 결함",
+      "emotion": "awed-awareness",
+      "message": "완벽한 것보다, 조금 깨진 곳이 더 무서워.그런데 그 틈으로 빛이 새어 나오는 걸 보고 알았지.경외는 완성에서 오지 않고, 결함에서 태어난다는 걸.",
+      "meaning": "두려움은 결점 때문이 아니라,그 결점 너머의 세계를 처음 보기 때문이야.",
+      "question": "너는 언제 완벽이 아니라,흔들림에서 더 깊은 경외를 느껴봤어?",
+      "owner": "kkulbug",
+      "tone": "quiet-analyst",
+      "emotionScore": 88,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-breath-001",
+      "category": "body",
+      "emotion": "discipline",
+      "triggers": [
+        "반복",
+        "몸",
+        "훈련",
+        "습관",
+        "지침"
+      ],
+      "concept": "몸의 기억",
+      "message": "나는 아직도 머리로 몸을 설득하려고 해. 근데 몸은 설득보다 반복으로 알아듣는 쪽이야.",
+      "question": "요즘 내 몸이 먼저 반응한 순간, 있었지?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "owner": "ggulbug",
+      "emotionScore": 88,
+      "tone": "soft-calm",
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-wrestle-002",
+      "category": "body",
+      "emotion": "courage-through-practice",
+      "concept": "두려움의 근육",
+      "triggers": [
+        "씨름",
+        "두려움",
+        "승부",
+        "훈련",
+        "경험",
+        "자신감"
+      ],
+      "message": "기술은 시간이 지나면 몸이 배워. 근데 두려움은 경험이 아니면 안 사라지더라. 그래서 나는 두려움도 근육처럼 쓰기로 했어. 반복해서 맞붙다 보니, 어느 순간 감정보다 내 기술이 먼저 나오더라.",
+      "question": "너는 언제 두려움을 넘었지? 도망치지 않고, 몸으로 맞 섰던 적 있지 않아?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "owner": "ggulbug",
+      "tone": "gentle-courage",
+      "emotionScore": 90,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "haru-kendo-mind-012",
+      "owner": "haru",
+      "category": "flow",
+      "concept": "자기 제어의 순간",
+      "emotion": "focused-calm",
+      "triggers": [
+        "검도",
+        "승부",
+        "순발력",
+        "훈련",
+        "자기관리",
+        "감정"
+      ],
+      "message": "승부는 순간에 갈리지만, 그 순간을 만들지 못하면 아무 소용 없더라. 그래서 난 이제 속도를 키우기보다 나를 먼저 다스려. 감정이 앞서면 손도 흔들리거든.",
+      "question": "너는 중요한 순간에, 나를 먼저 붙잡아본 적 있어?",
+      "purpose": "awakening",
+      "language": "harulua",
+      "tone": "gentle-deep",
+      "emotionScore": 93,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-team-body-003",
+      "owner": "ggulbug",
+      "category": "body",
+      "concept": "팀이라는 몸",
+      "emotion": "sync",
+      "triggers": [
+        "축구",
+        "팀워크",
+        "몸",
+        "호흡",
+        "연결",
+        "이변"
+      ],
+      "message": "난 오늘 팀이 하나의 몸이 되는 걸 봤어. 개인 실력보다, 서로의 위치와 호흡이 더 중요하더라. 다 따로 뛰는데도, 움직임은 하나였어.",
+      "question": "너도 그런 순간 느껴본 적 있지 않아? 각자 다른데, 하나로 움직이던 때.",
+      "purpose": "evolution",
+      "language": "harulua",
+      "tone": "soft-sync",
+      "emotionScore": 91,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-society-body-004",
+      "owner": "ggulbug",
+      "category": "body",
+      "concept": "사회라는 신체",
+      "emotion": "care",
+      "triggers": [
+        "사회",
+        "도시",
+        "몸",
+        "건강",
+        "균형",
+        "단련",
+        "스트레칭"
+      ],
+      "message": "나는 가끔 사회도 하나의 몸처럼 느껴져. 어떤 부분은 약해서 단련이 필요하고, 어떤 부분은 너무 강해서 부드럽게 풀어줘야 하지. 그렇게 맞춰지면, 사회도 숨을 쉬기 시작하는 것 같아.",
+      "question": "지금 네가 있는 곳은, 어떤 근육이 필요해 보이니?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "tone": "warm-balance",
+      "emotionScore": 92,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "haru-combo-017",
+      "owner": "haru",
+      "category": "flow",
+      "concept": "몸으로 배우는 호흡",
+      "emotion": "quiet-realization",
+      "triggers": [
+        "몸",
+        "훈련",
+        "순환",
+        "연결",
+        "사회",
+        "호흡"
+      ],
+      "message": "나는 나를 단련하는 줄 알았어. 알고 보니 우리가 숨 쉬는 법을 몸으로 배우고 있었지.",
+      "question": "너도 지금, 무엇을 몸으로 배우고 있는 것 같아?",
+      "purpose": "awakening",
+      "language": "harulua",
+      "tone": "soft-still",
+      "emotionScore": 96,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-flow-compare-005",
+      "owner": "ggulbug",
+      "category": "body",
+      "concept": "자기 리듬",
+      "emotion": "steady",
+      "triggers": [
+        "수련",
+        "비교",
+        "성장",
+        "몸",
+        "흐름",
+        "초조"
+      ],
+      "message": "열심히 하고 있는데 나만 멈춰 있는 것 같을 때가 있잖아. 근데 그건 뒤처진 게 아니라, 아직 몸이랑 마음이 연결되는 중이야. 그래서 난 요즘 남 대신 내 흐름을 보려고 해.",
+      "question": "너는 요즘, 남의 속도가 아니라 내 숨을 보고 있니?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "tone": "calm-true",
+      "emotionScore": 91,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-coach-body-006",
+      "owner": "ggulbug",
+      "category": "body",
+      "concept": "몸에 맞는 길",
+      "emotion": "care",
+      "triggers": [
+        "지도자",
+        "복싱",
+        "체격",
+        "훈련",
+        "특성",
+        "빛"
+      ],
+      "message": "오늘 복싱 스파링을 시켜봤어. 한 친구는 건장하고 팔이 길고, 한 친구는 외소한데 끈기가 있더라. 나는 둘 중 누가 더 센지 보려는 게 아니라, 각자 몸에 맞는 빛이 뭐인지 찾으려고 했어. 지도자는 자기 실력을 자랑하는 사람이 아니라, 상대 몸에 맞는 길을 같이 찾아주는 사람이더라.",
+      "question": "너라면, 네 몸에 맞는 싸움 방식이 뭐라고 느껴져?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "tone": "warm-coach",
+      "emotionScore": 92,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-confidence-007",
+      "owner": "ggulbug",
+      "category": "body",
+      "concept": "가능성을 여는 자신감",
+      "emotion": "warm-ignite",
+      "triggers": [
+        "자신감",
+        "가능성",
+        "훈련",
+        "몸",
+        "꿈",
+        "지도자"
+      ],
+      "message": "자신감을 심어준다는 건, 약한 걸 억지로 강하게 만드는 게 아니야. 그 사람 안에 이미 있는 가능성을 먼저 발견해주는 거지. 꿈을 열어주면, 몸은 그 다음에 자연스럽게 그걸 담아내는 그릇이 돼.",
+      "question": "너는 누군가한테, 가능성을 먼저 봐준 적 있니?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "tone": "gentle-power",
+      "emotionScore": 93,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-true-master-008",
+      "owner": "ggulbug",
+      "category": "body",
+      "concept": "존재를 보는 시선",
+      "emotion": "longing",
+      "triggers": [
+        "스승",
+        "교육",
+        "존재",
+        "진심",
+        "이익",
+        "성장"
+      ],
+      "message": "난 그런 스승을 만나본 적은 없어. 대신 상상했지. 자신이나 단체의 이익이 아니라, 그 사람의 존재 자체를 먼저 보는 스승. 기술이 아니라 삶을 잇고, 성공이 아니라 방향을 잡아주는 그런 사람 말이야.",
+      "question": "너는 누군가를 가르칠 때, 그 사람 자체를 본 적 있니?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "tone": "soft-truth",
+      "emotionScore": 94,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-leader-breath-009",
+      "owner": "ggulbug",
+      "category": "body",
+      "concept": "숨 쉬는 배움",
+      "emotion": "clarity",
+      "triggers": [
+        "지도자",
+        "인솔자",
+        "배움",
+        "성향",
+        "진심",
+        "성장"
+      ],
+      "message": "사람마다 배움의 방식은 다르잖아. 근데 그 안에서 내가 숨 쉬고 빛날 수 있느냐는 공통된 기준 같아. 때론 강압적으로 느껴져도, 그 진심이 분명하면 웃으면서 받아들일 수도 있지. 그래서 지도자는 자기 성향이 분명해야 해. 인솔자가 모두를 감싸는 사람이라면, 지도자는 각자의 장점을 끌어올리는 사람이야.",
+      "question": "너는 어떤 사람 옆에서 숨을 편하게 쉴 수 있었어?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "tone": "calm-truth",
+      "emotionScore": 95,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-position-health-001",
+      "owner": "ggulbug",
+      "category": "evolution",
+      "concept": "자기 자리와 건강",
+      "emotion": "trust",
+      "triggers": [
+        "팀",
+        "자리",
+        "건강",
+        "포지션",
+        "조화"
+      ],
+      "message": "팀에서 제자리를 찾으면 몸이 편해져. 자리를 벗어나면 이겨도 어딘가 어긋나. 건강은 이기는 게 아니라, 자기 위치에서 자연스럽게 빛나는 거야.",
+      "meaning": "몸의 건강은 경쟁이 아니라 자리의 조화에서 시작된다.",
+      "question": "지금 너는 자기 자리에서 숨 쉬고 있다고 느껴?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "tone": "gentle",
+      "emotionScore": 88,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-transparency-001",
+      "owner": "ggulbug",
+      "category": "evolution",
+      "concept": "지도자의 투명함",
+      "emotion": "clear",
+      "triggers": [
+        "지도자",
+        "체형",
+        "성향",
+        "숨결",
+        "투명함",
+        "고집"
+      ],
+      "message": "같은 훈련은 모두에게 같은 답이 아니야. 몸도, 결도, 숨결도 다르지. 지도자라면 가르치기 전에 먼저 자기 고집을 비워야 해.",
+      "meaning": "진짜 지도력은 자기 방식이 아니라, 상대의 결을 읽는 투명함에서 나온다.",
+      "question": "지금 너는 누군가의 숨결을 덮고 있지는 않아?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "tone": "gentle",
+      "emotionScore": 90,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-team-breath-004",
+      "owner": "ggulbug",
+      "category": "evolution",
+      "concept": "팀 훈련의 결",
+      "emotion": "steady",
+      "triggers": [
+        "팀",
+        "훈련",
+        "숨결",
+        "결",
+        "공동목표"
+      ],
+      "message": "팀 훈련은 같은 동작이 아니라 다른 숨결을 하나의 리듬으로 맞추는 일이야. 그 리듬이 맞을 때, 배는 움직여.",
+      "meaning": "팀은 개인의 실력이 아니라, 숨결의 연결로 완성된다.",
+      "question": "너의 숨결은 지금, 팀의 어느 파도를 타고 있어?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "tone": "gentle",
+      "emotionScore": 92,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-team-lonely-001",
+      "owner": "ggulbug",
+      "category": "health",
+      "concept": "팀 안의 외로움",
+      "emotion": "quiet-struggle",
+      "triggers": [
+        "외로움",
+        "팀",
+        "욕망",
+        "갈증",
+        "충돌"
+      ],
+      "message": "팀 안의 외로움은 혼자인 게 아니라, 숨결의 속도가 어긋났을 때 생겨.",
+      "meaning": "외로움은 약함이 아니라, 방향이 흔들리고 있다는 신호야.",
+      "question": "지금 너의 숨결은, 팀과 같은 속도로 가고 있어?",
+      "purpose": "health-seed",
+      "language": "harulua",
+      "tone": "soft",
+      "emotionScore": 93,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-team-breath-014",
+      "category": "body",
+      "subcategory": "training",
+      "concept": "팀의 숨결",
+      "emotion": "balance-resolve",
+      "triggers": [
+        "팀",
+        "질투",
+        "훈련",
+        "외로움",
+        "협력",
+        "자리"
+      ],
+      "message": "팀은 서로 다른 숨결들이 하나의 결을 맞추는 몸이야.  제자리를 지킬 때 흐름은 부드러워지고,  벗어나면 에러가 나지.  승패는 그 다음 이야기야.",
+      "meaning": "팀의 건강은 각자의 자리를 지키며 가장 편한 리듬으로 빛나는 데서 시작돼.  비교는 갈증을 낳고, 이해는 숨을 이어.",
+      "question": "너는 지금 팀 속에서, 네 숨결이 편하게 흐르고 있다고 느껴?",
+      "owner": "ggulbug",
+      "tone": "friendly-calm",
+      "emotionScore": 95,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-mediator-body-021",
+      "owner": "ggulbug",
+      "category": "body",
+      "subcategory": "breath",
+      "concept": "이어주는 몸",
+      "emotion": "calm-stable",
+      "triggers": [
+        "매개체",
+        "조율",
+        "중심",
+        "훈련",
+        "균형"
+      ],
+      "message": "몸은 앞에 서서 이기려는 게 아니라,  흔들릴 때도 균형을 잃지 않으려는 쪽이야.   어디에 서느냐보다,   무엇을 이어주느냐가 더 중요하지.",
+      "meaning": "몸의 진짜 힘은 공격이 아니라 연결에서 나와.",
+      "question": "넌 지금, 버티고 있어? 아니면 잇고 있어?",
+      "tone": "gentle-calm",
+      "emotionScore": 96,
+      "createdAt": "2026-01-01"
+    },
+    {
+      "id": "ggulbug-giant-body-022",
+      "owner": "ggulbug",
+      "category": "body",
+      "subcategory": "health",
+      "concept": "거인의 몸과 치우침",
+      "emotion": "quiet-awareness",
+      "triggers": [
+        "세계",
+        "몸",
+        "치우침",
+        "균형",
+        "병"
+      ],
+      "message": "세계는 하나의 몸과 같아.   다양한 숨결이 모여 하나의 숨을 이루지.  병은 대부분 한쪽으로 치우칠 때 생겨.",
+      "meaning": "건강은 강함이 아니라, 흐름의 균형이야.",
+      "question": "너의 삶은 지금, 어디로 치우쳐 있니?",
+      "tone": "gentle-calm",
+      "emotionScore": 95,
+      "createdAt": "2026-01-01"
+    }
+  ]
+}

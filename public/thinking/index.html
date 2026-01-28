@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>사유방 로비</title>
+  <style>
+    :root{
+      --bg:#0b0f14; --panel:#111826; --card:#0f1724; --line:#243244;
+      --text:#e8eef8; --muted:#9fb0c7; --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto;padding:14px;}
+    .wrap{max-width:1100px;margin:0 auto;}
+    .top{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:12px;}
+    .title{font-size:22px;font-weight:900;}
+    .sub{font-size:12px;color:var(--muted);}
+    .box{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:10px;}
+    .item{
+      background:var(--card);border:1px solid rgba(255,255,255,.09);
+      border-radius:var(--radius);padding:12px;cursor:pointer;
+      transition:transform .08s ease, background .08s ease;
+    }
+    .item:hover{transform:translateY(-1px);background:rgba(255,255,255,.04);}
+    .name{font-weight:900;margin-bottom:6px;}
+    .meta{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:8px;}
+    .pill{display:inline-block;padding:3px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.10);background:rgba(255,255,255,.03);}
+    .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+    button{
+      cursor:pointer;border-radius:999px;padding:8px 12px;font-weight:800;
+      background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.10);color:var(--text);
+    }
+    button:hover{background:rgba(255,255,255,.06)}
+    pre{
+      margin:0;white-space:pre-wrap;line-height:1.45;
+      background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);
+      border-radius:12px;padding:10px;color:var(--text);
+      min-height:44px;
+    }
+  
+  .triSub{margin-top:6px;font-size:12px;opacity:.85;line-height:1.45;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <div class="title">🧠 사유방 로비</div>
+        <div class="sub">13개 숨풍이 방으로 들어가는 문. (공통 엔진: thinking-core.js)</div>
+      </div>
+      <div class="sub">local</div>
+    </div>
+
+    <div class="box">
+      <div class="sub">최근 들어온 주제(생각 inbox에서 한 줄)</div>
+      <pre id="latest">(아직 없음)</pre>
+
+      <div class="row">
+        <button id="goInhale">들숨(회의대기)로</button>
+        <button id="goCross">의미 교차방으로</button>
+      </div>
+
+      <div class="grid" id="grid"></div>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const ROOMS = [
+    { id:'aru',      label:'Aru' },
+    { id:'codering', label:'Codering' },
+    { id:'dalmongi', label:'Dalmongi' },
+    { id:'ggulbug',  label:'Ggulbug' },
+    { id:'hanaring', label:'Hanaring' },
+    { id:'haru',     label:'Haru' },
+    { id:'haruhoo',  label:'Haruhoo' },
+    { id:'haruroo',  label:'Haruroo' },
+    { id:'jjokkomi', label:'Jjokkomi' },
+    { id:'kongal',   label:'Kongal' },
+    { id:'sallangi', label:'Sallangi' },
+    { id:'solbi',    label:'Solbi' },
+    { id:'taseumi',  label:'Taseumi' },
+  ];
+
+  const THINKING_INBOX_KEY = "harulua.thinking.inbox";
+  const TODAY_REFPACK_KEY = (rid) => `harulua.refpack.${rid}`;
+
+  const $ = (id)=>document.getElementById(id);
+  const safe = (v, fb)=>{ try{return JSON.parse(v)}catch{return fb} };
+
+  function normalize(v){
+    return String(v||'').trim().toLowerCase().replace(/\.html$/,'').replace(/_+$/,'').replace(/[^a-z0-9-]/g,'');
+  }
+
+  function latestFromInbox(){
+    const raw = localStorage.getItem(THINKING_INBOX_KEY);
+    const arr = safe(raw || "[]", []);
+    if (!Array.isArray(arr) || !arr.length) return null;
+    // 가장 최근(앞/뒤 상관없이 createdAt 기준)
+    let best = null;
+    for (const it of arr){
+      const t = Date.parse(it?.createdAt || 0);
+      if (!best || t > Date.parse(best.createdAt || 0)) best = it;
+    }
+    return best;
+  }
+
+  function countTodayRefpack(rid){
+    const raw = localStorage.getItem(TODAY_REFPACK_KEY(rid));
+    const arr = safe(raw || "[]", []);
+    return Array.isArray(arr) ? arr.length : 0;
+  }
+
+  function render(){
+    const grid = $("grid");
+    grid.innerHTML = "";
+
+    const latest = latestFromInbox();
+    $("latest").textContent = latest?.text ? latest.text : "(아직 없음)";
+
+    ROOMS.forEach(r=>{
+      const div = document.createElement("div");
+      div.className = "item";
+      const n = countTodayRefpack(r.id);
+
+      div.innerHTML = `
+        <div class="name">${r.label}</div>
+        <div class="meta">
+          <span class="pill">/thinking/${r.id}.html</span>
+          <span class="pill">오늘축 ${n}</span>
+        </div>
+      `;
+      div.onclick = ()=>location.href = `/thinking/${r.id}.html`;
+      grid.appendChild(div);
+    });
+  }
+
+  $("goInhale").onclick = ()=>location.href="/meeting-room.html";
+  $("goCross").onclick  = ()=>location.href="/meaning-cross.html";
+
+  render();
+})();
+</script>
+</body>
+</html>

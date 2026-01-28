@@ -1,0 +1,18 @@
+{
+  "version": "hacoin-bank-v1",
+  "treasury": {
+    "balance": 0,
+    "lastUpdatedAt": "2026-01-13T10:00:00.000Z"
+  },
+  "policy": {
+    "mintPerPromote": 100,
+    "splitDefault": { "bank":10, "room":30, "user":30, "haru":20, "luha":10 },
+    "splitHaruRoom": { "bank":10, "haru":50, "user":30, "luha":10 },
+    "settle": { "days":100, "payNow":50, "payAfter10":30, "rollover":20, "expireAfter10ToBank":true }
+  },
+  "cycle": {
+    "currentId": "cycle_0001",
+    "startedAt": "2026-01-13T00:00:00.000Z",
+    "endsAt": "2026-04-23T00:00:00.000Z"
+  }
+}

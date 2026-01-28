@@ -1,0 +1,27 @@
+{
+  "version": "hacoin-ledger-v1",
+  "events": [
+    {
+      "id": "evt_promote_001",
+      "at": "2026-01-13T09:10:00.000Z",
+      "type": "promote",
+      "delta": 1,
+      "reason": "PROMOTE_3X",
+      "userId": "local-user",
+      "messageId": "msg_101",
+      "inhaleId": "inhale_101",
+      "summary": "자기 관점이 드러난 언어가 3회 반복되어 승격됨"
+    },
+    {
+      "id": "evt_penalty_001",
+      "at": "2026-01-13T09:15:30.000Z",
+      "type": "penalty",
+      "delta": -1,
+      "reason": "BLOCK_OTHER",
+      "userId": "local-user",
+      "messageId": "msg_102",
+      "inhaleId": "inhale_102",
+      "summary": "상대를 막는 단정적 언어 반복 사용"
+    }
+  ]
+}

@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>외부지식 들숨(조합실)</title>
+  <style>
+    :root{
+      --bg:#0b1020; --card:rgba(255,255,255,0.06); --line:rgba(255,255,255,0.10);
+      --text:rgba(255,255,255,0.92); --muted:rgba(255,255,255,0.68);
+      --primary:#4aa3ff; --danger:#ff5b5b;
+      --shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+    body{
+      margin:0;
+      background:
+        radial-gradient(1200px 600px at 20% 0%, rgba(74,163,255,.12), transparent 60%),
+        radial-gradient(1000px 500px at 80% 10%, rgba(46,204,113,.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Noto Sans KR,sans-serif;
+    }
+    .wrap{max-width:900px;margin:0 auto;padding:18px 14px 60px}
+    a{color:var(--primary);text-decoration:none}
+    .title{font-size:22px;font-weight:800;margin:10px 0 6px}
+    .sub{color:var(--muted);line-height:1.6;margin:0 0 14px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+    .meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--muted)}
+    .pill{padding:2px 8px;border:1px solid rgba(231,236,255,0.18);border-radius:999px}
+    input,textarea,select{
+      width:100%; border-radius:12px; border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.04); color:var(--text); padding:10px 12px; outline:none;
+    }
+    textarea{min-height:150px;resize:vertical;line-height:1.6;white-space:pre-wrap}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    button{
+      border-radius:999px; padding:10px 14px; border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.06); color:var(--text); cursor:pointer;
+    }
+    button.primary{background:rgba(74,163,255,.18); border-color:rgba(74,163,255,.35)}
+    button.danger{background:rgba(255,91,91,.12); border-color:rgba(255,91,91,.25)}
+    .toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+      background:rgba(20,26,48,.92);border:1px solid var(--line);
+      padding:10px 14px;border-radius:999px;opacity:0;transition:opacity .18s ease;
+      max-width:min(680px,92vw);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .toast.on{opacity:1}
+    code{color:#cfe0ff}
+    .anchorTitle{font-size:12px;color:var(--muted);margin-bottom:6px}
+    .anchorText{white-space:pre-wrap;line-height:1.6}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div><a href="/index.html">← 허브로</a></div>
+    <div class="title">🫁 외부지식 들숨 (조합실)</div>
+    <p class="sub">
+      여기는 <b>조합실</b>이야. <b>승격의 언어(머무는 숨결)</b> + <b>외부지식</b>만 부드럽게 섞어.
+      (저장/목록 기능은 꺼져 있어)
+    </p>
+
+    <!-- 머무는 숨결(회의대기에서 온 1문장) -->
+    <div id="anchorCard" class="card" style="margin-bottom:12px; display:none;">
+      <div class="anchorTitle">머무는 숨결 (회의대기에서 온 승격 언어 1개)</div>
+      <div class="meta" style="margin-bottom:8px;">
+        <span class="pill" id="anchorWhen">-</span>
+        <span class="pill" id="anchorFrom">meeting-room</span>
+      </div>
+      <div id="anchorText" class="anchorText"></div>
+      <div class="sub" style="margin-top:10px;">
+        자동으로 키워드를 뽑고, 들숨(검색)을 1회 실행해.
+        키워드를 바꾸고 <b>Enter</b> 치면 다시 들숨해.
+      </div>
+    </div>
+
+    <!-- 조합 카드 -->
+    <div class="card">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px;">
+        들숨(검색) 결과는 아래 <code>외부지식(text)</code>에 채워지고,
+        <b>의미 교차로</b>를 누르면 교차방으로 흐른다.
+      </div>
+
+      <div class="row">
+        <select id="source" style="max-width:220px;">
+          <option value="dictionary">📘 국어사전</option>
+          <option value="wiki">🌐 위키</option>
+          <option value="paper">📄 논문/기사</option>
+          <option value="etc">✨ 기타</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <input id="q" placeholder="자동 들숨 키워드 (예: 진심)" />
+        <textarea id="text" placeholder="외부지식(요약/발췌)이 여기에 모여."></textarea>
+      </div>
+
+      <!-- ✅ 버튼은 2개만 -->
+      <div class="row">
+        <button id="sendToCross" class="primary">의미 교차로</button>
+        <button id="clear" class="danger">지우기</button>
+      </div>
+
+      <div class="sub" style="margin-top:10px;">
+        머무는 숨결 키: <code>harulua.inhale.anchor</code><br/>
+        교차 이동 키: <code>harulua.cross.inbox</code> + <code>harulua.cross.inhale.bundle</code>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+<script>
+(function(){
+  const ANCHOR_KEY = "harulua.inhale.anchor";
+  const CROSS_INBOX_KEY = "harulua.cross.inbox";
+  const CROSS_BUNDLE_KEY = "harulua.cross.inhale.bundle";
+const AUTO_MODE = new URLSearchParams(location.search).get("auto") === "1";
+const AUTO_PUSH_CROSS = new URLSearchParams(location.search).get("pushCross") === "1";
+const AUTO_ON_NEW_PROMOTE = true; // ✅ 새 promote가 오면 자동 들숨/자동 교차로까지
+
+  const $ = (id) => document.getElementById(id);
+let CURRENT_ANCHOR = null;
+
+  function cleanDictionaryText(text){
+  return String(text || "")
+    // 1. 사전 메타 기호 제거
+    .replace(/\[\[|\]\]/g, "")
+
+    // 2. 의미 구분용 슬래시 → 쉼표로
+    .replace(/\s*\/\s*/g, ",")
+
+    // 3. 남아있을 수 있는 특수기호 정리
+    .replace(/[※•·◆▶▷■□▲▼★☆]/g, "")
+
+    // 4. 중복 문장부호 정리
+    .replace(/[,]{2,}/g, ",")
+    .replace(/[.]{2,}/g, ".")
+
+    // 5. 공백 정리
+    .replace(/\s+/g, " ")
+    .replace(/\s([,.])/g, "$1")
+
+    .trim();
+}
+
+
+  function safeJsonParse(raw, fallback){
+    try { return JSON.parse(raw); } catch { return fallback; }
+  }
+
+  function toast(msg){
+    const el = $("toast");
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add("on");
+    setTimeout(()=> el.classList.remove("on"), 1200);
+  }
+
+async function loadTodayPromoteFromServer(){
+  try {
+    const res = await fetch("/api/breath-log.json");
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    if (!data?.items?.length) return null;
+
+ const promotes = data.items
+  .filter(it => String(it.messageId || it.id || "").includes("-promote"))
+  .filter(it => !it.consumedAt) // ✅ 추가: 소비된 건 제외
+  .sort((a,b) => Date.parse(b.receivedAt || b.at || 0) - Date.parse(a.receivedAt || a.at || 0));
+
+const promote = promotes[0];
+if (!promote) return null;
+
+return {
+  promoteKey: String(promote.messageId || promote.id || ""),
+  text: promote.text,
+  createdAt: new Date(promote.receivedAt || Date.now()).toISOString(),
+  source: "app-promote",
+};
+
+  } catch {
+    return null;
+  }
+}
+
+  function nowIso(){ return new Date().toISOString(); }
+
+  function timeAgo(iso){
+    const ms = Date.now() - new Date(iso).getTime();
+    const m = Math.floor(ms / 60000);
+    if (m < 1) return "방금";
+    if (m < 60) return `${m}분 전`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h}시간 전`;
+    const d = Math.floor(h / 24);
+    return `${d}일 전`;
+  }
+
+  // ---- 조사 제거(키워드 정규화) ----
+  function normalizeKoreanKeyword(word){
+    let w = String(word || "").trim();
+    const suffixes = [
+      "에서","에게","께서","으로","로서","로써","까지","부터","라도","마저",
+      "만","도","에","의","로","과","란","이란","와","을","를","은","는","라는","이라는","이","가"
+    ];
+    for (let k=0; k<3; k++){
+      for (const s of suffixes){
+        if (w.length >= 3 && w.endsWith(s)){
+          w = w.slice(0, -s.length).trim();
+          break;
+        }
+      }
+    }
+    return w;
+  }
+
+  function extractKeywords(text){
+    const t = String(text || "")
+      .replace(/[^\p{L}\p{N}\s]/gu, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    if (!t) return [];
+
+    const stop = new Set(["그리고","그러나","그래서","하지만","또는","그런데","나는","너는","우리는","그","이","저","것","수","때","좀","더","의","가","이","을","를","은","는","에","와","과","도","로","에서","에게","한","하다"]);
+    const parts = t.split(" ").filter(w => w.length >= 2 && !stop.has(w));
+
+    const map = new Map();
+    for (const w of parts) map.set(w, (map.get(w) || 0) + 1);
+    const top = [...map.entries()].sort((a,b)=>b[1]-a[1]).slice(0,2).map(x=>x[0]);
+
+    const out = (top.length ? top : parts.slice(0,1)).map(normalizeKoreanKeyword);
+    return out.filter(Boolean);
+  }
+
+// ---- 첫 머리말 단어(첫 단어) 뽑기 ----
+function extractHeadword(text){
+  const raw = String(text || "").trim();
+  if (!raw) return "";
+
+  // 문장 맨 앞의 특수문자/이모지/따옴표 같은 거 제거
+  const cleaned = raw
+    .replace(/^[^\p{L}\p{N}]+/gu, "")     // 앞쪽 기호 제거
+    .replace(/[^\p{L}\p{N}\s]/gu, " ")    // 중간 기호는 공백화
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (!cleaned) return "";
+
+  const stop = new Set([
+    "그리고","그러나","그래서","하지만","또는","그런데",
+    "나는","너는","우리는","그","이","저","것","수","때","좀","더"
+  ]);
+
+  const parts = cleaned.split(" ").map(s => s.trim()).filter(Boolean);
+
+  // 첫 단어부터 훑으면서: 조사 제거 + 너무 흔한 말 건너뛰기
+  for (const w0 of parts){
+    const w = normalizeKoreanKeyword(w0);
+    if (w.length < 2) continue;
+    if (stop.has(w)) continue;
+    return w;
+  }
+
+  // 다 걸러졌으면 그냥 첫 토큰
+  return normalizeKoreanKeyword(parts[0] || "");
+}
+
+  function loadAnchor(){
+    const raw = localStorage.getItem(ANCHOR_KEY);
+    if (!raw) return null;
+    const obj = safeJsonParse(raw, null);
+    if (!obj || !obj.text) return null;
+    return obj;
+  }
+function isWebUnsafeText(s){
+  return /(씨발|시발|병신|좆|존나|꺼져|죽어|좃나|쌍|개새끼|미친놈|미친년)/.test(String(s || ""));
+}
+
+ async function renderAnchor(){
+  const card = $("anchorCard");
+  const txt = $("anchorText");
+  const when = $("anchorWhen");
+  const from = $("anchorFrom");
+  const qEl = $("q");
+
+  const a = (await loadTodayPromoteFromServer()) || loadAnchor();
+
+  if (!card || !txt || !when || !from) return;
+
+  if (!a){
+    card.style.display = "none";
+    return;
+  }
+
+  card.style.display = "block";
+  function isWebUnsafeText(s){
+  return /(씨발|시발|병신|좆|존나|꺼져|죽어|좃나|쌍|개새끼|미친놈|미친년)/.test(String(s || ""));
+}
+  txt.textContent = a.text;
+  when.textContent = a.createdAt ? `${timeAgo(a.createdAt)} · ${a.createdAt}` : "시간 없음";
+  from.textContent = a.source || "meeting-room";
+
+  if (qEl && !String(qEl.value || "").trim()){
+    const head = extractHeadword(a.text);
+    if (head) qEl.value = head;
+  }
+  CURRENT_ANCHOR = a;
+}
+
+  async function autoInhale(q){
+    const keyword = normalizeKoreanKeyword(String(q || "").trim());
+    if (!keyword) return toast("키워드를 먼저 적어줘.");
+
+    async function getJson(url){
+      const r = await fetch(url);
+      if (!r.ok) return null;
+      return await r.json();
+    }
+
+    const lines = [];
+
+    // 위키 (언어만)
+
+const src = $("source") ? String($("source").value || "dictionary") : "dictionary";
+
+if (src === "wiki"){
+  const wiki = await getJson(`/api/wiki-summary?q=${encodeURIComponent(keyword)}`);
+  if (wiki?.summary) lines.push(`${wiki.summary}`);
+}
+
+if (src === "paper"){
+  const paper = await getJson(`/api/paper-summary?q=${encodeURIComponent(keyword)}`);
+  if (paper?.summary) lines.push(`${paper.summary}`);
+}
+
+if (src === "dictionary"){
+  const dict = await getJson(`/api/dict-summary?q=${encodeURIComponent(keyword)}`);
+ if (dict?.summary) {
+  lines.push(cleanDictionaryText(dict.summary));
+}
+
+}
+
+// etc는 우선 아무것도 안 가져오거나(비움), 나중에 추가
+if (src === "etc"){
+  lines.push(`(etc) 아직 연결 전이야. wiki / paper / dictionary 중 하나를 먼저 골라줘.`);
+}
+
+
+    const tEl = $("text");
+if (tEl){
+  // ✅ 결과 없으면 textarea는 비워둔다(침묵)
+  tEl.value = lines.length ? `${lines.join("\n\n")}` : "";
+}
+
+// ✅ bundle 저장도 "있을 때만"
+const bundleText = tEl ? tEl.value : "";
+if (bundleText.trim()){
+  localStorage.setItem(
+    CROSS_BUNDLE_KEY,
+    JSON.stringify({ keyword, text: bundleText, createdAt: nowIso() })
+  );
+} else {
+  localStorage.removeItem(CROSS_BUNDLE_KEY);
+}
+
+   if (lines.length) toast("들숨(검색) 결과를 채웠어.");
+else toast("사전 결과가 없어서, 조용히 비워둘게.");
+  }
+
+async function goMeaningCross(){
+  const anchor = CURRENT_ANCHOR || (await loadTodayPromoteFromServer()) || loadAnchor();
+  if (!anchor || !anchor.text){
+    toast("머무는 숨결이 없어. 먼저 승격 숨이 와야 해.");
+    return;
+  }
+
+  const qEl = $("q");
+  const tEl = $("text");
+  const keyword = qEl ? normalizeKoreanKeyword(String(qEl.value || "").trim()) : "";
+  const bundleText = tEl ? String(tEl.value || "").trim() : "";
+
+  // 1) 교차방 머리(승격 언어) = anchor는 항상 보냄
+  localStorage.setItem(
+    CROSS_INBOX_KEY,
+    JSON.stringify([{
+      id: "cross-" + Date.now(),
+      source: "inhale-inbox(anchor)",
+      text: String(anchor.text),
+      createdAt: nowIso()
+    }])
+  );
+
+  // 2) 외부지식은 "있을 때만" 보냄. 없으면 조용히 지움(침묵)
+  if (bundleText){
+    localStorage.setItem(
+      CROSS_BUNDLE_KEY,
+      JSON.stringify({
+        keyword: keyword || "(no-keyword)",
+        text: bundleText,
+        createdAt: nowIso()
+      })
+    );
+  } else {
+    localStorage.removeItem(CROSS_BUNDLE_KEY);
+  }
+
+// 교차로 이동 직전
+if (anchor?.promoteKey) {
+  try {
+    await fetch("/api/breath/consume", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+  id: anchor.promoteKey,
+  to: "meaning-cross",
+  reason: bundleText ? "WITH_KNOWLEDGE" : "ANCHOR_ONLY",
+  userId: "web",      // 지금은 웹이 눌렀으니까 web으로
+  persona: "haru",    // 기본 문지기 = haru
+  tags: [
+    "inhale-inbox",
+    bundleText ? "with-knowledge" : "no-knowledge",
+    keyword ? ("keyword:" + keyword) : "keyword:none",
+  ],
+}),
+
+    });
+  } catch {}
+}
+
+  // ✅ 외부지식 없어도 교차로 이동
+  toast(bundleText ? "의미 교차로로 보냈어." : "외부지식은 비어 있어. 사전은 침묵했고, 우리는 흐름을 잇자.");
+  location.href = "/meaning-cross.html?auto=1";
+}
+  function clearAll(){
+    if ($("q")) $("q").value = "";
+    if ($("text")) $("text").value = "";
+    // bundle도 같이 비워서 “새 조합” 느낌 유지
+    localStorage.removeItem(CROSS_BUNDLE_KEY);
+    toast("비웠어. 새로 숨을 불러오자.");
+  }
+document.addEventListener("DOMContentLoaded", async () => {
+  let lastPromoteKey = "";      // ✅ 먼저 선언
+
+  await renderAnchor();
+  lastPromoteKey = CURRENT_ANCHOR?.promoteKey || "";  // ✅ 그 다음에 대입
+
+if (isWebUnsafeText(a.text)) {
+  card.style.display = "none";
+  CURRENT_ANCHOR = null;
+  return;
+}
+
+txt.textContent = a.text;
+
+  setInterval(async () => {
+    const a = await loadTodayPromoteFromServer();
+    if (!a || !a.text) return;
+
+    if (a.promoteKey && a.promoteKey !== lastPromoteKey) {
+      lastPromoteKey = a.promoteKey;
+      await renderAnchor();
+
+      // ✅ 1) 새 숨이 오면 사전(들숨) 자동 실행
+const qEl2 = $("q");
+const tEl2 = $("text");
+const qVal2 = String(qEl2?.value || "").trim();
+const tVal2 = String(tEl2?.value || "").trim();
+
+if (qVal2 && !tVal2) {
+  await autoInhale(qVal2);
+}
+
+// ✅ 2) 원하면 자동으로 의미 교차로까지 이동
+if (AUTO_ON_NEW_PROMOTE) {
+  await goMeaningCross();
+}
+
+      toast("새 승격 숨이 도착했어.");
+    }
+  }, 1200);
+
+
+  // 2) 앵커 다시 가져오기 (서버 promote 우선)
+  const anchor = (await loadTodayPromoteFromServer()) || loadAnchor();
+  const qEl = $("q");
+  const tEl = $("text");
+
+  // 3) 키워드가 비어있으면 앵커에서 다시 뽑아주기
+  if (qEl && anchor?.text && !String(qEl.value || "").trim()){
+    const head = extractHeadword(anchor.text);
+    if (head) qEl.value = head;
+  }
+
+  // 4) 자동 들숨 1회 (auto=1일 때만)
+  if (AUTO_MODE && anchor?.text && qEl){
+    const qVal = String(qEl.value || "").trim();
+    const tVal = tEl ? String(tEl.value || "").trim() : "";
+    if (qVal && !tVal){
+      await autoInhale(qVal);
+    }
+  }
+
+  // 5) 자동 의미교차 이동 (pushCross=1일 때만)
+  if (AUTO_MODE && AUTO_PUSH_CROSS){
+    // 들숨 결과가 있든 없든 goMeaningCross는 이동 가능하도록 설계돼 있음
+    await goMeaningCross();
+    return; // 이동하니까 아래 리스너는 의미 없음
+  }
+
+  // ===== 기존 리스너들 (그대로 유지) =====
+  if (qEl){
+    qEl.addEventListener("keydown", async (e) => {
+      if (e.key === "Enter"){
+        e.preventDefault();
+        await autoInhale(qEl.value);
+      }
+    });
+
+    qEl.addEventListener("blur", async () => {
+      const v = String(qEl.value || "").trim();
+      if (v) await autoInhale(v);
+    });
+  }
+
+  $("source")?.addEventListener("change", async () => {
+    const v = String(qEl?.value || "").trim();
+    if (v) await autoInhale(v);
+  });
+
+  $("sendToCross")?.addEventListener("click", goMeaningCross);
+  $("clear")?.addEventListener("click", clearAll);
+});
+
+
+})();
+</script>
+</body>
+</html>

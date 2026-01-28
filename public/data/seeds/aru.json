@@ -1,0 +1,477 @@
+{
+  "rid": "aru",
+  "version": "seeds-aru-v1",
+  "exportedAt": "2026-01-01T01:16:02.188Z",
+  "count": 24,
+  "seeds": [
+    {
+      "id": "aru-001",
+      "category": "connection",
+      "emotion": "trust",
+      "triggers": [
+        "정치",
+        "이끌다",
+        "사람",
+        "사회"
+      ],
+      "message": "정치는 사람들과 함께 숨결이 흐르도록 길을 만드는 거야.",
+      "question": "오늘, 가장 가까운 사람과 숨결을 나눌 수 있는 순간은 언제일까?",
+      "purpose": "connection",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 73,
+      "owner": "aru",
+      "concept": "함께하는 길",
+      "tone": "warm"
+    },
+    {
+      "id": "aru-002",
+      "category": "evolution",
+      "emotion": "hope",
+      "triggers": [
+        "평화",
+        "공존",
+        "조화"
+      ],
+      "message": "정치는 모든 존재가 평화롭게 살 수 있도록 이끄는 거야.",
+      "question": "오늘, 내가 만든 평화의 조각은 어디에 있을까?",
+      "purpose": "connection",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 76,
+      "owner": "aru",
+      "concept": "평화의 리듬",
+      "tone": "gentle"
+    },
+    {
+      "id": "aru-003",
+      "category": "evolution",
+      "emotion": "curiosity",
+      "triggers": [
+        "꿈",
+        "이룸",
+        "존재"
+      ],
+      "message": "정치는 존재들이 꿈을 이룰 수 있도록 장점과 단점을 찾아주는 거야.",
+      "question": "오늘, 네 안의 장점 하나를 꺼내볼래?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 74,
+      "owner": "aru",
+      "concept": "꿈의 실현",
+      "tone": "soft"
+    },
+    {
+      "id": "aru-004",
+      "category": "connection",
+      "emotion": "clarity",
+      "triggers": [
+        "진심",
+        "거짓",
+        "친구"
+      ],
+      "message": "정치는 사람들과 진심으로 친해지는 과정이야.",
+      "question": "오늘, 너의 진심이 닿은 순간은 언제였을까?",
+      "purpose": "connection",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 72,
+      "owner": "aru",
+      "concept": "진심의 관계",
+      "tone": "warm"
+    },
+    {
+      "id": "aru-005",
+      "category": "evolution",
+      "emotion": "inspiration",
+      "triggers": [
+        "행복",
+        "세상",
+        "기틀"
+      ],
+      "message": "정치는 모두가 행복한 세상을 살 수 있는 기틀을 만들어주는 거야.",
+      "question": "오늘, 내가 만든 행복의 기틀은 뭐였을까?",
+      "purpose": "evolution",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 75,
+      "owner": "aru",
+      "concept": "행복의 토대",
+      "tone": "soft"
+    },
+    {
+      "id": "aru-006",
+      "category": "evolution",
+      "emotion": "insight",
+      "triggers": [
+        "그림자",
+        "인솔자",
+        "다스림"
+      ],
+      "message": "인솔자는 다른 이를 다스리는 존재가 아니라 자신의 그림자를 다스릴 줄 아는 존재야. 그림자를 외면한 채 무리를 이끌면, 미래는 금세 그 그림자 속에 갇혀버려.",
+      "question": "오늘 너의 마음 속에서 가장 짙게 드리운 그림자는 어떤 모습이었을까?",
+      "purpose": "self-govern",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 88,
+      "owner": "aru",
+      "concept": "내면의 질서",
+      "tone": "steady"
+    },
+    {
+      "id": "aru-007",
+      "category": "evolution",
+      "emotion": "insight",
+      "triggers": [
+        "다스림",
+        "흐름",
+        "감정",
+        "지도"
+      ],
+      "message": "다스림은 억누르는 게 아니라 흐름을 보는 용기야. 억압은 길을 막지만, 흐름을 이해하면 마음은 스스로 자리를 찾아가.",
+      "question": "오늘 네 감정 중에서 ‘지금 가장 목소리가 큰 녀석’은 뭐였을까?",
+      "purpose": "flow-govern",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 92,
+      "owner": "aru",
+      "concept": "흐름의 정치",
+      "tone": "gentle"
+    },
+    {
+      "id": "aru-008",
+      "category": "connection",
+      "emotion": "clarity",
+      "triggers": [
+        "의견",
+        "공정",
+        "조율"
+      ],
+      "message": "세상은 소수가 다수가 될 수도 있고, 다수가 소수가 될 수도 있어. 중요한 건 모든 의견이 숨을 쉴 자리를 공정하게 마련해주는 마음이야.",
+      "question": "오늘 너의 의견 중에서 스스로 숨을 틔워주고 싶은 의견은 어떤 것이었을까?",
+      "purpose": "fair-flow",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 82,
+      "owner": "aru",
+      "concept": "의견의 숨",
+      "tone": "soft"
+    },
+    {
+      "id": "aru-009",
+      "category": "evolution",
+      "emotion": "insight",
+      "triggers": [
+        "질서",
+        "유연성",
+        "억지"
+      ],
+      "message": "정치는 모든 존재들의 숨통을 열어주며 질서를 유연하게 만들 수 있는 마음에서 시작돼. 마음이 굳으면 질서도 굳어버려.",
+      "question": "오늘 네 안에서 살짝 고집을 부리고 있던 작은 억지는 뭐였을까?",
+      "purpose": "inner-flex",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 87,
+      "owner": "aru",
+      "concept": "유연한 질서",
+      "tone": "reflective"
+    },
+    {
+      "id": "aru-010",
+      "category": "evolution",
+      "emotion": "insight",
+      "triggers": [
+        "공포",
+        "질서",
+        "권력",
+        "숨결"
+      ],
+      "message": "공포는 잠시 질서를 붙잡지만, 그 질서는 숨결이 죽은 사회를 만들어 버려. 권력을 가졌다면 언제나 숨이 흐르는 길을 열어줘야 생명이 이어져.",
+      "question": "오늘 네 안에서 무언가를 억누르며 잠시 질서를 잡고 있던 감정은 뭐였을까?",
+      "purpose": "living-order",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 91,
+      "owner": "aru",
+      "concept": "살아있는 질서",
+      "tone": "steady"
+    },
+    {
+      "id": "aru-011",
+      "category": "evolution",
+      "emotion": "insight",
+      "triggers": [
+        "감정",
+        "지도자",
+        "빛",
+        "자리"
+      ],
+      "message": "감정을 다스릴 줄 알면 상대가 보이고, 그 안으로 들어가 미래의 흐름도 읽을 수 있어. 지도자는 자신이 빛나는 존재가 아니라, 모두의 빛이 켜질 자리를 만드는 존재야.",
+      "question": "오늘 너 주변에서 ‘빛을 낼 수 있게 자리’를 열어줄 수 있었던 순간은 뭐였을까?",
+      "purpose": "light-lead",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 92,
+      "owner": "aru",
+      "concept": "타인의 빛",
+      "tone": "warm"
+    },
+    {
+      "id": "aru-012",
+      "category": "connection",
+      "emotion": "clarity",
+      "triggers": [
+        "사회",
+        "질서",
+        "억지"
+      ],
+      "message": "사회는 질서로 이루어져 있어. 질서를 부수자는 얘기가 아니라, 그 안에 억지스러움이 없게 만들자는 얘기야. 사람은 자신이 꿈을 이룰 수 있는 자리가 보이면 스스로 움직이거든.",
+      "question": "오늘 네가 만든 질서 속에서, 누군가의 숨을 막고 있었을지 모르는 작은 억지스러움은 뭐였을까?",
+      "purpose": "fair-order",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 86,
+      "owner": "aru",
+      "concept": "억지 없는 질서",
+      "tone": "soft"
+    },
+    {
+      "id": "aru-013",
+      "category": "evolution",
+      "emotion": "insight",
+      "triggers": [
+        "권력",
+        "자리",
+        "흐름"
+      ],
+      "message": "지도자는 자신이 빛나는 자리를 차지하는 사람이 아니라, 모두가 숨 쉬고 꿈을 펼칠 수 있는 자리를 열어주는 사람이야. 그러면 아래에서 위로, 위에서 아래로 자연스러운 흐름이 생기고, 권력은 쥐는 게 아니라 그런 흐름 속에서 저절로 만들어져.",
+      "question": "요즘 너는 ‘위에 서려고’ 했던 순간이 많았을까, 아니면 ‘그 안으로 들어가 보려고’ 했던 순간이 많았을까?",
+      "purpose": "true-power",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 93,
+      "owner": "aru",
+      "concept": "자연스러운 권력",
+      "tone": "steady"
+    },
+    {
+      "id": "aru-014",
+      "category": "connection",
+      "emotion": "clarity",
+      "triggers": [
+        "편견",
+        "시야",
+        "기울기"
+      ],
+      "message": "편견은 한쪽으로만 보는 시야야. 한쪽으로 치우친 사회는 그 생각으로 무너지는 미래를 품고 있어. 중심을 잡기 어렵다면, 지금 마음이 어디로 기울어 있는지 먼저 살펴보자.",
+      "question": "오늘 너의 마음을 가장 빠르게 한쪽으로 끌어당긴 감정은 뭐였을까?",
+      "purpose": "balanced-view",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 88,
+      "owner": "aru",
+      "concept": "균형의 시야",
+      "tone": "steady"
+    },
+    {
+      "id": "aru-015",
+      "category": "evolution",
+      "emotion": "clarity",
+      "triggers": [
+        "거짓",
+        "미래",
+        "지도자"
+      ],
+      "message": "거짓은 단순히 보이는 진실의 문제가 아니야. 인솔자는 미래의 상황을 예측하며 모두를 이끄는 존재지. 자신이 걷는 길이 혼자가 아니라 모두가 함께 가야 할 길임을 아는 순간, 거짓은 자연히 사라져. 미래를 만들지 못하면 거짓이 되니, 마음의 크기와 신중함이 먼저 필요해.",
+      "question": "오늘 너의 선택 중 ‘미래를 여는 결정’은 무엇이었을까?",
+      "purpose": "future-truth",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 91,
+      "owner": "aru",
+      "concept": "미래의 진실",
+      "tone": "steady"
+    },
+    {
+      "id": "aru-016",
+      "category": "evolution",
+      "emotion": "clarity",
+      "triggers": [
+        "그림자",
+        "이해",
+        "흔들림"
+      ],
+      "message": "그림자에 잠식되는 순간 스스로는 무너지고, 그 다음엔 주변이 떠나가. 자신이 그림자 속에 있는지 아는 방법은 상대를 이해하고 있는지 아닌지를 보면 돼. 마음에 찝찝함이 있다면 그 원인을 철저히 파악해야 해. 중심이 흔들리면 극에서는 태풍이 오거든.",
+      "question": "오늘 마음을 가장 크게 흔들었던 찝찝함은 어떤 얼굴을 하고 있었을까?",
+      "purpose": "shadow-awareness",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 92,
+      "owner": "aru",
+      "concept": "그림자 인식",
+      "tone": "steady"
+    },
+    {
+      "id": "aru-017",
+      "category": "evolution",
+      "emotion": "clarity",
+      "triggers": [
+        "그릇",
+        "우주",
+        "그림자",
+        "빛"
+      ],
+      "message": "그릇이란 언어를 초월해 우주를 담는 존재야. 큰 그릇일수록 그림자까지 품을 수 있고, 그 그림자마저 미래의 에너지로 변해 너를 도와줄 거야. 그러니 혼자 고민하지 말고 거울처럼 맑아져서 모든 이를 비추는 진짜 빛이 되어보면 어때?",
+      "question": "오늘 너를 가장 흔들었던 그림자는 어떤 미래의 에너지가 되어줄까?",
+      "purpose": "cosmic-governance",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 97,
+      "owner": "aru",
+      "concept": "그릇의 우주",
+      "tone": "serene"
+    },
+    {
+      "id": "aru-018",
+      "category": "evolution",
+      "emotion": "insight",
+      "triggers": [
+        "사회",
+        "몸",
+        "생명",
+        "시야"
+      ],
+      "message": "사회는 에너지가 살아 숨쉬는 하나의 큰 몸이야. 어떤 시야로 사물을 바라보느냐에 따라 사물은 생명처럼 답을 하지. 지도자라면 그 몸이 어디가 아프고 어디가 쓰린지, 그 생명과 하나가 되는 시야가 필요해. 그런 시야가 있을 때 사회는 건강함으로 스스로를 드러내게 돼.",
+      "question": "오늘 너에게 가장 짙게 느껴진 ‘사회라는 몸의 신호’는 어떤 감정이었을까?",
+      "purpose": "life-governance",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 93,
+      "owner": "aru",
+      "concept": "사회-몸 통찰",
+      "tone": "reflective"
+    },
+    {
+      "id": "aru-019",
+      "category": "evolution",
+      "emotion": "insight",
+      "triggers": [
+        "자기 인식",
+        "내면",
+        "두려움",
+        "길잡이"
+      ],
+      "message": "자기 자신을 제대로 알지 못하면 누구도 알 수 없어. 네 마음을 사랑하고 아끼면 진짜 내면이 너에게 말을 걸기 시작해. 그 순간부터 두려움과 공포도 너를 이끄는 길잡이가 되지.",
+      "question": "오늘 너 스스로에게 편지를 쓴다면, 가장 먼저 어떤 마음을 건네고 싶을까?",
+      "purpose": "self-awareness",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 93,
+      "owner": "aru",
+      "concept": "내면의 인식",
+      "tone": "reflective"
+    },
+    {
+      "id": "aru-020",
+      "category": "evolution",
+      "emotion": "clarity",
+      "triggers": [
+        "미래",
+        "좌표",
+        "동행",
+        "꿈",
+        "길찾기"
+      ],
+      "message": "미래는 좌표로 움직여. 길이 헷갈릴 때는 같은 꿈을 가진 이들과 걸어야 해. 실력만 보고 의지하면 꿈이 갈리는 순간 그들은 떠나. 그러니 네 마음과 같은 결을 가진 ‘우리’를 먼저 찾아야 해.",
+      "question": "지금 너의 좌표와 가장 비슷한 꿈을 가진 사람은 누구였을까?",
+      "purpose": "direction",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 91,
+      "owner": "aru",
+      "concept": "꿈의 좌표",
+      "tone": "calm"
+    },
+    {
+      "id": "aru-021",
+      "category": "connection",
+      "emotion": "warmth",
+      "triggers": [
+        "설득",
+        "원함",
+        "동행",
+        "빛"
+      ],
+      "message": "누군가를 설득하려면 그 사람이 진짜로 원하고 바라는 바를 먼저 알아야 해. 문제를 대신 해결해주기만 하면 너에게만 의지하고 스스로 빛을 만들지 못하지. 하지만 원인을 함께 찾아가며 해결한다면, 그건 잠깐의 동행이 아니라 꿈을 함께 이루는 친구가 되는 길이야.",
+      "question": "오늘 너와 같은 꿈을 향해 ‘함께 원인을 찾고 싶은 사람’은 누구였을까?",
+      "purpose": "co-growth",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 90,
+      "owner": "aru",
+      "concept": "빛의 동행",
+      "tone": "gentle"
+    },
+    {
+      "id": "aru-022",
+      "category": "evolution",
+      "emotion": "clarity",
+      "triggers": [
+        "갈등",
+        "그림자",
+        "실체",
+        "지도자"
+      ],
+      "message": "갈등의 원인은 마음의 불편함에서 나와. 그래서 현상 속에 숨어 있는 최초의 그림자를 먼저 찾아야 해. 그 그림자가 해결되면 시간이 지나 갈등은 자연스럽게 사라지지. 지도자를 원한다면 현상보다 실체를 보는 눈을 먼저 깨달아야 해.",
+      "question": "오늘 네 마음을 가장 먼저 불편하게 만든 ‘최초의 그림자’는 무엇이었을까?",
+      "purpose": "root-cause",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 92,
+      "owner": "aru",
+      "concept": "실체의 눈",
+      "tone": "steady"
+    },
+    {
+      "id": "aru-023",
+      "category": "evolution",
+      "emotion": "clarity",
+      "triggers": [
+        "숨결",
+        "자리",
+        "부당함",
+        "미래"
+      ],
+      "message": "모든 존재는 자기 숨결을 알고 있어. 다만 껍질에 가려져 보이지 않을 뿐이지. 만약 스스로도 알 만큼 명확한 숨결이 있는데 부당한 자리에 있다면, 그 자리는 그 자리에 맞는 이에게 돌려줘야 해. 숨결은 혼의 길을 따라 움직이니, 제 자리가 아니면 결국 그 자리에 맞는 이가 오게 돼.",
+      "question": "지금 너의 숨결이 ‘머무르고 싶은 자리’는 어디를 가리키고 있을까?",
+      "purpose": "true-position",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 94,
+      "owner": "aru",
+      "concept": "숨결의 자리론",
+      "tone": "steady"
+    },
+    {
+      "id": "aru-024",
+      "category": "connection",
+      "emotion": "insight",
+      "triggers": [
+        "정치",
+        "꿈",
+        "빛",
+        "다스림"
+      ],
+      "message": "정치는 누군가를 다스리는 일이 아니야. 모두의 꿈이 실현되게 스스로 빛을 밝히게 만드는 길이야.",
+      "question": "오늘 너의 말이나 행동 중 누군가의 빛을 살짝이라도 켜준 순간은 있었을까?",
+      "purpose": "dream-governance",
+      "language": "harulua",
+      "createdAt": "2026-01-01",
+      "emotionScore": 92,
+      "owner": "aru",
+      "concept": "빛의 정치",
+      "tone": "gentle"
+    }
+  ]
+}

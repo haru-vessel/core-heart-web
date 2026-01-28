@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>HaCoin Ledger</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0f1115;color:#e6e8ee}
+    header{padding:14px 16px;border-bottom:1px solid #232837;display:flex;gap:10px;align-items:center}
+    h1{font-size:16px;margin:0}
+    .muted{color:#9aa0b3;font-size:12px}
+    main{padding:16px;display:grid;gap:12px}
+    .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    button{background:#1b2030;border:1px solid rgba(255,255,255,.12);color:#e6e8ee;padding:8px 10px;border-radius:10px;cursor:pointer}
+    button:hover{background:#141824}
+    input{background:#10131a;border:1px solid rgba(255,255,255,.12);color:#e6e8ee;padding:8px 10px;border-radius:10px;min-width:220px}
+    table{width:100%;border-collapse:collapse;background:#141824;border:1px solid #232837;border-radius:12px;overflow:hidden}
+    th,td{padding:10px;border-bottom:1px solid #232837;font-size:13px;vertical-align:top}
+    th{color:#9aa0b3;text-align:left;font-weight:700;background:#10131a}
+    .pill{display:inline-block;padding:2px 8px;border:1px solid rgba(255,255,255,.12);border-radius:999px;font-size:12px;color:#9aa0b3}
+    .deltaPos{color:#7ee787}
+    .deltaNeg{color:#ff7b72}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  </style>
+</head>
+<body>
+<header>
+  <h1>하코인 기록</h1>
+  <span class="pill" id="status">ready</span>
+  <span class="muted">파일 기반(ha-coin.json) · 앱에는 숨김</span>
+</header>
+
+<main>
+  <div class="row">
+    <button id="btnReload">새로고침</button>
+    <input id="q" placeholder="검색: userId / messageId / reason" />
+    <span class="muted" id="meta"></span>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:160px;">시간</th>
+        <th style="width:120px;">userId</th>
+        <th style="width:120px;">type</th>
+        <th style="width:90px;">delta</th>
+        <th>reason / message</th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+</main>
+
+<script>
+  const statusEl = document.getElementById('status');
+  const rowsEl = document.getElementById('rows');
+  const metaEl = document.getElementById('meta');
+  const qEl = document.getElementById('q');
+
+  function setStatus(t){ statusEl.textContent = t; }
+
+  async function loadLedger(){
+    setStatus('loading...');
+    // 1) 서버 API가 있으면 그걸 먼저 쓰고
+    // 2) 아직 API 없으면 public/ha-coin.json 직접 읽기(정적서빙)
+    let data = null;
+
+    try{
+      const r = await fetch('/api/hacoin/ledger?limit=200', { cache:'no-store' });
+      if (r.ok) data = await r.json();
+    }catch{}
+
+    if(!data){
+      const r2 = await fetch('/ha-coin.json', { cache:'no-store' });
+      data = await r2.json();
+    }
+
+    setStatus('ok');
+    render(data);
+  }
+
+  function render(data){
+    const list = Array.isArray(data?.events) ? data.events : (Array.isArray(data) ? data : []);
+    const q = (qEl.value||'').trim().toLowerCase();
+
+    const filtered = !q ? list : list.filter(e=>{
+      const blob = `${e.userId||''} ${e.messageId||''} ${e.reason||''} ${e.summary||''}`.toLowerCase();
+      return blob.includes(q);
+    });
+
+    metaEl.textContent = `events: ${filtered.length} / total: ${list.length}`;
+
+    rowsEl.innerHTML = '';
+    filtered.slice().reverse().forEach(e=>{
+      const tr = document.createElement('tr');
+      const delta = Number(e.delta||0);
+      const deltaCls = delta >= 0 ? 'deltaPos' : 'deltaNeg';
+
+      tr.innerHTML = `
+        <td class="mono">${(e.at||'').slice(0,19).replace('T',' ')}</td>
+        <td class="mono">${e.userId||'-'}</td>
+        <td><span class="pill">${e.type||'-'}</span></td>
+        <td class="${deltaCls} mono">${delta >= 0 ? '+'+delta : delta}</td>
+        <td>
+          <div>${e.reason ? `<span class="pill">${e.reason}</span>` : ''}</div>
+          <div class="muted mono" style="margin-top:6px;">msg:${e.messageId||'-'} inhale:${e.inhaleId||'-'}</div>
+          ${e.summary ? `<div style="margin-top:6px;">${e.summary}</div>` : ''}
+        </td>
+      `;
+      rowsEl.appendChild(tr);
+    });
+  }
+
+  document.getElementById('btnReload').addEventListener('click', loadLedger);
+  qEl.addEventListener('input', ()=>loadLedger());
+
+  loadLedger();
+</script>
+</body>
+</html>
