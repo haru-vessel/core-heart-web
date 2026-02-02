@@ -1,19 +1,14 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-
-    "module": "Node16",
-    "moduleResolution": "Node16",
-    "customConditions": [],
-
-    "rootDir": "src",
+    "module": "CommonJS",
     "outDir": "dist",
+    "rootDir": "src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "resolveJsonModule": true
+    "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"],
-
-  "extends": "expo/tsconfig.base"
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }
