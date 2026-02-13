@@ -1,7 +1,0 @@
-{
-  "version": "hacoin-rooms-v1",
-  "rooms": {
-    "solbi": { "earned": 9300, "promoteCount": 93, "lastAt": "..." },
-    "haru":  { "earned": 12000, "promoteCount": 120, "lastAt": "..." }
-  }
-}
