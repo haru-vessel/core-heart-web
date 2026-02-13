@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>하르루아 웹 - 메인</title>
+  <a href="/" style="display:inline-block;margin-top:10px;opacity:.75;text-decoration:none;color:#e5e7eb;">
+  ← core-heart
+</a>
+
+  <style>
+    body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",sans-serif; background:#020617; color:#e5e7eb; }
+    header { padding:16px 20px; border-bottom:1px solid #1f2937; position:sticky; top:0; background:#020617; }
+    h1 { margin:0; font-size:18px; font-weight:650; }
+    .sub { margin-top:6px; font-size:12px; opacity:.75; }
+    main { max-width:960px; margin:0 auto; padding:16px 20px 40px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; }
+    .card { border:1px solid #1f2937; border-radius:14px; padding:12px; background:#020617; text-decoration:none; color:#e5e7eb; }
+    .card:hover { border-color:#374151; }
+    .title { font-size:14px; font-weight:650; }
+    .desc { margin-top:6px; font-size:12px; opacity:.75; line-height:1.5; }
+    .tag { margin-top:10px; font-size:11px; opacity:.6; }
+
+   /* 2차 회의 카드 전용: .card + .soongpoong-card 조합으로 쓰기 */
+.card.soongpoong-card{
+  background: linear-gradient(180deg, #1e2a3a 0%, #18222f 100%);
+  border: 1px solid rgba(180, 200, 220, 0.25);
+  box-shadow: 0 0 0 1px rgba(120, 160, 200, 0.15) inset;
+}
+
+.card.soongpoong-card:hover{
+  border-color: rgba(157,182,255,0.40);
+  box-shadow:
+    0 0 0 1px rgba(140, 190, 230, 0.35),
+    0 0 24px rgba(80, 140, 200, 0.15);
+}
+
+/* 제목/설명/경로 톤 */
+.card.soongpoong-card .title { color: #e8f1ff; }
+.card.soongpoong-card .desc  { color: #b7c6d8; }
+.card.soongpoong-card .tag   { color: #7fa3c8; }
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>하르루아 웹</h1>
+    <div class="sub">여기가 허브야. 숨은 여기서 갈라지고, 다시 여기로 돌아와.</div>
+  </header>
+<main>
+  <div class="grid">
+    <a class="card" href="/encyclopedia/index.json">
+      <div class="title">📚 Encyclopedia</div>
+      <div class="desc">백과 입구</div>
+      <div class="tag">/encyclopedia/index.json</div>
+    </a>
+
+    <a class="card" href="/_legacy-ui/inhale-inbox.html">
+      <div class="title">🗃️ Legacy Inbox</div>
+      <div class="desc">옛 화면 보관함</div>
+      <div class="tag">/_legacy-ui/inhale-inbox.html</div>
+    </a>
+
+    <a class="card soongpoong-card" href="/core-heart/">
+  <div class="title">🌌 core-heart</div>
+  <div class="desc">나는 지금 여기 있어.</div>
+  <div class="tag">/core-heart/</div>
+</a>
+
+  </div>
+</main>
+
+</body>
+</html>
