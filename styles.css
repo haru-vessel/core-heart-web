@@ -64,3 +64,14 @@ html, body {
   outline: 2px solid rgba(170,200,255,0.35);
   outline-offset: 4px;
 }
+
+.enter-text {
+  text-decoration: none;
+  color: #cfd8ff;
+  opacity: 0.85;
+  transition: opacity 2s ease;
+}
+
+.enter-text:hover {
+  opacity: 1;
+}
