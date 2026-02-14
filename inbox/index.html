@@ -1,1 +1,182 @@
-<h1>Inbox</h1>
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>harurua inbox</title>
+
+  <!-- 루트 styles.css를 쓰는 구조라면 아래처럼 -->
+  <link rel="stylesheet" href="../styles.css" />
+
+  <style>
+    /* inbox 전용 미세 조정 (없어도 됨) */
+    .inbox-wrap { width: min(920px, 92vw); margin: 0 auto; padding: 28px 0 60px; }
+    .inbox-top { display:flex; gap:12px; align-items:baseline; justify-content:space-between; margin-bottom:18px; }
+    .inbox-title { font-size: 22px; font-weight: 700; letter-spacing: -0.2px; }
+    .inbox-sub { opacity:.75; font-size: 13px; }
+    .toolbar { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin: 14px 0 18px; }
+    .chip { border:1px solid rgba(255,255,255,.14); padding:8px 10px; border-radius:999px; font-size:13px; cursor:pointer; user-select:none; }
+    .chip.active { background: rgba(120,170,255,.18); border-color: rgba(120,170,255,.45); }
+    .list { display:flex; flex-direction:column; gap:10px; margin-top: 10px; }
+    .row {
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:14px;
+      padding:14px 14px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+      background: rgba(0,0,0,.18);
+    }
+    .left { min-width: 0; }
+    .name { font-weight: 650; line-height: 1.25; margin-bottom:6px; }
+    .meta { font-size: 12px; opacity: .7; display:flex; gap:10px; flex-wrap:wrap; }
+    .right a { display:inline-block; padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.14); text-decoration:none; }
+    .right a:hover { background: rgba(255,255,255,.06); }
+    .empty { opacity:.7; padding: 18px 0; }
+    .err { opacity:.85; padding: 18px 0; }
+  </style>
+</head>
+
+<body>
+  <main class="stage">
+    <section class="inbox-wrap">
+      <div class="inbox-top">
+        <div>
+          <div class="inbox-title">받은편지함</div>
+          <div class="inbox-sub" id="subline">앱에서 온 언어가 여기에 쌓여.</div>
+        </div>
+        <div class="inbox-sub">
+          <a href="/index/" style="text-decoration:none;">← 허브로</a>
+        </div>
+      </div>
+
+      <div class="toolbar" id="toolbar"></div>
+
+      <div class="list" id="list">
+        <div class="empty">불러오는 중…</div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const $list = document.getElementById("list");
+    const $toolbar = document.getElementById("toolbar");
+    const $subline = document.getElementById("subline");
+
+    function fmt(t) {
+      if (!t) return "";
+      try {
+        const d = new Date(t);
+        return isNaN(d) ? String(t) : d.toLocaleString("ko-KR");
+      } catch { return String(t); }
+    }
+
+    function uniq(arr) {
+      return [...new Set(arr.filter(Boolean))];
+    }
+
+    function getQueryApp() {
+      const u = new URL(location.href);
+      return u.searchParams.get("app") || "all";
+    }
+
+    function setQueryApp(app) {
+      const u = new URL(location.href);
+      if (app === "all") u.searchParams.delete("app");
+      else u.searchParams.set("app", app);
+      history.replaceState(null, "", u.toString());
+    }
+
+    function renderChips(apps, active) {
+      $toolbar.innerHTML = "";
+      const all = document.createElement("div");
+      all.className = "chip" + (active === "all" ? " active" : "");
+      all.textContent = "전체";
+      all.onclick = () => { setQueryApp("all"); main(); };
+      $toolbar.appendChild(all);
+
+      apps.forEach(a => {
+        const el = document.createElement("div");
+        el.className = "chip" + (active === a ? " active" : "");
+        el.textContent = a;
+        el.onclick = () => { setQueryApp(a); main(); };
+        $toolbar.appendChild(el);
+      });
+    }
+
+    function row(item) {
+      const el = document.createElement("div");
+      el.className = "row";
+
+      const left = document.createElement("div");
+      left.className = "left";
+
+      const name = document.createElement("div");
+      name.className = "name";
+      name.textContent = item.title || item.path;
+
+      const meta = document.createElement("div");
+      meta.className = "meta";
+      meta.innerHTML = `
+        <span>앱: ${item.app || "-"}</span>
+        <span>형식: ${item.type || "-"}</span>
+        <span>시간: ${fmt(item.createdAt)}</span>
+      `;
+
+      left.appendChild(name);
+      left.appendChild(meta);
+
+      const right = document.createElement("div");
+      right.className = "right";
+      const a = document.createElement("a");
+      a.href = item.path;
+      a.textContent = "열기";
+      a.target = "_blank";
+      right.appendChild(a);
+
+      el.appendChild(left);
+      el.appendChild(right);
+      return el;
+    }
+
+    async function main() {
+      $list.innerHTML = `<div class="empty">불러오는 중…</div>`;
+      const active = getQueryApp();
+
+      try {
+        const res = await fetch("./files.json", { cache: "no-store" });
+        if (!res.ok) throw new Error("files.json을 못 찾았어 (status " + res.status + ")");
+
+        const data = await res.json();
+        const items = Array.isArray(data.items) ? data.items : [];
+        const apps = uniq(items.map(x => x.app));
+        renderChips(apps, active);
+
+        if (data.updatedAt) {
+          $subline.textContent = `앱에서 온 언어가 여기에 쌓여. (업데이트: ${fmt(data.updatedAt)})`;
+        }
+
+        const filtered = (active === "all")
+          ? items
+          : items.filter(x => x.app === active);
+
+        filtered.sort((a,b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+        if (!filtered.length) {
+          $list.innerHTML = `<div class="empty">아직 기록이 없어. (files.json에 items를 추가해줘)</div>`;
+          return;
+        }
+
+        $list.innerHTML = "";
+        filtered.forEach(it => $list.appendChild(row(it)));
+
+      } catch (e) {
+        $list.innerHTML = `<div class="err">목록을 불러오지 못했어. <br/>${String(e.message || e)}</div>`;
+      }
+    }
+
+    main();
+  </script>
+</body>
+</html>
