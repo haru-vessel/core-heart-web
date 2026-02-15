@@ -1,0 +1,20 @@
+{
+  "savedAt": "2026-02-15T06:10:41.626Z",
+  "appId": "harurua",
+  "roomId": "talk",
+  "text": "인생은 즐거워",
+  "meta": {
+    "messageId": "1771135841849-mw8d6",
+    "roomId": "trial",
+    "text": "인생은 즐거워",
+    "createdAt": 1771135841849,
+    "personaHints": [
+      "reason:root>=3",
+      "source:trial"
+    ],
+    "tags": [
+      "reason:root>=3",
+      "source:trial"
+    ]
+  }
+}
