@@ -1,0 +1,20 @@
+{
+  "savedAt": "2026-02-15T05:10:00.625Z",
+  "appId": "harurua",
+  "roomId": "talk",
+  "text": "오늘은 심심해",
+  "meta": {
+    "messageId": "1771132201255-9zgxr",
+    "roomId": "trial",
+    "text": "오늘은 심심해",
+    "createdAt": 1771132201256,
+    "personaHints": [
+      "reason:root>=3",
+      "source:trial"
+    ],
+    "tags": [
+      "reason:root>=3",
+      "source:trial"
+    ]
+  }
+}
