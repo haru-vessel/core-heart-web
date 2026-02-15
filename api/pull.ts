@@ -46,7 +46,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .map((x: any) => x.name)
       .sort(); // YYYY-MM-DD라면 정렬 끝이 최신
 
-    if (dateDirs.length === 0) return res.status(200).json({ ok: true, item: null });
+    if (dateDirs.length === 0) return res.status(200).json({ ok: true, items: [], micro: null });
 
     const latestDate = dateDirs[dateDirs.length - 1];
 
@@ -54,9 +54,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const roomsUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${appId}/${latestDate}?ref=${branch}`;
     const rooms = await ghGetJson(roomsUrl, token);
     const roomDirs = (Array.isArray(rooms) ? rooms : []).filter((x: any) => x.type === "dir").map((x: any) => x.name).sort();
-    if (roomDirs.length === 0) return res.status(200).json({ ok: true, item: null });
+  if (roomDirs.length === 0) return res.status(200).json({ ok: true, items: [], micro: null });
 
-    const latestRoom = roomDirs[0];
+ const latestRoom = roomDirs[roomDirs.length - 1];
 
     // 3) room 아래 파일 목록 → 최신 파일 1개
     const filesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${appId}/${latestDate}/${latestRoom}?ref=${branch}`;
@@ -67,13 +67,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .map((x: any) => ({ name: x.name, download_url: x.download_url }))
       .sort((a: any, b: any) => a.name.localeCompare(b.name));
 
-    if (fileItems.length === 0) return res.status(200).json({ ok: true, item: null });
+    if (fileItems.length === 0) return res.status(200).json({ ok: true, items: [], micro: null });
 
     const latest = fileItems[fileItems.length - 1];
     const raw = await fetch(latest.download_url).then(r => r.text());
     const item = JSON.parse(raw);
 
-    return res.status(200).json({ ok: true, item });
+   return res.status(200).json({ ok: true, items: item ? [item] : [], micro: null });
   } catch (e: any) {
     return res.status(500).json({ ok: false, error: e?.message || "Unknown error" });
   }
