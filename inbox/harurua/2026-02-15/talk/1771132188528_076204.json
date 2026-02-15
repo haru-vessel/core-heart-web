@@ -1,0 +1,20 @@
+{
+  "savedAt": "2026-02-15T05:09:48.531Z",
+  "appId": "harurua",
+  "roomId": "talk",
+  "text": "오늘은 배고파",
+  "meta": {
+    "messageId": "1771132188838-lursp",
+    "roomId": "trial",
+    "text": "오늘은 배고파",
+    "createdAt": 1771132188838,
+    "personaHints": [
+      "reason:root>=3",
+      "source:trial"
+    ],
+    "tags": [
+      "reason:root>=3",
+      "source:trial"
+    ]
+  }
+}
