@@ -1,20 +1,8 @@
 {
-  "title": "harurua inbox",
-  "updatedAt": "2026-02-13T17:30:00+09:00",
-  "items": [
-    {
-      "title": "토크룸 막힘 언어 (샘플)",
-      "path": "/inbox/2026-02-13_talkroom_block_001.md",
-      "app": "harurua",
-      "type": "md",
-      "createdAt": "2026-02-13T17:10:00+09:00"
-    },
-    {
-      "title": "사용자 언어 로그 (샘플)",
-      "path": "/inbox/2026-02-13_user_utter_001.json",
-      "app": "harurua",
-      "type": "json",
-      "createdAt": "2026-02-13T17:20:00+09:00"
-    }
-  ]
+  "title": "사용자 언어 로그 (샘플)",
+   "path": "/inbox/2026-02-13_user_utter_001.json",
+  "url": "https://raw.githubusercontent.com/haru-vessel/core-heart-web/main/inbox/2026-02-13_user_utter_001.json",
+  "app": "harurua",
+  "type": "json",
+  "createdAt": "2026-02-13T17:20:00+09:00"
 }

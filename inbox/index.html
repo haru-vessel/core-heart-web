@@ -130,7 +130,7 @@
       const right = document.createElement("div");
       right.className = "right";
       const a = document.createElement("a");
-      a.href = item.path;
+    a.href = item.url || item.path;
       a.textContent = "열기";
       a.target = "_blank";
       right.appendChild(a);
