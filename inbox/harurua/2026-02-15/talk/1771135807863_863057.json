@@ -1,0 +1,20 @@
+{
+  "savedAt": "2026-02-15T06:10:07.865Z",
+  "appId": "harurua",
+  "roomId": "talk",
+  "text": "인생은 슬퍼",
+  "meta": {
+    "messageId": "1771135807975-2ubvy",
+    "roomId": "trial",
+    "text": "인생은 슬퍼",
+    "createdAt": 1771135807975,
+    "personaHints": [
+      "reason:root>=3",
+      "source:trial"
+    ],
+    "tags": [
+      "reason:root>=3",
+      "source:trial"
+    ]
+  }
+}
