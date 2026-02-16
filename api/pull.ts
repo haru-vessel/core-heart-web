@@ -35,6 +35,32 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!token || !owner || !repo) return res.status(500).json({ ok: false, error: "Missing GitHub env vars" });
 
     const appId = safeId((req.query.appId as string) || "harurua");
+    const mode = String(req.query.mode || "short");
+
+    const roomId = String(url.searchParams.get("roomId") ?? "").trim();
+
+    // ===== LONG MODE (encyclopedia) =====
+if (mode === "long") {
+  try {
+    const encUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/encyclopedia/index.json`;
+    const enc = await fetch(encUrl).then(r => r.json());
+
+    const items = Array.isArray(enc?.items) ? enc.items : [];
+
+    const longItems = items.filter((x: any) => x?.length === "long" && x?.text);
+
+    if (longItems.length > 0) {
+      const picked = longItems[Math.floor(Math.random() * longItems.length)];
+      return res.status(200).json({
+        ok: true,
+        items: [picked],
+        micro: null
+      });
+    }
+  } catch {
+    // encyclopedia 없으면 그냥 short로 내려감
+  }
+}
 
     // 1) inbox/appId 아래에서 날짜 폴더 목록
     const listDatesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${appId}?ref=${branch}`;

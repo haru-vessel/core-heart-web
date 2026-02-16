@@ -145,7 +145,7 @@
       const active = getQueryApp();
 
       try {
-        const res = await fetch("./files.json", { cache: "no-store" });
+        const res = await fetch("/api/inbox-list?limit=60", { cache: "no-store" });
         if (!res.ok) throw new Error("files.json을 못 찾았어 (status " + res.status + ")");
 
         const data = await res.json();
