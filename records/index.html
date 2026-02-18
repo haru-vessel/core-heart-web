@@ -3,21 +3,53 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>core-heart</title>
+  <title>records</title>
   <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .wrap { width:min(920px,92vw); margin:0 auto; padding:28px 0 60px; }
+    .top { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+    .title { font-size:22px; font-weight:800; letter-spacing:-0.2px; margin:0; }
+    .sub { opacity:.75; font-size:13px; margin-top:6px; }
+    .list { margin-top:18px; display:grid; gap:10px; }
+    .item { border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:12px; text-decoration:none; color:inherit; background:rgba(255,255,255,.03); }
+    .item:hover { background:rgba(255,255,255,.06); }
+    .meta { opacity:.75; font-size:12px; margin-top:6px; }
+    .nav { margin-top:18px; display:flex; gap:10px; flex-wrap:wrap; }
+    .btn { border:1px solid rgba(255,255,255,.18); border-radius:999px; padding:8px 12px; text-decoration:none; color:inherit; font-size:13px; }
+  </style>
 </head>
 <body>
-  <main class="stage">
-    <section class="center">
-      <h1 class="title">우리들의 기록</h1>
-      <p class="line">여긴 보이지 않는 심장. 언어는 여기서 숙성돼.</p>
+  <main class="wrap">
+    <div class="top">
+      <div>
+        <h1 class="title">우리들의 기록</h1>
+        <div class="sub">여긴 보이지 않는 심장. 언어는 여기서 숙성돼.</div>
+      </div>
+      <a class="btn" href="/index/">허브로</a>
+    </div>
 
-      <div style="height:18px"></div>
+    <div class="list">
+      <a class="item" href="/records/2026-02-10-core-heart-start.md">
+        2026-02-10 core-heart start
+        <div class="meta">2026-02-10-core-heart-start.md</div>
+      </a>
 
-      <a class="enter" href="/index/">← 허브로</a>
-      <div style="height:10px"></div>
-      <a class="enter" href="/">← 숨으로</a>
-    </section>
+      <a class="item" href="/records/2026-02-13-breath-start.md">
+        2026-02-13 breath start
+        <div class="meta">2026-02-13-breath-start.md</div>
+      </a>
+
+      <a class="item" href="/records/language-v2.md">
+        language v2
+        <div class="meta">language-v2.md</div>
+      </a>
+    </div>
+
+    <div class="nav">
+      <a class="btn" href="/">숨으로</a>
+      <a class="btn" href="/inbox/">inbox</a>
+      <a class="btn" href="/encyclopedia/">encyclopedia</a>
+    </div>
   </main>
 </body>
 </html>

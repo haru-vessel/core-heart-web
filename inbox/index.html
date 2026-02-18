@@ -146,7 +146,7 @@
 
       try {
         const res = await fetch("/api/inbox-list?limit=60", { cache: "no-store" });
-        if (!res.ok) throw new Error("files.json을 못 찾았어 (status " + res.status + ")");
+        if (!res.ok) throw new Error("inbox 목록 못 불러왔어 (status " + res.status + ")");
 
         const data = await res.json();
         const items = Array.isArray(data.items) ? data.items : [];
