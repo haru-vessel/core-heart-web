@@ -34,9 +34,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const branch = process.env.GITHUB_BRANCH || "main";
     if (!token || !owner || !repo) return res.status(500).json({ ok: false, error: "Missing GitHub env vars" });
 
+    const url = new URL(req.url || "", `https://${req.headers.host}`);
     const appId = safeId((req.query.appId as string) || "harurua");
     const mode = String(req.query.mode || "short");
-
     const roomId = String(url.searchParams.get("roomId") ?? "").trim();
 
     // ===== LONG MODE (encyclopedia) =====
@@ -83,9 +83,10 @@ if (mode === "long") {
   if (roomDirs.length === 0) return res.status(200).json({ ok: true, items: [], micro: null });
 
  const latestRoom = roomDirs[roomDirs.length - 1];
+const chosenRoom = roomId && roomDirs.includes(roomId) ? roomId : latestRoom;
 
-    // 3) room 아래 파일 목록 → 최신 파일 1개
-    const filesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${appId}/${latestDate}/${latestRoom}?ref=${branch}`;
+    // 3) latestRoom 아래 파일 목록 → 최신 파일 1개
+    const filesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${appId}/${latestDate}/${chosenRoom}?ref=${branch}`;
     const files = await ghGetJson(filesUrl, token);
 
     const fileItems = (Array.isArray(files) ? files : [])
