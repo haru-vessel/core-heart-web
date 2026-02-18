@@ -57,7 +57,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       ...body,
     };
 
-    const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`;
+    const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
     const ghResp = await fetch(putUrl, {
       method: "PUT",
