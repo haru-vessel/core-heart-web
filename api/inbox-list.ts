@@ -7,6 +7,10 @@ function cors(res: VercelResponse) {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 }
 
+function b64ToUtf8(b64: string) {
+  return Buffer.from(b64, "base64").toString("utf8");
+}
+
 async function ghGetJson(url: string, token: string) {
   const r = await fetch(url, {
     headers: {
@@ -48,9 +52,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .map((x: any) => x.name)
       .sort();
 
-    const targetApps = appIdQuery ? [safeId(appIdQuery)] : appDirs;
+  const ALLOWED_APP_IDS = new Set(["harurua", "sallangi", "ttasseumi"]);
 
-    const collected: Array<{ download_url: string; appId: string; date: string; room: string; name: string }> = [];
+const requested = appIdQuery ? safeId(appIdQuery) : "";
+const targetApps = requested
+  ? (ALLOWED_APP_IDS.has(requested) ? [requested] : ["harurua"])
+  : appDirs.filter((a) => ALLOWED_APP_IDS.has(a));
+
+const collected: Array<{ download_url: string; appId: string; date: string; room: string; name: string; path: string }> = [];
 
     for (let ai = targetApps.length - 1; ai >= 0; ai--) {
       const appId = targetApps[ai];
@@ -103,7 +112,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             .sort((a: any, b: any) => a.name.localeCompare(b.name));
 
           for (let fi = jsonFiles.length - 1; fi >= 0; fi--) {
-            collected.push({ ...jsonFiles[fi], appId, date, room });
+           const filePath = `inbox/${appId}/${date}/${room}/${jsonFiles[fi].name}`;
+collected.push({ ...jsonFiles[fi], appId, date, room, path: filePath });
+
             if (collected.length >= limit) break;
           }
 
@@ -120,8 +131,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const items = [];
     for (const f of collected) {
       try {
-        const raw = await fetch(f.download_url).then((r) => r.text());
-        const obj = JSON.parse(raw);
+     const contentUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${f.path}?ref=${branch}`;
+const fileMeta = await ghGetJson(contentUrl, token);
+const raw = b64ToUtf8(String(fileMeta?.content || "").replace(/\n/g, ""));
+const obj = JSON.parse(raw);
 
         const createdAt = String(obj?.savedAt || obj?.createdAt || "") || null;
         const text = String(obj?.text || "").trim();

@@ -7,6 +7,10 @@ function cors(res: VercelResponse) {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 }
 
+function b64ToUtf8(b64: string) {
+  return Buffer.from(b64, "base64").toString("utf8");
+}
+
 async function ghGetJson(url: string, token: string) {
   const r = await fetch(url, {
     headers: {
@@ -36,8 +40,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const url = new URL(req.url || "", `https://${req.headers.host}`);
     const appId = safeId((req.query.appId as string) || "harurua");
+    const ALLOWED_APP_IDS = new Set(["harurua", "sallangi", "ttasseumi"]);
+const fixedAppId = ALLOWED_APP_IDS.has(appId) ? appId : "harurua";
+
     const mode = String(req.query.mode || "short");
-    const roomId = String(url.searchParams.get("roomId") ?? "").trim();
+  const roomId = safeId(String(url.searchParams.get("roomId") ?? "").trim());
 
     // ===== LONG MODE (encyclopedia) =====
 if (mode === "long") {
@@ -63,7 +70,7 @@ if (mode === "long") {
 }
 
     // 1) inbox/appId 아래에서 날짜 폴더 목록
-    const listDatesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${appId}?ref=${branch}`;
+    const listDatesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${fixedAppId}?ref=${branch}`;
     const dates = await ghGetJson(listDatesUrl, token);
 
     // 폴더만 뽑아서 최신(이름 기준) 선택
@@ -77,16 +84,17 @@ if (mode === "long") {
     const latestDate = dateDirs[dateDirs.length - 1];
 
     // 2) 날짜 폴더 아래 room 목록 → 일단 가장 첫 room
-    const roomsUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${appId}/${latestDate}?ref=${branch}`;
+    const roomsUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${fixedAppId}/${latestDate}?ref=${branch}`;
     const rooms = await ghGetJson(roomsUrl, token);
     const roomDirs = (Array.isArray(rooms) ? rooms : []).filter((x: any) => x.type === "dir").map((x: any) => x.name).sort();
   if (roomDirs.length === 0) return res.status(200).json({ ok: true, items: [], micro: null });
 
- const latestRoom = roomDirs[roomDirs.length - 1];
-const chosenRoom = roomId && roomDirs.includes(roomId) ? roomId : latestRoom;
+const latestRoom = roomDirs[roomDirs.length - 1];
+const preferredRoom = roomDirs.includes("talk") ? "talk" : latestRoom;
+const chosenRoom = roomId && roomDirs.includes(roomId) ? roomId : preferredRoom;
 
     // 3) latestRoom 아래 파일 목록 → 최신 파일 1개
-    const filesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${appId}/${latestDate}/${chosenRoom}?ref=${branch}`;
+    const filesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${fixedAppId}/${latestDate}/${chosenRoom}?ref=${branch}`;
     const files = await ghGetJson(filesUrl, token);
 
     const fileItems = (Array.isArray(files) ? files : [])
@@ -95,12 +103,21 @@ const chosenRoom = roomId && roomDirs.includes(roomId) ? roomId : latestRoom;
       .sort((a: any, b: any) => a.name.localeCompare(b.name));
 
     if (fileItems.length === 0) return res.status(200).json({ ok: true, items: [], micro: null });
+const latest = fileItems[fileItems.length - 1];
 
-    const latest = fileItems[fileItems.length - 1];
-    const raw = await fetch(latest.download_url).then(r => r.text());
-    const item = JSON.parse(raw);
+// ✅ download_url 직접 fetch 대신: contents API로 읽기 (private repo 안전)
+const filePath = `inbox/${fixedAppId}/${latestDate}/${chosenRoom}/${latest.name}`;
+const contentUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
+const meta = await ghGetJson(contentUrl, token);
 
-   return res.status(200).json({ ok: true, items: item ? [item] : [], micro: null });
+// GitHub contents API는 content가 base64(+개행)로 옴
+const contentB64 = String(meta?.content || "").replace(/\n/g, "");
+const raw = b64ToUtf8(contentB64);
+
+const item = JSON.parse(raw);
+
+return res.status(200).json({ ok: true, items: item ? [item] : [], micro: null });
+
   } catch (e: any) {
     return res.status(500).json({ ok: false, error: e?.message || "Unknown error" });
   }
