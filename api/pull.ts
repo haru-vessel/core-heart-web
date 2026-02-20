@@ -11,6 +11,20 @@ function b64ToUtf8(b64: string) {
   return Buffer.from(b64, "base64").toString("utf8");
 }
 
+function makeMicroText(item: any): string {
+  // 1) item.micro가 이미 있으면 그걸 우선
+  const m = (item?.micro ?? item?.meta?.micro ?? "").toString().trim();
+  if (m) return m;
+
+  // 2) 없으면 item.text에서 1줄 만들어주기
+  const t = (item?.text ?? item?.meta?.text ?? "").toString().trim();
+  if (!t) return "";
+
+  // 첫 줄/첫 문장 느낌으로 짧게
+  const firstLine = t.split("\n")[0].trim();
+  const clipped = firstLine.length > 80 ? firstLine.slice(0, 80) + "…" : firstLine;
+  return clipped;
+}
 async function ghGetJson(url: string, token: string) {
   const r = await fetch(url, {
     headers: {
@@ -58,11 +72,12 @@ if (mode === "long") {
 
     if (longItems.length > 0) {
       const picked = longItems[Math.floor(Math.random() * longItems.length)];
-      return res.status(200).json({
-        ok: true,
-        items: [picked],
-        micro: null
-      });
+      
+   return res.status(200).json({
+  ok: true,
+  items: [picked],
+  micro: makeMicroText(picked) || null,
+});
     }
   } catch {
     // encyclopedia 없으면 그냥 short로 내려감
@@ -116,7 +131,14 @@ const raw = b64ToUtf8(contentB64);
 
 const item = JSON.parse(raw);
 
-return res.status(200).json({ ok: true, items: item ? [item] : [], micro: null });
+const itemsArr = item ? [item] : [];
+const micro = item ? makeMicroText(item) : null;
+
+return res.status(200).json({
+  ok: true,
+  items: itemsArr,
+  micro: micro && micro.trim() ? micro : null,
+});
 
   } catch (e: any) {
     return res.status(500).json({ ok: false, error: e?.message || "Unknown error" });
