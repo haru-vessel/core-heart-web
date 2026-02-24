@@ -128,12 +128,51 @@
       left.appendChild(meta);
 
       const right = document.createElement("div");
-      right.className = "right";
-      const a = document.createElement("a");
-    a.href = item.url || item.path;
-      a.textContent = "열기";
-      a.target = "_blank";
-      right.appendChild(a);
+right.className = "right";
+
+// 열기 버튼
+const a = document.createElement("a");
+a.href = item.url || item.path;
+a.textContent = "열기";
+a.target = "_blank";
+right.appendChild(a);
+
+// 삭제 버튼
+const del = document.createElement("button");
+del.textContent = "삭제";
+del.style.marginLeft = "8px";
+del.style.padding = "10px 12px";
+del.style.borderRadius = "12px";
+del.style.border = "1px solid rgba(255,255,255,.14)";
+del.style.background = "transparent";
+del.style.color = "inherit";
+del.style.cursor = "pointer";
+
+del.onclick = async () => {
+  const ok = confirm("이 기록을 받은편지함에서 지울까?\n삭제하면 되돌리기 어려워.");
+  if (!ok) return;
+
+  try {
+    const res = await fetch("/api/inbox-delete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // ✅ 보호키 (Vercel env의 ADMIN_KEY랑 같은 값)
+        "x-admin-key": localStorage.getItem("ADMIN_KEY") || ""
+      },
+      body: JSON.stringify({ path: item.path })
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) throw new Error(data.error || "삭제 실패");
+
+    // 삭제 성공 → 목록 새로고침
+    main();
+  } catch (e) {
+    alert("삭제를 못 했어: " + String(e.message || e));
+  }
+};
+
+right.appendChild(del);
 
       el.appendChild(left);
       el.appendChild(right);

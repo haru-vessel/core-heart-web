@@ -139,13 +139,14 @@ const obj = JSON.parse(raw);
         const createdAt = String(obj?.savedAt || obj?.createdAt || "") || null;
         const text = String(obj?.text || "").trim();
 
-        items.push({
-          app: f.appId,
-          type: "json",
-          createdAt,
-          title: text ? text.slice(0, 40) : `${f.date}/${f.room}/${f.name}`,
-          url: f.download_url, // ✅ index.html이 이걸로 "열기" 가능
-        });
+     items.push({
+  app: f.appId,
+  type: "json",
+  createdAt,
+  title: text ? text.slice(0, 40) : `${f.date}/${f.room}/${f.name}`,
+  url: f.download_url,
+  path: f.path, // ✅ 추가 (예: inbox/sallangi/2026-02-24/talk/xxx.json)
+});
       } catch {
         items.push({
           app: f.appId,
