@@ -39,6 +39,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // 앱에서 보내는 payload는 자유롭게.
     // 최소: appId, roomId, text 정도만 있어도 저장되게 설계.
     const body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});
+    
+    const allowReasons = new Set(["repeat3", "stuck", "overheat", "seed_stuck"]);
+
+const incomingAppId = String(body?.appId || "unknown");
+const incomingRoomId = String(body?.roomId || "unknown");
+const incomingReason = body?.reason ? String(body.reason) : "";
+
+// ✅ sallangi는 talk + 허용 reason만 저장
+if (incomingAppId === "sallangi") {
+  if (incomingRoomId !== "talk") {
+    return res.status(200).json({ ok: true, skipped: true, reason: "not-talk" });
+  }
+  if (!incomingReason || !allowReasons.has(incomingReason)) {
+    return res.status(200).json({ ok: true, skipped: true, reason: "reason-not-allowed" });
+  }
+}
     const raw = JSON.stringify(body);
 if (raw.length > 50_000) return res.status(413).json({ ok: false, error: "Payload too large" });
 
