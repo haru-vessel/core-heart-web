@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>리뷰 관리자</title>
+  <style>
+    body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#020617;color:#e5e7eb;}
+    header{padding:16px 20px;border-bottom:1px solid #1f2937;position:sticky;top:0;background:#020617;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+    a{color:#e5e7eb;text-decoration:none;opacity:.85}
+    .btn{border:1px solid #1f2937;background:rgba(255,255,255,.06);color:#e5e7eb;border-radius:12px;padding:10px 12px;cursor:pointer}
+    .btn:hover{border-color:#374151}
+    .wrap{max-width:1100px;margin:0 auto;padding:14px 20px 60px}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0}
+    input{background:#0b1220;border:1px solid #1f2937;border-radius:12px;color:#e5e7eb;padding:10px 12px;min-width:260px}
+    .hint{opacity:.75;font-size:12px}
+    .list{margin-top:14px;display:flex;flex-direction:column;gap:10px}
+    .card{border:1px solid #1f2937;border-radius:14px;background:rgba(255,255,255,.04);padding:12px}
+    .top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+    .title{font-weight:650}
+    .meta{opacity:.7;font-size:12px;margin-top:6px;line-height:1.4}
+    .danger{border-color:rgba(255,120,120,.35);background:rgba(255,120,120,.10)}
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/">← core-heart</a>
+    <div style="font-weight:650">리뷰 관리자</div>
+    <button class="btn" id="btnRefresh">새로고침</button>
+    <button class="btn danger" id="btnLogout">키 지우기</button>
+    <div class="hint">삭제는 ADMIN_KEY 필요 (브라우저에 저장은 sessionStorage)</div>
+  </header>
+
+  <div class="wrap">
+    <div class="row">
+      <input id="adminKey" type="password" placeholder="ADMIN_KEY 입력 (우리만)" />
+      <button class="btn" id="btnSaveKey">키 저장</button>
+      <span class="hint">* 키는 페이지 닫으면 사라지게(sessionStorage) 저장</span>
+    </div>
+
+    <div class="row">
+      <button class="btn" id="btnLoad">리뷰 목록 불러오기</button>
+      <span class="hint">/api/inbox-list?appId=sallangi 로 가져온 뒤 story-* 방만 필터링</span>
+    </div>
+
+    <div id="status" class="hint"></div>
+    <div id="list" class="list"></div>
+  </div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    const KEY = "core_admin_key_v1";
+
+    function getKey(){ return sessionStorage.getItem(KEY) || ""; }
+    function setKey(v){ sessionStorage.setItem(KEY, v); }
+    function clearKey(){ sessionStorage.removeItem(KEY); }
+
+    function isStoryRoom(item){
+      // inbox-list.ts가 내려주는 형태: { app, createdAt, title, url, path }
+      // title에 room이 직접 없을 수 있으니 path에서 room을 뽑는 게 제일 안전
+      const p = String(item.path || "");
+      // inbox/<app>/<date>/<room>/<file>.json
+      const parts = p.split("/");
+      const room = parts.length >= 4 ? parts[3] : "";
+      return room.startsWith("story-");
+    }
+
+    async function loadReviews(){
+      $("status").textContent = "불러오는 중...";
+      $("list").innerHTML = "";
+
+     const k = sessionStorage.getItem("core_admin_key_v1") || "";
+const res = awaitfetch(`/api/review-list?appId=sallangi&roomPrefix=story-&limit=200`, {
+  headers: { "x-admin-key": k }
+})
+      const data = await res.json();
+      if(!data.ok){
+        $("status").textContent = "목록 실패: " + (data.error || "unknown");
+        return;
+      }
+
+      const items = Array.isArray(data.items) ? data.items : [];
+      const reviews = items.filter(isStoryRoom);
+
+      $("status").textContent = `총 ${reviews.length}개 (story-* 만 표시)`;
+
+      for(const it of reviews){
+        const card = document.createElement("div");
+        card.className = "card";
+
+        const title = document.createElement("div");
+        title.className = "title";
+        title.textContent = it.title || "(no title)";
+
+        const meta = document.createElement("div");
+        meta.className = "meta";
+        meta.innerHTML = `
+          <div>createdAt: ${it.createdAt || "-"}</div>
+          <div>path: ${it.path || "-"}</div>
+        `;
+
+        const top = document.createElement("div");
+        top.className = "top";
+
+        const left = document.createElement("div");
+        left.appendChild(title);
+        left.appendChild(meta);
+
+        const btnDel = document.createElement("button");
+        btnDel.className = "btn danger";
+        btnDel.textContent = "삭제";
+        btnDel.onclick = async () => {
+          const k = getKey();
+          if(!k){
+            alert("ADMIN_KEY가 없어. 위에 입력하고 저장해줘.");
+            return;
+          }
+          if(!it.path){
+            alert("삭제 경로(path)가 없어. inbox-list.ts에서 path를 항상 내려줘야 해.");
+            return;
+          }
+          if(!confirm("정말 삭제할까?\n" + it.path)) return;
+
+          const del = await fetch("/api/inbox-delete", {
+            method: "POST",
+            headers: {
+              "Content-Type":"application/json",
+              "x-admin-key": k
+            },
+            body: JSON.stringify({ path: it.path })
+          });
+          const d = await del.json();
+          if(!d.ok){
+            alert("삭제 실패: " + (d.error || "unknown"));
+            return;
+          }
+          card.remove();
+        };
+
+        top.appendChild(left);
+        top.appendChild(btnDel);
+
+        card.appendChild(top);
+        $("list").appendChild(card);
+      }
+    }
+
+    // init
+    $("adminKey").value = getKey();
+
+    $("btnSaveKey").onclick = () => {
+      setKey($("adminKey").value.trim());
+      alert("키 저장했어. (탭 닫으면 사라져)");
+    };
+    $("btnLogout").onclick = () => {
+      clearKey();
+      $("adminKey").value = "";
+      alert("키 지웠어.");
+    };
+    $("btnLoad").onclick = loadReviews;
+    $("btnRefresh").onclick = loadReviews;
+  </script>
+</body>
+</html>

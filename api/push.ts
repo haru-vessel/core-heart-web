@@ -44,32 +44,30 @@ const incomingAppId = String(body?.appId || "unknown");
 const incomingRoomId = String(body?.roomId || "unknown");
 const incomingReason = body?.reason ? String(body.reason) : "";
 
-const allowTalkReasons = new Set(["repeat3", "stuck", "overheat", "seed_stuck"]);
+const allowReasons = new Set(["repeat3", "stuck", "overheat", "seed_stuck", "review"]);
 const allowReviewReasons = new Set(["review"]);
 
+// ✅ sallangi는 talk / story-* 만 저장 (목적 분리)
 if (incomingAppId === "sallangi") {
-  const isTalk = incomingRoomId === "talk";
-  const isStoryReview = incomingRoomId.startsWith("story:") || incomingRoomId.startsWith("review:");
+  const safeRoom = safeId(incomingRoomId); // safeId는 이미 파일 안에 있음
+  const isTalk = safeRoom === "talk";
+  const isStory = safeRoom.startsWith("story-");
 
-  // talk / review 둘 다 아니면 저장 안 함
-  if (!isTalk && !isStoryReview) {
-    return res.status(200).json({ ok: true, skipped: true, reason: "room-not-allowed" });
-  }
-
-  // talk 방
   if (isTalk) {
-    if (!incomingReason || !allowTalkReasons.has(incomingReason)) {
+    // talk는 기존 reason만 허용
+    if (!incomingReason || !new Set(["repeat3", "stuck", "overheat", "seed_stuck"]).has(incomingReason)) {
       return res.status(200).json({ ok: true, skipped: true, reason: "talk-reason-not-allowed" });
     }
-  }
-
-  // 리뷰/댓글 방
-  if (isStoryReview) {
-    if (!incomingReason || !allowReviewReasons.has(incomingReason)) {
-      return res.status(200).json({ ok: true, skipped: true, reason: "review-reason-not-allowed" });
+  } else if (isStory) {
+    // story는 review만 허용
+    if (incomingReason !== "review") {
+      return res.status(200).json({ ok: true, skipped: true, reason: "story-reason-not-allowed" });
     }
+  } else {
+    return res.status(200).json({ ok: true, skipped: true, reason: "not-allowed-room" });
   }
 }
+
 
     const raw = JSON.stringify(body);
 if (raw.length > 50_000) return res.status(413).json({ ok: false, error: "Payload too large" });

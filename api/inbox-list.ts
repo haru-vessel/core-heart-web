@@ -4,7 +4,8 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 function cors(res: VercelResponse) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  // ✅ x-admin-key 추가
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, x-admin-key");
 }
 
 function b64ToUtf8(b64: string) {
@@ -26,10 +27,26 @@ function safeId(s: string) {
   return (s || "unknown").toLowerCase().replace(/[^a-z0-9-_]/g, "-").slice(0, 40);
 }
 
+function requireAdmin(req: VercelRequest, res: VercelResponse): boolean {
+  const ADMIN_KEY = (process.env.ADMIN_KEY || "").trim();
+  // ✅ 개발 환경에서 ADMIN_KEY가 비어있으면 잠금 해제(원하면 이 줄을 막아도 됨)
+  if (!ADMIN_KEY) return true;
+
+  const incoming = String(req.headers["x-admin-key"] || "").trim();
+  if (!incoming || incoming !== ADMIN_KEY) {
+    res.status(401).json({ ok: false, error: "Unauthorized" });
+    return false;
+  }
+  return true;
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   cors(res);
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "GET") return res.status(405).json({ ok: false, error: "Method not allowed" });
+
+  // ✅ ADMIN_KEY 보호
+  if (!requireAdmin(req, res)) return;
 
   try {
     const token = process.env.GITHUB_TOKEN!;
@@ -52,24 +69,34 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .map((x: any) => x.name)
       .sort();
 
-  const ALLOWED_APP_IDS = new Set(["harurua", "sallangi", "ttasseumi"]);
+    const ALLOWED_APP_IDS = new Set(["harurua", "sallangi", "ttasseumi"]);
 
-const requested = appIdQuery ? safeId(appIdQuery) : "";
-const targetApps = requested
-  ? (ALLOWED_APP_IDS.has(requested) ? [requested] : ["harurua"])
-  : appDirs.filter((a) => ALLOWED_APP_IDS.has(a));
+    const requested = appIdQuery ? safeId(appIdQuery) : "";
+    const targetApps = requested
+      ? ALLOWED_APP_IDS.has(requested)
+        ? [requested]
+        : ["harurua"]
+      : appDirs.filter((a) => ALLOWED_APP_IDS.has(a));
 
-const collected: Array<{ download_url: string; appId: string; date: string; room: string; name: string; path: string }> = [];
+    const collected: Array<{
+      download_url: string;
+      appId: string;
+      date: string;
+      room: string;
+      name: string;
+      path: string;
+    }> = [];
 
     for (let ai = targetApps.length - 1; ai >= 0; ai--) {
       const appId = targetApps[ai];
+
       // 1) 날짜 폴더
       const listDatesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${appId}?ref=${branch}`;
       let dates: any[] = [];
       try {
         dates = await ghGetJson(listDatesUrl, token);
       } catch {
-        continue; // 앱 폴더가 없으면 스킵
+        continue;
       }
 
       const dateDirs = (Array.isArray(dates) ? dates : [])
@@ -112,8 +139,8 @@ const collected: Array<{ download_url: string; appId: string; date: string; room
             .sort((a: any, b: any) => a.name.localeCompare(b.name));
 
           for (let fi = jsonFiles.length - 1; fi >= 0; fi--) {
-           const filePath = `inbox/${appId}/${date}/${room}/${jsonFiles[fi].name}`;
-collected.push({ ...jsonFiles[fi], appId, date, room, path: filePath });
+            const filePath = `inbox/${appId}/${date}/${room}/${jsonFiles[fi].name}`;
+            collected.push({ ...jsonFiles[fi], appId, date, room, name: jsonFiles[fi].name, path: filePath });
 
             if (collected.length >= limit) break;
           }
@@ -127,26 +154,26 @@ collected.push({ ...jsonFiles[fi], appId, date, room, path: filePath });
       if (collected.length >= limit) break;
     }
 
-    // 4) 실제 파일을 읽어서 savedAt/text를 가져오기 (목록 품질 ↑)
-    const items = [];
+    // 4) 실제 파일을 읽어서 createdAt/text를 가져오기
+    const items: any[] = [];
     for (const f of collected) {
       try {
-     const contentUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${f.path}?ref=${branch}`;
-const fileMeta = await ghGetJson(contentUrl, token);
-const raw = b64ToUtf8(String(fileMeta?.content || "").replace(/\n/g, ""));
-const obj = JSON.parse(raw);
+        const contentUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${f.path}?ref=${branch}`;
+        const fileMeta = await ghGetJson(contentUrl, token);
+        const raw = b64ToUtf8(String(fileMeta?.content || "").replace(/\n/g, ""));
+        const obj = JSON.parse(raw);
 
         const createdAt = String(obj?.savedAt || obj?.createdAt || "") || null;
         const text = String(obj?.text || "").trim();
 
-     items.push({
-  app: f.appId,
-  type: "json",
-  createdAt,
-  title: text ? text.slice(0, 40) : `${f.date}/${f.room}/${f.name}`,
-  url: f.download_url,
-  path: f.path, // ✅ 추가 (예: inbox/sallangi/2026-02-24/talk/xxx.json)
-});
+        items.push({
+          app: f.appId,
+          type: "json",
+          createdAt,
+          title: text ? text.slice(0, 40) : `${f.date}/${f.room}/${f.name}`,
+          url: f.download_url,
+          path: f.path, // ✅ 항상 포함
+        });
       } catch {
         items.push({
           app: f.appId,
@@ -154,6 +181,7 @@ const obj = JSON.parse(raw);
           createdAt: null,
           title: `${f.date}/${f.room}/${f.name}`,
           url: f.download_url,
+          path: f.path, // ✅ catch에서도 포함(삭제용)
         });
       }
     }
