@@ -1,0 +1,27 @@
+{
+  "appId": "sallangi",
+  "roomId": "story-story_1772004098091_6258",
+  "reason": "review",
+  "text": "아름다워",
+  "meta": {
+    "messageId": "msg_1772004138501_461925",
+    "roomId": "story:story_1772004098091_6258",
+    "text": "아름다워",
+    "createdAt": 1772004138501,
+    "reason": "review",
+    "meta": {
+      "kind": "story_comment",
+      "postId": "story_1772004098091_6258",
+      "authorId": "user_1771907877862_864574",
+      "authorName": "나",
+      "createdAt": 1772004138501
+    },
+    "tags": [
+      "sallangi"
+    ]
+  },
+  "originalAppId": "sallangi",
+  "originalRoomId": "story:story_1772004098091_6258",
+  "fixedAppId": "sallangi",
+  "savedAt": "2026-02-25T07:22:17.862Z"
+}
