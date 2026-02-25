@@ -69,10 +69,14 @@
       $("status").textContent = "불러오는 중...";
       $("list").innerHTML = "";
 
-     const k = sessionStorage.getItem("core_admin_key_v1") || "";
-const res = awaitfetch(`/api/review-list?appId=sallangi&roomPrefix=story-&limit=200`, {
-  headers: { "x-admin-key": k }
-})
+const k = sessionStorage.getItem("core_admin_key_v1") || "";
+
+const res = await fetch(
+  `/api/review-list?appId=sallangi&roomPrefix=story-&limit=200`,
+  {
+    headers: { "x-admin-key": k }
+  }
+);
       const data = await res.json();
       if(!data.ok){
         $("status").textContent = "목록 실패: " + (data.error || "unknown");
@@ -80,7 +84,7 @@ const res = awaitfetch(`/api/review-list?appId=sallangi&roomPrefix=story-&limit=
       }
 
       const items = Array.isArray(data.items) ? data.items : [];
-      const reviews = items.filter(isStoryRoom);
+      const reviews = items;
 
       $("status").textContent = `총 ${reviews.length}개 (story-* 만 표시)`;
 
