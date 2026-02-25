@@ -11,33 +11,34 @@ function b64ToUtf8(b64: string) {
   return Buffer.from(b64, "base64").toString("utf8");
 }
 
+function safeId(s: string) {
+  return (s || "unknown").toLowerCase().replace(/[^a-z0-9-_]/g, "-").slice(0, 80);
+}
+
 function makeMicroText(item: any): string {
-  // 1) item.micro가 이미 있으면 그걸 우선
   const m = (item?.micro ?? item?.meta?.micro ?? "").toString().trim();
   if (m) return m;
 
-  // 2) 없으면 item.text에서 1줄 만들어주기
-  const t = (item?.text ?? item?.meta?.text ?? "").toString().trim();
+  const t = (item?.text ?? item?.meta?.text ?? item?.payload?.text ?? "").toString().trim();
   if (!t) return "";
 
-  // 첫 줄/첫 문장 느낌으로 짧게
   const firstLine = t.split("\n")[0].trim();
-  const clipped = firstLine.length > 80 ? firstLine.slice(0, 80) + "…" : firstLine;
-  return clipped;
+  return firstLine.length > 80 ? firstLine.slice(0, 80) + "…" : firstLine;
 }
+
 async function ghGetJson(url: string, token: string) {
   const r = await fetch(url, {
     headers: {
-      "Authorization": `Bearer ${token}`,
-      "Accept": "application/vnd.github+json",
+      Authorization: `Bearer ${token}`,
+      Accept: "application/vnd.github+json",
     },
   });
   if (!r.ok) throw new Error(`GitHub GET failed: ${r.status}`);
   return r.json();
 }
 
-function safeId(s: string) {
-  return (s || "unknown").toLowerCase().replace(/[^a-z0-9-_]/g, "-").slice(0, 40);
+function isDateFolder(name: string) {
+  return /^\d{4}-\d{2}-\d{2}$/.test(name);
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -53,93 +54,114 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!token || !owner || !repo) return res.status(500).json({ ok: false, error: "Missing GitHub env vars" });
 
     const url = new URL(req.url || "", `https://${req.headers.host}`);
-    const appId = safeId((req.query.appId as string) || "harurua");
+
+    const rawAppId = safeId((req.query.appId as string) || "harurua");
     const ALLOWED_APP_IDS = new Set(["harurua", "sallangi", "ttasseumi"]);
-const fixedAppId = ALLOWED_APP_IDS.has(appId) ? appId : "harurua";
+    const fixedAppId = ALLOWED_APP_IDS.has(rawAppId) ? rawAppId : "harurua";
 
-    const mode = String(req.query.mode || "short");
-  const roomId = safeId(String(url.searchParams.get("roomId") ?? "").trim());
+    const mode = String(req.query.mode || "short"); // "short" | "long"
+    const roomId = safeId(String(url.searchParams.get("roomId") ?? "").trim()); // ✅ 받는 순간 safe 처리
 
-    // ===== LONG MODE (encyclopedia) =====
-if (mode === "long") {
-  try {
-    const encUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/encyclopedia/index.json`;
-    const enc = await fetch(encUrl).then(r => r.json());
+    // ✅ encyclopedia long은 harurua만 (sallangi가 long 써도 여기 안 탐)
+    if (mode === "long" && fixedAppId === "harurua" && !roomId) {
+      try {
+        const encUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/encyclopedia/index.json`;
+        const enc = await fetch(encUrl).then((r) => r.json());
+        const items = Array.isArray(enc?.items) ? enc.items : [];
+        const longItems = items.filter((x: any) => x?.length === "long" && x?.text);
 
-    const items = Array.isArray(enc?.items) ? enc.items : [];
-
-    const longItems = items.filter((x: any) => x?.length === "long" && x?.text);
-
-    if (longItems.length > 0) {
-      const picked = longItems[Math.floor(Math.random() * longItems.length)];
-      
-   return res.status(200).json({
-  ok: true,
-  items: [picked],
-  micro: makeMicroText(picked) || null,
-});
+        if (longItems.length > 0) {
+          const picked = longItems[Math.floor(Math.random() * longItems.length)];
+          return res.status(200).json({ ok: true, items: [picked], micro: makeMicroText(picked) || null });
+        }
+      } catch {
+        // 없으면 아래 inbox로 진행
+      }
     }
-  } catch {
-    // encyclopedia 없으면 그냥 short로 내려감
-  }
-}
 
     // 1) inbox/appId 아래에서 날짜 폴더 목록
     const listDatesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${fixedAppId}?ref=${branch}`;
     const dates = await ghGetJson(listDatesUrl, token);
 
-    // 폴더만 뽑아서 최신(이름 기준) 선택
     const dateDirs = (Array.isArray(dates) ? dates : [])
-      .filter((x: any) => x.type === "dir")
+      .filter((x: any) => x.type === "dir" && isDateFolder(x.name))
       .map((x: any) => x.name)
-      .sort(); // YYYY-MM-DD라면 정렬 끝이 최신
+      .sort(); // YYYY-MM-DD → sort 끝이 최신
 
     if (dateDirs.length === 0) return res.status(200).json({ ok: true, items: [], micro: null });
 
-    const latestDate = dateDirs[dateDirs.length - 1];
+    const wantLong = mode === "long";
+    const limit = wantLong ? 200 : 1;
 
-    // 2) 날짜 폴더 아래 room 목록 → 일단 가장 첫 room
-    const roomsUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${fixedAppId}/${latestDate}?ref=${branch}`;
-    const rooms = await ghGetJson(roomsUrl, token);
-    const roomDirs = (Array.isArray(rooms) ? rooms : []).filter((x: any) => x.type === "dir").map((x: any) => x.name).sort();
-  if (roomDirs.length === 0) return res.status(200).json({ ok: true, items: [], micro: null });
+    const collected: any[] = [];
 
-const latestRoom = roomDirs[roomDirs.length - 1];
-const preferredRoom = roomDirs.includes("talk") ? "talk" : latestRoom;
-const chosenRoom = roomId && roomDirs.includes(roomId) ? roomId : preferredRoom;
+    // ✅ 최신 날짜부터 훑기
+    for (let i = dateDirs.length - 1; i >= 0; i--) {
+      const date = dateDirs[i];
 
-    // 3) latestRoom 아래 파일 목록 → 최신 파일 1개
-    const filesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${fixedAppId}/${latestDate}/${chosenRoom}?ref=${branch}`;
-    const files = await ghGetJson(filesUrl, token);
+      // 2) 날짜 폴더 아래 room 목록
+      const roomsUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${fixedAppId}/${date}?ref=${branch}`;
+      const rooms = await ghGetJson(roomsUrl, token);
 
-    const fileItems = (Array.isArray(files) ? files : [])
-      .filter((x: any) => x.type === "file" && x.name.endsWith(".json"))
-      .map((x: any) => ({ name: x.name, download_url: x.download_url }))
-      .sort((a: any, b: any) => a.name.localeCompare(b.name));
+      const roomDirs = (Array.isArray(rooms) ? rooms : [])
+        .filter((x: any) => x.type === "dir")
+        .map((x: any) => x.name)
+        .sort();
 
-    if (fileItems.length === 0) return res.status(200).json({ ok: true, items: [], micro: null });
-const latest = fileItems[fileItems.length - 1];
+      if (roomDirs.length === 0) continue;
 
-// ✅ download_url 직접 fetch 대신: contents API로 읽기 (private repo 안전)
-const filePath = `inbox/${fixedAppId}/${latestDate}/${chosenRoom}/${latest.name}`;
-const contentUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
-const meta = await ghGetJson(contentUrl, token);
+      // ✅ roomId가 있으면 그 방만, 없으면 “talk 우선” (기존 정책 유지)
+      const latestRoom = roomDirs[roomDirs.length - 1];
+      const preferredRoom = roomDirs.includes("talk") ? "talk" : latestRoom;
+      const chosenRoom = roomId && roomDirs.includes(roomId) ? roomId : preferredRoom;
 
-// GitHub contents API는 content가 base64(+개행)로 옴
-const contentB64 = String(meta?.content || "").replace(/\n/g, "");
-const raw = b64ToUtf8(contentB64);
+      // 3) chosenRoom 아래 파일 목록
+      const filesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${fixedAppId}/${date}/${chosenRoom}?ref=${branch}`;
+      const files = await ghGetJson(filesUrl, token);
 
-const item = JSON.parse(raw);
+      const fileItems = (Array.isArray(files) ? files : [])
+        .filter((x: any) => x.type === "file" && x.name.endsWith(".json"))
+        .map((x: any) => ({ name: x.name }))
+        .sort((a: any, b: any) => a.name.localeCompare(b.name)); // 이름이 timestamp라면 마지막이 최신
 
-const itemsArr = item ? [item] : [];
-const micro = item ? makeMicroText(item) : null;
+      if (fileItems.length === 0) continue;
 
-return res.status(200).json({
-  ok: true,
-  items: itemsArr,
-  micro: micro && micro.trim() ? micro : null,
-});
+      // ✅ short: 최신 1개만
+      // ✅ long : 최신부터 여러 개 모아서 최대 200개
+      for (let j = fileItems.length - 1; j >= 0; j--) {
+        const fn = fileItems[j];
 
+        const filePath = `inbox/${fixedAppId}/${date}/${chosenRoom}/${fn.name}`;
+        const contentUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${filePath}?ref=${branch}`;
+        try {
+          const meta = await ghGetJson(contentUrl, token);
+          const contentB64 = String(meta?.content || "").replace(/\n/g, "");
+          const raw = b64ToUtf8(contentB64);
+          const item = JSON.parse(raw);
+          if (item) collected.push(item);
+        } catch {
+          // 깨진 파일은 스킵
+        }
+
+        if (!wantLong && collected.length >= 1) break;
+        if (wantLong && collected.length >= limit) break;
+      }
+
+      if (!wantLong && collected.length >= 1) break;
+      if (wantLong && collected.length >= limit) break;
+    }
+
+    // ✅ 정렬 안정화: createdAt 기준
+    collected.sort((a, b) => {
+      const ta = Number(a?.meta?.createdAt ?? a?.createdAt ?? 0);
+      const tb = Number(b?.meta?.createdAt ?? b?.createdAt ?? 0);
+      return ta - tb;
+    });
+
+    const items = wantLong ? collected.slice(-limit) : collected.slice(-1);
+    const micro = items.length > 0 ? makeMicroText(items[items.length - 1]) : null;
+
+    return res.status(200).json({ ok: true, items, micro: micro && micro.trim() ? micro : null });
   } catch (e: any) {
     return res.status(500).json({ ok: false, error: e?.message || "Unknown error" });
   }
