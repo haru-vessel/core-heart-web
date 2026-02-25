@@ -45,9 +45,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "GET") return res.status(405).json({ ok: false, error: "Method not allowed" });
 
-  // ✅ ADMIN_KEY 보호
-  if (!requireAdmin(req, res)) return;
-
   try {
     const token = process.env.GITHUB_TOKEN!;
     const owner = process.env.GITHUB_OWNER!;
