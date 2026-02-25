@@ -40,7 +40,7 @@
 
     <div class="row">
       <button class="btn" id="btnLoad">리뷰 목록 불러오기</button>
-      <span class="hint">/api/inbox-list?appId=sallangi 로 가져온 뒤 story-* 방만 필터링</span>
+      <span class="hint">/api/review-list?appId=sallangi&roomPrefix=story-&limit=200 로 리뷰방만 가져옴</span>
     </div>
 
     <div id="status" class="hint"></div>
@@ -66,24 +66,24 @@
     }
 
     async function loadReviews(){
-      $("status").textContent = "불러오는 중...";
-      $("list").innerHTML = "";
+    $("status").textContent = "불러오는 중...";
+    $("list").innerHTML = "";
 
-const k = sessionStorage.getItem("core_admin_key_v1") || "";
+    const k = getKey();
 
-const res = await fetch(
-  `/api/review-list?appId=sallangi&roomPrefix=story-&limit=200`,
-  {
-    headers: { "x-admin-key": k }
-  }
-);
-      const data = await res.json();
-      if(!data.ok){
-        $("status").textContent = "목록 실패: " + (data.error || "unknown");
-        return;
-      }
+    const res = await fetch(`/api/review-list?appId=sallangi&roomPrefix=story-&limit=200`, {
+      headers: { "x-admin-key": k }
+    });
 
-      const items = Array.isArray(data.items) ? data.items : [];
+    const data = await res.json();
+    if(!data.ok){
+      $("status").textContent = "목록 실패: " + (data.error || "unknown");
+      return;
+    }
+
+    const items = Array.isArray(data.items) ? data.items : [];
+
+    $("status").textContent = `총 ${items.length}개`;
       const reviews = items;
 
       $("status").textContent = `총 ${reviews.length}개 (story-* 만 표시)`;
