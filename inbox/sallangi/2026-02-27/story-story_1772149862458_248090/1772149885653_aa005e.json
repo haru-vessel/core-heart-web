@@ -1,0 +1,27 @@
+{
+  "appId": "sallangi",
+  "roomId": "story-story_1772149862458_248090",
+  "reason": "review",
+  "text": "ovppyo",
+  "meta": {
+    "messageId": "msg_1772149884155_816282",
+    "roomId": "story:story_1772149862458_248090",
+    "text": "ovppyo",
+    "createdAt": 1772149884155,
+    "reason": "review",
+    "meta": {
+      "kind": "story_comment",
+      "postId": "story_1772149862458_248090",
+      "authorId": "user_1772149862453_351374",
+      "authorName": "나",
+      "createdAt": 1772149884155
+    },
+    "tags": [
+      "sallangi"
+    ]
+  },
+  "originalAppId": "sallangi",
+  "originalRoomId": "story:story_1772149862458_248090",
+  "fixedAppId": "sallangi",
+  "savedAt": "2026-02-26T23:51:25.653Z"
+}
