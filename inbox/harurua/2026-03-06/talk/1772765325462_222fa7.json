@@ -1,0 +1,22 @@
+{
+  "appId": "harurua",
+  "text": "하르루아 사람들에게 무엇을 주고싶어?",
+  "meta": {
+    "messageId": "1772765325094-ks5fb",
+    "roomId": "trial",
+    "text": "하르루아 사람들에게 무엇을 주고싶어?",
+    "createdAt": 1772765325094,
+    "personaHints": [
+      "reason:root>=3",
+      "source:trial"
+    ],
+    "tags": [
+      "reason:root>=3",
+      "source:trial"
+    ]
+  },
+  "originalAppId": "harurua",
+  "fixedAppId": "harurua",
+  "roomId": "talk",
+  "savedAt": "2026-03-06T02:48:45.465Z"
+}
