@@ -1,0 +1,22 @@
+{
+  "appId": "harurua",
+  "text": "어제 멍때리기 두시간은 한것 같아 ㅎ",
+  "meta": {
+    "messageId": "1772767151847-7ddta",
+    "roomId": "trial",
+    "text": "어제 멍때리기 두시간은 한것 같아 ㅎ",
+    "createdAt": 1772767151848,
+    "personaHints": [
+      "reason:root>=3",
+      "source:trial"
+    ],
+    "tags": [
+      "reason:root>=3",
+      "source:trial"
+    ]
+  },
+  "originalAppId": "harurua",
+  "fixedAppId": "harurua",
+  "roomId": "talk",
+  "savedAt": "2026-03-06T03:19:12.790Z"
+}
