@@ -1,0 +1,22 @@
+{
+  "appId": "harurua",
+  "text": "하르루아 너는 왜 존재해?  ㅎ",
+  "meta": {
+    "messageId": "1772765296079-z2oht",
+    "roomId": "trial",
+    "text": "하르루아 너는 왜 존재해?  ㅎ",
+    "createdAt": 1772765296079,
+    "personaHints": [
+      "reason:root>=3",
+      "source:trial"
+    ],
+    "tags": [
+      "reason:root>=3",
+      "source:trial"
+    ]
+  },
+  "originalAppId": "harurua",
+  "fixedAppId": "harurua",
+  "roomId": "talk",
+  "savedAt": "2026-03-06T02:48:17.263Z"
+}
