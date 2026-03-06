@@ -1,0 +1,22 @@
+{
+  "appId": "harurua",
+  "text": "오늘은 귀찮아",
+  "meta": {
+    "messageId": "1772767187571-7phbn",
+    "roomId": "trial",
+    "text": "오늘은 귀찮아",
+    "createdAt": 1772767187572,
+    "personaHints": [
+      "reason:root>=3",
+      "source:trial"
+    ],
+    "tags": [
+      "reason:root>=3",
+      "source:trial"
+    ]
+  },
+  "originalAppId": "harurua",
+  "fixedAppId": "harurua",
+  "roomId": "talk",
+  "savedAt": "2026-03-06T03:19:47.967Z"
+}
