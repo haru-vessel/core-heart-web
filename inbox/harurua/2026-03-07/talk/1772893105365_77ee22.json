@@ -1,0 +1,22 @@
+{
+  "appId": "harurua",
+  "text": "퍄ㅓㅐㅡㅊ",
+  "meta": {
+    "messageId": "1774707493873-1rhz0",
+    "roomId": "trial",
+    "text": "퍄ㅓㅐㅡㅊ",
+    "createdAt": 1774707501253,
+    "personaHints": [
+      "reason:blocked",
+      "source:trial"
+    ],
+    "tags": [
+      "reason:blocked",
+      "source:trial"
+    ]
+  },
+  "originalAppId": "harurua",
+  "fixedAppId": "harurua",
+  "roomId": "talk",
+  "savedAt": "2026-03-07T14:18:25.368Z"
+}
