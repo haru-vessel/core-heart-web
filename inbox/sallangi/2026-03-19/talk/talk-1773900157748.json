@@ -1,0 +1,26 @@
+{
+  "appId": "sallangi",
+  "roomId": "talk",
+  "reason": "seed_stuck",
+  "text": "책을 읽으니 어른이 되어가",
+  "meta": {
+    "messageId": "talk-1773900157748",
+    "roomId": "talk",
+    "reason": "seed_stuck",
+    "text": "책을 읽으니 어른이 되어가",
+    "createdAt": 1773900157748,
+    "meta": {
+      "userText": "책을 읽으니 어른이 되어가",
+      "reply": "조금 쉬어가도 돼.",
+      "boosted": "책을 읽으니 어른이 되어가"
+    },
+    "tags": [
+      "sallangi"
+    ]
+  },
+  "originalAppId": "sallangi",
+  "originalRoomId": "talk",
+  "originalReason": "seed_stuck",
+  "fixedAppId": "sallangi",
+  "savedAt": "2026-03-19T06:02:37.675Z"
+}
