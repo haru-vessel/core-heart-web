@@ -59,7 +59,60 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const ALLOWED_APP_IDS = new Set(["harurua", "sallangi", "ttasseumi"]);
     const fixedAppId = ALLOWED_APP_IDS.has(rawAppId) ? rawAppId : "harurua";
 
-    const mode = String(req.query.mode || "short"); // "short" | "long"
+    // ✅ encyclopedia 한 줄은 전용 모드로 분리
+if (mode === "encyclopedia") {
+  try {
+    const encUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/encyclopedia/index.json`;
+    const enc = await fetch(encUrl).then((r) => r.json());
+
+    console.log("📘 encyclopedia mode hit", { appId: fixedAppId, mode });
+    const items = Array.isArray(enc?.items) ? enc.items : [];
+
+    // 구조 1) { items:[{ lines:[...] }] }
+    const linePool = items.flatMap((item: any) =>
+      Array.isArray(item?.lines)
+        ? item.lines
+            .filter((x: any) => typeof x === "string" && x.trim())
+            .map((x: string) => x.trim())
+        : []
+    );
+
+    // 구조 2) 혹시 { text, length } 류가 섞여 있어도 대응
+    const textPool = items
+      .filter((x: any) => typeof x?.text === "string" && x.text.trim())
+      .map((x: any) => x.text.trim());
+
+    const pool = linePool.length > 0 ? linePool : textPool;
+
+    if (pool.length === 0) {
+      return res.status(200).json({
+        ok: true,
+        source: "encyclopedia",
+        items: [],
+        micro: null,
+      });
+    }
+
+    const picked = pool[Math.floor(Math.random() * pool.length)];
+
+    return res.status(200).json({
+      ok: true,
+      source: "encyclopedia",
+      items: [{ text: picked }],
+      micro: picked,
+    });
+  } catch (e: any) {
+    return res.status(200).json({
+      ok: true,
+      source: "encyclopedia",
+      items: [],
+      micro: null,
+      warning: e?.message || "encyclopedia read failed",
+    });
+  }
+}
+
+   const mode = String(req.query.mode || "short"); // "short" | "long" | "encyclopedia"
     const roomId = safeId(String(url.searchParams.get("roomId") ?? "").trim()); // ✅ 받는 순간 safe 처리
 
     // ✅ encyclopedia long은 harurua만 (sallangi가 long 써도 여기 안 탐)
@@ -83,6 +136,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const listDatesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${fixedAppId}?ref=${branch}`;
     const dates = await ghGetJson(listDatesUrl, token);
 
+    console.warn("📘 /api/pull encyclopedia 호출");
     const dateDirs = (Array.isArray(dates) ? dates : [])
       .filter((x: any) => x.type === "dir" && isDateFolder(x.name))
       .map((x: any) => x.name)
