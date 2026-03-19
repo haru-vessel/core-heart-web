@@ -50,6 +50,30 @@ function isDateFolder(name: string) {
   return /^\d{4}-\d{2}-\d{2}$/.test(name);
 }
 
+async function fetchJsonIfExists(url: string) {
+  const res = await fetch(url);
+  if (!res.ok) return null;
+  return res.json();
+}
+
+function extractLinePool(enc: any): string[] {
+  const items = Array.isArray(enc?.items) ? enc.items : [];
+
+  const linePool = items.flatMap((item: any) =>
+    Array.isArray(item?.lines)
+      ? item.lines
+          .filter((x: any) => typeof x === "string" && x.trim())
+          .map((x: string) => x.trim())
+      : []
+  );
+
+  const textPool = items
+    .filter((x: any) => typeof x?.text === "string" && x.text.trim())
+    .map((x: any) => x.text.trim());
+
+  return linePool.length > 0 ? linePool : textPool;
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   cors(res);
 
@@ -80,46 +104,39 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const ALLOWED_APP_IDS = new Set(["harurua", "sallangi", "ttasseumi"]);
     const fixedAppId = ALLOWED_APP_IDS.has(rawAppId) ? rawAppId : "harurua";
 
-    // ✅ 여기서 먼저 선언
     const mode = String(req.query.mode || "short"); // "short" | "long" | "encyclopedia"
     const roomId = safeId(String(url.searchParams.get("roomId") ?? "").trim());
 
-    // ✅ encyclopedia 한 줄은 전용 모드
+    // ✅ encyclopedia 한 줄은 여러 카테고리에서 모아오기
     if (mode === "encyclopedia") {
       try {
-        const encUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/encyclopedia/index.json`;
-        const encRes = await fetch(encUrl);
+        const categoryFiles = [
+          "emotion/index.json",
+          "life-events/index.json",
+          "relationship/index.json",
+          "language-definition/index.json",
+        ];
 
-        if (!encRes.ok) {
-          throw new Error(`Encyclopedia fetch failed: ${encRes.status}`);
+        const pools: Array<{ source: string; line: string }> = [];
+
+        for (const file of categoryFiles) {
+          const encUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/encyclopedia/${file}`;
+          const enc = await fetchJsonIfExists(encUrl);
+          if (!enc) continue;
+
+          const pool = extractLinePool(enc);
+          for (const line of pool) {
+            pools.push({ source: file, line });
+          }
         }
-
-        const enc = await encRes.json();
 
         console.log("📘 encyclopedia mode hit", {
           appId: fixedAppId,
           mode,
+          poolSize: pools.length,
         });
 
-        const items = Array.isArray(enc?.items) ? enc.items : [];
-
-        // 구조 1) { items:[{ lines:[...] }] }
-        const linePool = items.flatMap((item: any) =>
-          Array.isArray(item?.lines)
-            ? item.lines
-                .filter((x: any) => typeof x === "string" && x.trim())
-                .map((x: string) => x.trim())
-            : []
-        );
-
-        // 구조 2) 혹시 { text: "..." } 형태도 대응
-        const textPool = items
-          .filter((x: any) => typeof x?.text === "string" && x.text.trim())
-          .map((x: any) => x.text.trim());
-
-        const pool = linePool.length > 0 ? linePool : textPool;
-
-        if (pool.length === 0) {
+        if (pools.length === 0) {
           return res.status(200).json({
             ok: true,
             source: "encyclopedia",
@@ -128,13 +145,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
 
-        const picked = pool[Math.floor(Math.random() * pool.length)];
+        const picked = pools[Math.floor(Math.random() * pools.length)];
 
         return res.status(200).json({
           ok: true,
           source: "encyclopedia",
-          items: [{ text: picked }],
-          micro: picked,
+          category: picked.source,
+          items: [{ text: picked.line }],
+          micro: picked.line,
         });
       } catch (e: any) {
         return res.status(200).json({
@@ -194,11 +212,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const collected: any[] = [];
 
-    // ✅ 최신 날짜부터 훑기
     for (let i = dateDirs.length - 1; i >= 0; i--) {
       const date = dateDirs[i];
 
-      // 2) 날짜 폴더 아래 room 목록
       const roomsUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${fixedAppId}/${date}?ref=${branch}`;
       const rooms = await ghGetJson(roomsUrl, token);
 
@@ -209,13 +225,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       if (roomDirs.length === 0) continue;
 
-      // roomId가 있으면 그 방만, 없으면 talk 우선
       const latestRoom = roomDirs[roomDirs.length - 1];
       const preferredRoom = roomDirs.includes("talk") ? "talk" : latestRoom;
       const chosenRoom =
         roomId && roomDirs.includes(roomId) ? roomId : preferredRoom;
 
-      // 3) chosenRoom 아래 파일 목록
       const filesUrl = `https://api.github.com/repos/${owner}/${repo}/contents/inbox/${fixedAppId}/${date}/${chosenRoom}?ref=${branch}`;
       const files = await ghGetJson(filesUrl, token);
 
@@ -253,7 +267,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       if (wantLong && collected.length >= limit) break;
     }
 
-    // ✅ createdAt 기준 정렬
     collected.sort((a, b) => {
       const ta = Number(a?.meta?.createdAt ?? a?.createdAt ?? 0);
       const tb = Number(b?.meta?.createdAt ?? b?.createdAt ?? 0);

@@ -3,6 +3,7 @@
   "items": [
     { "id": "emotion", "path": "/emotion/index.json" },
     { "id": "life", "path": "/life-events/index.json" },
-    { "id": "relationship", "path": "/relationship/index.json" }
+    { "id": "relationship", "path": "/relationship/index.json" },
+    { "id": "language", "path": "/language-definition/index.json" }
   ]
 }
