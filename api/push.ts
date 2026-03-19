@@ -7,124 +7,223 @@ function cors(res: VercelResponse) {
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 }
 
-function b64(input: string) {
-  return Buffer.from(input, "utf8").toString("base64");
-}
-
-function isoDateKST(d = new Date()) {
-  // 파일 경로 정리용: YYYY-MM-DD
-  const kst = new Date(d.getTime() + 9 * 60 * 60 * 1000);
-  return kst.toISOString().slice(0, 10);
-}
-
 function safeId(s: string) {
-  return (s || "unknown").toLowerCase().replace(/[^a-z0-9-_]/g, "-").slice(0, 40);
+  return (s || "unknown")
+    .toLowerCase()
+    .replace(/[^a-z0-9-_]/g, "-")
+    .slice(0, 80);
+}
+
+async function ghPutJson(args: {
+  owner: string;
+  repo: string;
+  branch: string;
+  token: string;
+  path: string;
+  contentJson: any;
+  message: string;
+}) {
+  const { owner, repo, branch, token, path, contentJson, message } = args;
+
+  const content = Buffer.from(
+    JSON.stringify(contentJson, null, 2),
+    "utf8"
+  ).toString("base64");
+
+  const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+  const res = await fetch(url, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/vnd.github+json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      message,
+      content,
+      branch,
+    }),
+  });
+
+  const data = await res.json().catch(() => null);
+
+  if (!res.ok) {
+    throw new Error(
+      `GitHub PUT failed: ${res.status} ${JSON.stringify(data)}`
+    );
+  }
+
+  return data;
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   cors(res);
-  if (req.method === "OPTIONS") return res.status(200).end();
-  if (req.method !== "POST") return res.status(405).json({ ok: false, error: "Method not allowed" });
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  if (req.method !== "POST") {
+    return res.status(405).json({ ok: false, error: "Method not allowed" });
+  }
 
   try {
-    const token = process.env.GITHUB_TOKEN;
-    const owner = process.env.GITHUB_OWNER;
-    const repo = process.env.GITHUB_REPO;
+    const token = process.env.GITHUB_TOKEN!;
+    const owner = process.env.GITHUB_OWNER!;
+    const repo = process.env.GITHUB_REPO!;
     const branch = process.env.GITHUB_BRANCH || "main";
 
     if (!token || !owner || !repo) {
-      return res.status(500).json({ ok: false, error: "Missing GitHub env vars" });
+      return res.status(500).json({
+        ok: false,
+        error: "Missing GitHub env vars",
+      });
     }
 
-    // 앱에서 보내는 payload는 자유롭게.
-    // 최소: appId, roomId, text 정도만 있어도 저장되게 설계.
-    const body = typeof req.body === "string" ? JSON.parse(req.body) : (req.body || {});  
+    const body = req.body ?? {};
 
-const incomingAppId = String(body?.appId || "unknown");
-const incomingRoomId = String(body?.roomId || "unknown");
-const incomingReason = body?.reason ? String(body.reason) : "";
+    // ✅ 앱에서 최상위로 보낼 수도 있고 meta 안에 넣을 수도 있음
+    const incomingAppId = String(body?.appId || body?.meta?.appId || "unknown");
+    const incomingRoomId = String(
+      body?.roomId || body?.meta?.roomId || "unknown"
+    );
+    const incomingReason = String(
+      body?.reason || body?.meta?.reason || ""
+    );
 
-const allowReasons = new Set(["repeat3", "stuck", "overheat", "seed_stuck", "review"]);
-const allowReviewReasons = new Set(["review"]);
-
-// ✅ sallangi는 talk / story-* 만 저장 (목적 분리)
-if (incomingAppId === "sallangi") {
-  const safeRoom = safeId(incomingRoomId); // safeId는 이미 파일 안에 있음
-  const isTalk = safeRoom === "talk";
-  const isStory = safeRoom.startsWith("story-");
-
-  if (isTalk) {
-    // talk는 기존 reason만 허용
-    if (!incomingReason || !new Set(["repeat3", "stuck", "overheat", "seed_stuck"]).has(incomingReason)) {
-      return res.status(200).json({ ok: true, skipped: true, reason: "talk-reason-not-allowed" });
-    }
-  } else if (isStory) {
-    // story는 review만 허용
-    if (incomingReason !== "review") {
-      return res.status(200).json({ ok: true, skipped: true, reason: "story-reason-not-allowed" });
-    }
-  } else {
-    return res.status(200).json({ ok: true, skipped: true, reason: "not-allowed-room" });
-  }
-}
-
-
-    const raw = JSON.stringify(body);
-if (raw.length > 50_000) return res.status(413).json({ ok: false, error: "Payload too large" });
-
-    const appId = safeId(body.appId || "harurua");
     const ALLOWED_APP_IDS = new Set(["harurua", "sallangi", "ttasseumi"]);
-const fixedAppId = ALLOWED_APP_IDS.has(appId) ? appId : "harurua";
+    const fixedAppId = ALLOWED_APP_IDS.has(safeId(incomingAppId))
+      ? safeId(incomingAppId)
+      : "harurua";
 
-    const roomId = safeId(body.roomId || "talk");
-    const now = Date.now();
+    let roomId = safeId(incomingRoomId || "unknown");
 
-    // 날짜 폴더로 쌓기 (폴더 폭발 방지)
-    const date = isoDateKST();
-    const rand = Math.random().toString(16).slice(2, 8);
-    const filename = `${now}_${rand}.json`;
-    const path = `inbox/${fixedAppId}/${date}/${roomId}/${filename}`;
+    // ✅ text는 최상위 우선, 없으면 meta 쪽 fallback
+    const text = String(body?.text || body?.meta?.text || "").trim();
 
-   const payload = {
-  // raw 영역: 그대로 저장 (단, 아래에서 appId/roomId는 안전값으로 다시 덮어씀)
-  ...body,
+    if (!text) {
+      return res.status(400).json({
+        ok: false,
+        error: "Missing text",
+      });
+    }
 
-  // 원문도 남겨두면 추적 쉬움(선택)
- originalAppId: body.appId,
-originalRoomId: body.roomId,
+    // ✅ payload 크기 너무 크면 제한
+    const rawBytes = Buffer.byteLength(JSON.stringify(body), "utf8");
+    if (rawBytes > 200_000) {
+      return res.status(413).json({
+        ok: false,
+        error: "Payload too large",
+      });
+    }
 
-  // ✅ 안전값을 마지막에 고정해서 덮어쓰기 방지
-  fixedAppId,
-  roomId,
-
-  // 시간은 기록용
-  savedAt: new Date().toISOString(),
-};
-
-
-    const putUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
-
-    const ghResp = await fetch(putUrl, {
-      method: "PUT",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Accept": "application/vnd.github+json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: `core-heart: inbox ${fixedAppId}/${roomId} ${date}`,
-        content: b64(JSON.stringify(payload, null, 2)),
-        branch,
-      }),
+    // ✅ 디버깅 로그
+    console.log("[push] incoming", {
+      incomingAppId,
+      incomingRoomId,
+      incomingReason,
+      fixedAppId,
+      textPreview: text.slice(0, 80),
     });
 
-    if (!ghResp.ok) {
-      const txt = await ghResp.text();
-      return res.status(500).json({ ok: false, error: "GitHub PUT failed", detail: txt.slice(0, 500) });
+    // ----------------------------------------------------
+    // sallangi 제한 규칙
+    // ----------------------------------------------------
+    if (fixedAppId === "sallangi") {
+      const allowedRooms = new Set(["talk"]);
+      const allowedReasons = new Set(["stuck", "repeat3", "overheat", "seed_stuck"]);
+
+      if (!allowedRooms.has(roomId)) {
+        console.log("[push] sallangi room blocked", { roomId });
+        return res.status(200).json({
+          ok: true,
+          skipped: true,
+          reason: "talk-room-only",
+        });
+      }
+
+      if (!allowedReasons.has(incomingReason)) {
+        console.log("[push] sallangi reason blocked", { incomingReason });
+        return res.status(200).json({
+          ok: true,
+          skipped: true,
+          reason: "talk-reason-not-allowed",
+        });
+      }
     }
 
-    return res.status(200).json({ ok: true, path });
+    // ----------------------------------------------------
+    // harurua 제한 규칙 (필요시 완화/확장 가능)
+    // ----------------------------------------------------
+    if (fixedAppId === "harurua") {
+      // 방이 비정상이면 talk로 정리
+      if (!roomId || roomId === "unknown") {
+        roomId = "talk";
+      }
+    }
+
+    // ----------------------------------------------------
+    // 저장 경로
+    // inbox/{appId}/{date}/{roomId}/{messageId}.json
+    // ----------------------------------------------------
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+    const date = `${yyyy}-${mm}-${dd}`;
+
+    const messageId = safeId(
+      String(body?.messageId || body?.meta?.messageId || `msg-${Date.now()}`)
+    );
+
+    const savePath = `inbox/${fixedAppId}/${date}/${roomId}/${messageId}.json`;
+
+    const payload = {
+      ...body,
+
+      originalAppId: body?.appId,
+      originalRoomId: body?.roomId,
+      originalReason: body?.reason,
+
+      fixedAppId,
+      roomId,
+      reason: incomingReason || null,
+      text,
+
+      savedAt: new Date().toISOString(),
+    };
+
+    console.log("[core-heart push] url =", `https://api.github.com/repos/${owner}/${repo}/contents/${savePath}`);
+    console.log("[core-heart push] payload =", {
+      appId: fixedAppId,
+      roomId,
+      reason: incomingReason,
+      text: text.slice(0, 120),
+    });
+
+    const putRes = await ghPutJson({
+      owner,
+      repo,
+      branch,
+      token,
+      path: savePath,
+      contentJson: payload,
+      message: `save breath log: ${fixedAppId}/${roomId}/${messageId}`,
+    });
+
+    return res.status(200).json({
+      ok: true,
+      saved: true,
+      path: savePath,
+      sha: putRes?.content?.sha || null,
+    });
   } catch (e: any) {
-    return res.status(500).json({ ok: false, error: e?.message || "Unknown error" });
+    console.log("[core-heart push] error =", e?.message || e);
+
+    return res.status(500).json({
+      ok: false,
+      error: e?.message || "Unknown error",
+    });
   }
 }
