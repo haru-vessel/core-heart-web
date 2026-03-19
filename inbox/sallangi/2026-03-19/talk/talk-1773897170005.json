@@ -1,0 +1,21 @@
+{
+  "appId": "sallangi",
+  "roomId": "talk",
+  "reason": "overheat",
+  "text": "기억은 힘들어",
+  "meta": {
+    "messageId": "talk-1773897170005",
+    "roomId": "talk",
+    "reason": "overheat",
+    "text": "기억은 힘들어",
+    "createdAt": 1773897170005,
+    "tags": [
+      "sallangi"
+    ]
+  },
+  "originalAppId": "sallangi",
+  "originalRoomId": "talk",
+  "originalReason": "overheat",
+  "fixedAppId": "sallangi",
+  "savedAt": "2026-03-19T05:12:50.069Z"
+}
