@@ -1,0 +1,35 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "repeat3",
+  "text": "음악이 가슴을 울리는 건 감정이 동해서일거야",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1774072078487-ogt8so",
+    "createdAt": 1774072078489,
+    "roomId": "talkroom",
+    "reason": "repeat3",
+    "text": "음악이 가슴을 울리는 건 감정이 동해서일거야",
+    "meta": {
+      "source": "harurua",
+      "blocked": true,
+      "coreWords": [
+        "음악",
+        "가슴",
+        "울리",
+        "감정",
+        "동해서일거야"
+      ],
+      "matchedTexts": [],
+      "assistantText": "같은 말이 한 번 더 왔네. 이번엔 조금 다르게 말해줄래?"
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "repeat3",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-03-21T05:47:58.897Z"
+}
