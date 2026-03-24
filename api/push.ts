@@ -131,17 +131,33 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // sallangi 제한 규칙
     // ----------------------------------------------------
     if (fixedAppId === "sallangi") {
-      const allowedRooms = new Set(["talk"]);
-      const allowedReasons = new Set(["stuck", "repeat3", "overheat", "seed_stuck"]);
+  const allowedExactRooms = new Set([
+  "talk",
+  "match-queue",
+]);
 
-      if (!allowedRooms.has(roomId)) {
-        console.log("[push] sallangi room blocked", { roomId });
-        return res.status(200).json({
-          ok: true,
-          skipped: true,
-          reason: "talk-room-only",
-        });
-      }
+const allowedReasons = new Set([
+  "stuck",
+  "repeat3",
+  "overheat",
+  "seed_stuck",
+  "join_match",
+  "leave_match",
+  "match_message",
+]);
+
+function isAllowedRoom(roomId: string) {
+  if (allowedExactRooms.has(roomId)) return true;
+  if (roomId.startsWith("match-")) return true;
+  return false;
+}
+
+if (!isAllowedRoom(roomId)) {
+  return res.status(400).json({
+    ok: false,
+    reason: "room not allowed",
+  });
+}
 
       if (!allowedReasons.has(incomingReason)) {
         console.log("[push] sallangi reason blocked", { incomingReason });
