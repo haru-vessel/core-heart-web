@@ -1,0 +1,27 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "stuck",
+  "text": "안 돼",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1774744437608-8z6nv8",
+    "createdAt": 1774744437609,
+    "roomId": "talkroom",
+    "reason": "stuck",
+    "text": "안 돼",
+    "meta": {
+      "source": "harurua",
+      "blocked": true,
+      "assistantText": "같은 말이 한 번 더 왔네. 이번엔 조금 다르게 말해줄래?"
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "stuck",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-03-29T00:33:56.967Z"
+}
