@@ -1,0 +1,27 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "stuck",
+  "text": "ㅇ",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1774943326382-miu2vo",
+    "createdAt": 1774943326382,
+    "roomId": "talkroom",
+    "reason": "stuck",
+    "text": "ㅇ",
+    "meta": {
+      "source": "harurua",
+      "blocked": true,
+      "assistantText": "짧아도 괜찮지만, 마음을 조금만 더 들려줘."
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "stuck",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-03-31T07:48:46.606Z"
+}
