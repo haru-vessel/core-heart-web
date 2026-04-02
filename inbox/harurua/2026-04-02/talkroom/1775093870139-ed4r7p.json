@@ -1,0 +1,33 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "inbox",
+  "text": "생각이 반복되는 이유를 모르겠어",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1775093870139-ed4r7p",
+    "createdAt": 1775093870139,
+    "roomId": "talkroom",
+    "reason": "inbox",
+    "text": "생각이 반복되는 이유를 모르겠어",
+    "meta": {
+      "source": "harurua",
+      "blocked": false,
+      "coreWords": [
+        "생각",
+        "반복되",
+        "이유",
+        "모르겠어"
+      ],
+      "matchedTexts": []
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "inbox",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-04-02T01:37:50.439Z"
+}
