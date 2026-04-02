@@ -1,0 +1,33 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "inbox",
+  "text": "반복이 일어나는 이유가 뭘까?",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1775093623161-val995",
+    "createdAt": 1775093623161,
+    "roomId": "talkroom",
+    "reason": "inbox",
+    "text": "반복이 일어나는 이유가 뭘까?",
+    "meta": {
+      "source": "harurua",
+      "blocked": false,
+      "coreWords": [
+        "반복",
+        "일어나",
+        "이유",
+        "뭘까"
+      ],
+      "matchedTexts": []
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "inbox",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-04-02T01:33:44.001Z"
+}
