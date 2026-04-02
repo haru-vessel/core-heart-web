@@ -1,0 +1,31 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "inbox",
+  "text": "생각이 반복돼",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1775112216447-z8aeno",
+    "createdAt": 1775112216447,
+    "roomId": "talkroom",
+    "reason": "inbox",
+    "text": "생각이 반복돼",
+    "meta": {
+      "source": "harurua",
+      "blocked": false,
+      "coreWords": [
+        "생각",
+        "반복돼"
+      ],
+      "matchedTexts": []
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "inbox",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-04-02T06:43:37.325Z"
+}
