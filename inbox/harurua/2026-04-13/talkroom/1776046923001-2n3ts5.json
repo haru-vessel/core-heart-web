@@ -1,0 +1,31 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "inbox",
+  "text": "답답함은 왜 생길까?",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1776046923001-2n3ts5",
+    "createdAt": 1776046923001,
+    "roomId": "talkroom",
+    "reason": "inbox",
+    "text": "답답함은 왜 생길까?",
+    "meta": {
+      "source": "harurua",
+      "blocked": false,
+      "coreWords": [
+        "답답함",
+        "생길까"
+      ],
+      "matchedTexts": []
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "inbox",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-04-13T02:22:02.592Z"
+}
