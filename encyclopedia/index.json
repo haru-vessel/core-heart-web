@@ -1,9 +1,13 @@
 {
-  "version": 1,
+  "version": 2,
   "items": [
     { "id": "emotion", "path": "/emotion/index.json" },
     { "id": "life", "path": "/life-events/index.json" },
     { "id": "relationship", "path": "/relationship/index.json" },
-    { "id": "language", "path": "/language-definition/index.json" }
+    { "id": "language", "path": "/language-definition/index.json" },
+
+    { "id": "flow", "path": "/flow/index.json" },
+    { "id": "conflict", "path": "/conflict/index.json" },
+    { "id": "self-awareness", "path": "/self-awareness/index.json" }
   ]
 }
