@@ -1,0 +1,31 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "inbox",
+  "text": "왜 계속 반복될까?",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1776067359690-jtrsov",
+    "createdAt": 1776067359690,
+    "roomId": "talkroom",
+    "reason": "inbox",
+    "text": "왜 계속 반복될까?",
+    "meta": {
+      "source": "harurua",
+      "blocked": false,
+      "coreWords": [
+        "계속",
+        "반복될까"
+      ],
+      "matchedTexts": []
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "inbox",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-04-13T08:02:39.488Z"
+}
