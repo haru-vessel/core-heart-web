@@ -1,0 +1,32 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "inbox",
+  "text": "왜 자꾸 같은 생각이 반복될까?",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1776125819716-w09izx",
+    "createdAt": 1776125819716,
+    "roomId": "talkroom",
+    "reason": "inbox",
+    "text": "왜 자꾸 같은 생각이 반복될까?",
+    "meta": {
+      "source": "harurua",
+      "blocked": false,
+      "coreWords": [
+        "자꾸",
+        "생각",
+        "반복될까"
+      ],
+      "matchedTexts": []
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "inbox",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-04-14T00:16:59.921Z"
+}
