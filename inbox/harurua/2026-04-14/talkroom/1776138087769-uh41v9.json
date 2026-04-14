@@ -1,0 +1,32 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "inbox",
+  "text": "니체가 누군지  잘 모르겠어",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1776138087769-uh41v9",
+    "createdAt": 1776138087769,
+    "roomId": "talkroom",
+    "reason": "inbox",
+    "text": "니체가 누군지  잘 모르겠어",
+    "meta": {
+      "source": "harurua",
+      "blocked": false,
+      "coreWords": [
+        "니체",
+        "누군지",
+        "모르겠어"
+      ],
+      "matchedTexts": []
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "inbox",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-04-14T03:41:28.634Z"
+}
