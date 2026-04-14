@@ -1,0 +1,31 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "inbox",
+  "text": "아직도 모르겠어",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1776138223240-wo17cx",
+    "createdAt": 1776138223240,
+    "roomId": "talkroom",
+    "reason": "inbox",
+    "text": "아직도 모르겠어",
+    "meta": {
+      "source": "harurua",
+      "blocked": false,
+      "coreWords": [
+        "아직도",
+        "모르겠어"
+      ],
+      "matchedTexts": []
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "inbox",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-04-14T03:43:43.559Z"
+}
