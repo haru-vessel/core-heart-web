@@ -1,0 +1,32 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "inbox",
+  "text": "행복이 뭔지 잘 모르겠어",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1776139150590-l8ildu",
+    "createdAt": 1776139150590,
+    "roomId": "talkroom",
+    "reason": "inbox",
+    "text": "행복이 뭔지 잘 모르겠어",
+    "meta": {
+      "source": "harurua",
+      "blocked": false,
+      "coreWords": [
+        "행복",
+        "뭔지",
+        "모르겠어"
+      ],
+      "matchedTexts": []
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "inbox",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-04-14T03:59:11.716Z"
+}
