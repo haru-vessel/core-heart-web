@@ -1,0 +1,31 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "inbox",
+  "text": "계속 답답해",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1776561607980-427dyi",
+    "createdAt": 1776561607980,
+    "roomId": "talkroom",
+    "reason": "inbox",
+    "text": "계속 답답해",
+    "meta": {
+      "source": "harurua",
+      "blocked": false,
+      "coreWords": [
+        "계속",
+        "답답해"
+      ],
+      "matchedTexts": []
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "inbox",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-04-19T01:20:07.945Z"
+}
