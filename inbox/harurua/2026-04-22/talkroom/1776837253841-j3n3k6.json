@@ -1,0 +1,31 @@
+{
+  "appId": "harurua",
+  "roomId": "talkroom",
+  "reason": "inbox",
+  "text": "기쁨또한 궁금해",
+  "meta": {
+    "appId": "harurua",
+    "messageId": "1776837253841-j3n3k6",
+    "createdAt": 1776837253841,
+    "roomId": "talkroom",
+    "reason": "inbox",
+    "text": "기쁨또한 궁금해",
+    "meta": {
+      "source": "harurua",
+      "blocked": false,
+      "coreWords": [
+        "기쁨또한",
+        "궁금해"
+      ],
+      "matchedTexts": []
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "talkroom",
+  "originalReason": "inbox",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-04-22T05:54:15.145Z"
+}
