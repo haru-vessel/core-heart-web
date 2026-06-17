@@ -1,0 +1,36 @@
+{
+  "appId": "harurua",
+  "roomId": "haru_loop_lab",
+  "reason": "review",
+  "text": "어제 민수를 만났어 ㅎ\n응\n질서없이  일이 이어지더라 ㅎ",
+  "meta": {
+    "messageId": "lab-1781659378297",
+    "roomId": "haru_loop_lab",
+    "text": "어제 민수를 만났어 ㅎ\n응\n질서없이  일이 이어지더라 ㅎ",
+    "createdAt": 1781659378297,
+    "reason": "review",
+    "appId": "harurua",
+    "meta": {
+      "thoughtTerms": [
+        "질서"
+      ],
+      "thoughtMode": "short",
+      "strongAxis": {
+        "relation": null,
+        "emotion": null,
+        "direction": null,
+        "thought": null,
+        "knowledge": null,
+        "state": null
+      }
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "haru_loop_lab",
+  "originalReason": "review",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-06-17T01:22:57.912Z"
+}
