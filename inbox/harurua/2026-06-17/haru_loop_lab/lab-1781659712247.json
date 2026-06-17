@@ -1,0 +1,36 @@
+{
+  "appId": "harurua",
+  "roomId": "haru_loop_lab",
+  "reason": "review",
+  "text": "ㅎ  날씨는 흐리다 ㅎ\n하늘은 질서가 명확해보여\n그렇지 ㅎ  하르는 질서를 어떻게 느껴?",
+  "meta": {
+    "messageId": "lab-1781659712247",
+    "roomId": "haru_loop_lab",
+    "text": "ㅎ  날씨는 흐리다 ㅎ\n하늘은 질서가 명확해보여\n그렇지 ㅎ  하르는 질서를 어떻게 느껴?",
+    "createdAt": 1781659712247,
+    "reason": "review",
+    "appId": "harurua",
+    "meta": {
+      "thoughtTerms": [
+        "질서"
+      ],
+      "thoughtMode": "long",
+      "strongAxis": {
+        "relation": null,
+        "emotion": null,
+        "direction": null,
+        "thought": null,
+        "knowledge": null,
+        "state": null
+      }
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "haru_loop_lab",
+  "originalReason": "review",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-06-17T01:28:32.042Z"
+}
