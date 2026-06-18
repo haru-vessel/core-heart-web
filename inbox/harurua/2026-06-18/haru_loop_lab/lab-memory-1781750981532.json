@@ -1,0 +1,41 @@
+{
+  "appId": "harurua",
+  "roomId": "haru_loop_lab",
+  "reason": "repeat3",
+  "text": "연결은 흐름같아\n연결은 이어짐 같아\n질서는 자리를 만드는 것 같아",
+  "meta": {
+    "messageId": "lab-memory-1781750981532",
+    "roomId": "haru_loop_lab",
+    "text": "연결은 흐름같아\n연결은 이어짐 같아\n질서는 자리를 만드는 것 같아",
+    "createdAt": 1781750981532,
+    "reason": "repeat3",
+    "appId": "harurua",
+    "meta": {
+      "kind": "personal_memory_repeat",
+      "repeatedMemoryWords": [
+        "흐름"
+      ],
+      "thoughtTerms": [
+        "흐름",
+        "질서"
+      ],
+      "thoughtMode": "long",
+      "strongAxis": {
+        "relation": null,
+        "emotion": null,
+        "direction": null,
+        "thought": "흐름",
+        "knowledge": null,
+        "state": null
+      }
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "haru_loop_lab",
+  "originalReason": "repeat3",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-06-18T02:49:41.866Z"
+}
