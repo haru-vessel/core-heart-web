@@ -1,0 +1,41 @@
+{
+  "appId": "harurua",
+  "roomId": "haru_loop_lab",
+  "reason": "repeat3",
+  "text": "자리에도 질서가 보이지\n질서가 있어야 흐름도 생기고\n질서와 흐름은 친구같아",
+  "meta": {
+    "messageId": "lab-memory-1781751050029",
+    "roomId": "haru_loop_lab",
+    "text": "자리에도 질서가 보이지\n질서가 있어야 흐름도 생기고\n질서와 흐름은 친구같아",
+    "createdAt": 1781751050029,
+    "reason": "repeat3",
+    "appId": "harurua",
+    "meta": {
+      "kind": "personal_memory_repeat",
+      "repeatedMemoryWords": [
+        "흐름"
+      ],
+      "thoughtTerms": [
+        "질서",
+        "흐름"
+      ],
+      "thoughtMode": "long",
+      "strongAxis": {
+        "relation": null,
+        "emotion": null,
+        "direction": null,
+        "thought": "흐름",
+        "knowledge": null,
+        "state": null
+      }
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "haru_loop_lab",
+  "originalReason": "repeat3",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-06-18T02:50:50.387Z"
+}
