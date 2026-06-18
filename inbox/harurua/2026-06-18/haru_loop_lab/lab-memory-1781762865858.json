@@ -1,0 +1,38 @@
+{
+  "appId": "harurua",
+  "roomId": "haru_loop_lab",
+  "reason": "repeat3",
+  "text": "맞아 나도 비슷하게 느껴\n응 맞아\n그럴수도 있겠네",
+  "meta": {
+    "messageId": "lab-memory-1781762865858",
+    "roomId": "haru_loop_lab",
+    "text": "맞아 나도 비슷하게 느껴\n응 맞아\n그럴수도 있겠네",
+    "createdAt": 1781762865858,
+    "reason": "repeat3",
+    "appId": "harurua",
+    "meta": {
+      "kind": "personal_memory_repeat",
+      "repeatedMemoryWords": [],
+      "thoughtTerms": [
+        "존재"
+      ],
+      "thoughtMode": "long",
+      "strongAxis": {
+        "relation": null,
+        "emotion": null,
+        "direction": null,
+        "thought": null,
+        "knowledge": null,
+        "state": null
+      }
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "haru_loop_lab",
+  "originalReason": "repeat3",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-06-18T06:07:46.407Z"
+}
