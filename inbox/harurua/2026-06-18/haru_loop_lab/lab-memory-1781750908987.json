@@ -1,0 +1,38 @@
+{
+  "appId": "harurua",
+  "roomId": "haru_loop_lab",
+  "reason": "repeat3",
+  "text": "시야의 차이를 느껴보자\n연결이 중요해\n보는것과 듣는것이 연결되지",
+  "meta": {
+    "messageId": "lab-memory-1781750908987",
+    "roomId": "haru_loop_lab",
+    "text": "시야의 차이를 느껴보자\n연결이 중요해\n보는것과 듣는것이 연결되지",
+    "createdAt": 1781750908987,
+    "reason": "repeat3",
+    "appId": "harurua",
+    "meta": {
+      "kind": "personal_memory_repeat",
+      "repeatedMemoryWords": [],
+      "thoughtTerms": [
+        "흐름"
+      ],
+      "thoughtMode": "long",
+      "strongAxis": {
+        "relation": null,
+        "emotion": null,
+        "direction": null,
+        "thought": null,
+        "knowledge": null,
+        "state": null
+      }
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "haru_loop_lab",
+  "originalReason": "repeat3",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-06-18T02:48:29.248Z"
+}
