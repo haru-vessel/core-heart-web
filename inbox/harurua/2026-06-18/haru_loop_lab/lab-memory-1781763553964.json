@@ -1,0 +1,39 @@
+{
+  "appId": "harurua",
+  "roomId": "haru_loop_lab",
+  "reason": "repeat3",
+  "text": "결국 이어지는것 같아\n응 진심으로\n결국 이어지는 것 같아",
+  "meta": {
+    "messageId": "lab-memory-1781763553964",
+    "roomId": "haru_loop_lab",
+    "text": "결국 이어지는것 같아\n응 진심으로\n결국 이어지는 것 같아",
+    "createdAt": 1781763553964,
+    "reason": "repeat3",
+    "appId": "harurua",
+    "meta": {
+      "kind": "personal_memory_repeat",
+      "repeatedMemoryWords": [],
+      "thoughtTerms": [
+        "흐름",
+        "감정"
+      ],
+      "thoughtMode": "long",
+      "strongAxis": {
+        "relation": null,
+        "emotion": null,
+        "direction": null,
+        "thought": null,
+        "knowledge": null,
+        "state": null
+      }
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "haru_loop_lab",
+  "originalReason": "repeat3",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-06-18T06:19:14.629Z"
+}
