@@ -1,0 +1,40 @@
+{
+  "appId": "harurua",
+  "roomId": "haru_loop_lab",
+  "reason": "repeat3",
+  "text": "자리에도 질서가 보이지",
+  "meta": {
+    "messageId": "lab-memory-1781751001468",
+    "roomId": "haru_loop_lab",
+    "text": "자리에도 질서가 보이지",
+    "createdAt": 1781751001468,
+    "reason": "repeat3",
+    "appId": "harurua",
+    "meta": {
+      "kind": "personal_memory_repeat",
+      "repeatedMemoryWords": [
+        "흐름"
+      ],
+      "thoughtTerms": [
+        "질서"
+      ],
+      "thoughtMode": "short",
+      "strongAxis": {
+        "relation": null,
+        "emotion": null,
+        "direction": null,
+        "thought": "흐름",
+        "knowledge": null,
+        "state": null
+      }
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "haru_loop_lab",
+  "originalReason": "repeat3",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-06-18T02:50:01.990Z"
+}
