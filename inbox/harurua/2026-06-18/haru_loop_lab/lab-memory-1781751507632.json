@@ -1,0 +1,38 @@
+{
+  "appId": "harurua",
+  "roomId": "haru_loop_lab",
+  "reason": "repeat3",
+  "text": "시야란 재미있어\n시야가 머무는 곳에 마음이 머무는 것 같아\n시야의 차이같아",
+  "meta": {
+    "messageId": "lab-memory-1781751507632",
+    "roomId": "haru_loop_lab",
+    "text": "시야란 재미있어\n시야가 머무는 곳에 마음이 머무는 것 같아\n시야의 차이같아",
+    "createdAt": 1781751507632,
+    "reason": "repeat3",
+    "appId": "harurua",
+    "meta": {
+      "kind": "personal_memory_repeat",
+      "repeatedMemoryWords": [],
+      "thoughtTerms": [
+        "감정"
+      ],
+      "thoughtMode": "long",
+      "strongAxis": {
+        "relation": null,
+        "emotion": null,
+        "direction": null,
+        "thought": null,
+        "knowledge": null,
+        "state": null
+      }
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "haru_loop_lab",
+  "originalReason": "repeat3",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-06-18T02:58:28.332Z"
+}
