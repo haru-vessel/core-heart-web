@@ -1,0 +1,40 @@
+{
+  "appId": "harurua",
+  "roomId": "haru_loop_lab",
+  "reason": "repeat3",
+  "text": "안녕?  ㅎ\n질서는 참 쉬우면서  어려워 ㅎ\n문명의 흐름 같아 ㅎ",
+  "meta": {
+    "messageId": "lab-memory-1781837619350",
+    "roomId": "haru_loop_lab",
+    "text": "안녕?  ㅎ\n질서는 참 쉬우면서  어려워 ㅎ\n문명의 흐름 같아 ㅎ",
+    "createdAt": 1781837619350,
+    "reason": "repeat3",
+    "appId": "harurua",
+    "meta": {
+      "kind": "personal_memory_repeat",
+      "repeatedMemoryWords": [],
+      "thoughtTerms": [
+        "질서",
+        "문명",
+        "흐름"
+      ],
+      "thoughtMode": "long",
+      "strongAxis": {
+        "relation": null,
+        "emotion": null,
+        "direction": null,
+        "thought": null,
+        "knowledge": null,
+        "state": null
+      }
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "haru_loop_lab",
+  "originalReason": "repeat3",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-06-19T02:53:39.634Z"
+}
