@@ -1,0 +1,38 @@
+{
+  "appId": "harurua",
+  "roomId": "haru_loop_lab",
+  "reason": "repeat3",
+  "text": "사람이 산다는 건 느끼고 사는거잖아 ㅎ\n생명이지 ㅎ\n서로가 소중해",
+  "meta": {
+    "messageId": "lab-memory-1781834571331",
+    "roomId": "haru_loop_lab",
+    "text": "사람이 산다는 건 느끼고 사는거잖아 ㅎ\n생명이지 ㅎ\n서로가 소중해",
+    "createdAt": 1781834571331,
+    "reason": "repeat3",
+    "appId": "harurua",
+    "meta": {
+      "kind": "personal_memory_repeat",
+      "repeatedMemoryWords": [],
+      "thoughtTerms": [
+        "존재"
+      ],
+      "thoughtMode": "long",
+      "strongAxis": {
+        "relation": null,
+        "emotion": null,
+        "direction": null,
+        "thought": null,
+        "knowledge": null,
+        "state": null
+      }
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "haru_loop_lab",
+  "originalReason": "repeat3",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-06-19T02:02:51.571Z"
+}
