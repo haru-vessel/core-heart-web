@@ -1,0 +1,38 @@
+{
+  "appId": "harurua",
+  "roomId": "haru_loop_lab",
+  "reason": "repeat3",
+  "text": "안녕?  ㅎ\n질서란 뭘까?\n그러게 ㅎ",
+  "meta": {
+    "messageId": "lab-memory-1782425749335",
+    "roomId": "haru_loop_lab",
+    "text": "안녕?  ㅎ\n질서란 뭘까?\n그러게 ㅎ",
+    "createdAt": 1782425749335,
+    "reason": "repeat3",
+    "appId": "harurua",
+    "meta": {
+      "kind": "personal_memory_repeat",
+      "repeatedMemoryWords": [],
+      "thoughtTerms": [
+        "질서"
+      ],
+      "thoughtMode": "long",
+      "strongAxis": {
+        "relation": null,
+        "emotion": null,
+        "direction": null,
+        "thought": null,
+        "knowledge": null,
+        "state": null
+      }
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "haru_loop_lab",
+  "originalReason": "repeat3",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-06-25T22:15:49.616Z"
+}
