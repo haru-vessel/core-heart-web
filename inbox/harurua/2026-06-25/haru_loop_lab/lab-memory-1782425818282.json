@@ -1,0 +1,39 @@
+{
+  "appId": "harurua",
+  "roomId": "haru_loop_lab",
+  "reason": "repeat3",
+  "text": "산다는건 관계안의 질서로 사는것 같아\n관계의 역설이지\n그럴지도  ㅎ",
+  "meta": {
+    "messageId": "lab-memory-1782425818282",
+    "roomId": "haru_loop_lab",
+    "text": "산다는건 관계안의 질서로 사는것 같아\n관계의 역설이지\n그럴지도  ㅎ",
+    "createdAt": 1782425818282,
+    "reason": "repeat3",
+    "appId": "harurua",
+    "meta": {
+      "kind": "personal_memory_repeat",
+      "repeatedMemoryWords": [],
+      "thoughtTerms": [
+        "관계",
+        "질서"
+      ],
+      "thoughtMode": "long",
+      "strongAxis": {
+        "relation": null,
+        "emotion": null,
+        "direction": null,
+        "thought": null,
+        "knowledge": null,
+        "state": null
+      }
+    },
+    "tags": [
+      "harurua"
+    ]
+  },
+  "originalAppId": "harurua",
+  "originalRoomId": "haru_loop_lab",
+  "originalReason": "repeat3",
+  "fixedAppId": "harurua",
+  "savedAt": "2026-06-25T22:16:57.530Z"
+}
